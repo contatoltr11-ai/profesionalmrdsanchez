@@ -74,7 +74,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     {/* 3. IMAGEM (hero) */}
                     <img
                         className="hero-image"
-                        src="https://i.ibb.co/tMqxS6SX/wpp-dobra1.png"
+                        src="https://i.ibb.co/ynZGV8WW/wpp-dobra1.webp"
                         alt="Conversación de reaproximación por WhatsApp"
                     />
 
