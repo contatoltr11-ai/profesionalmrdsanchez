@@ -64,7 +64,7 @@ export default function Layout({ children }: LayoutProps) {
     // ========================================
     // ✅ UTMIFY PIXEL
     // ========================================
-    window.pixelId = "6a9ae6756c5aacc346669146";
+    window.pixelId = "6aa16a3a284c3353f4dc95ae";
     const utmifyPixelScript = document.createElement("script");
     utmifyPixelScript.async = true;
     utmifyPixelScript.defer = true;
