@@ -62,34 +62,39 @@ export default function Landing({ onNavigate }: LandingProps) {
             <div className="content-wrapper">
                 <main className="landing-main-simple">
 
-                    {/* 1. HEADLINE */}
-                    <h1 className="hero-headline">Ella todavía te extraña.</h1>
+                    {/* ========================================
+                        ✅ HEADLINE NOVA - COPY ATUALIZADA
+                        ======================================== */}
+                    <h1 className="headline-simple">
+                        <span className="headline-text">
+                            <span className="phrase-primary">Crees que ser un hombre 'bueno, paciente y comprensivo'<span className="highlight-orange">es lo que la traerá de vuelta?</span></span><br />
+                            <span className="phrase-secondary">Sí, eso es exactamente lo que el hombre que ella dejó de desear piensa mientras ve <span className="highlight-orange">cómo su propia relación se muere</span>.</span>
+                        </span>
+                    </h1>
 
-                    {/* 2. SUB (2 linhas) */}
-                    <p className="hero-sub">
-                        Hay un momento exacto para reaparecer.<br />
-                        El quiz te muestra cuándo.
+
+                    {/* CTA GRANDE COM ANIMAÇÃO DE PULSAÇÃO */}
+                    <div className="cta-section-simple">
+                        <button className="cta-button-simple" onClick={handleCTAClick}>
+                            <span className="cta-glow"></span>
+                            <span className="cta-icon">⏰</span>
+                            <span className="cta-text">DESCUBRIR SI AÚN HAY TIEMPO</span>
+                        </button>
+                    </div>
+
+                                        {/* ✅ SUB - NOVO ELEMENTO */}
+                    <p className="subtitle-simple">
+                        Responde 7 preguntas y te digo el <strong>próximo paso exacto</strong> para que ella vuelva a verte.
                     </p>
 
-                    {/* 3. IMAGEM (hero) */}
-                    <img
-                        className="hero-image"
-                        src="https://i.ibb.co/ynZGV8WW/wpp-dobra1.webp"
-                        alt="Conversación de reaproximación por WhatsApp"
-                    />
-
-                    {/* 4. LINHA DE COBERTURA */}
-                    <p className="hero-coverage">No importa si hay silencio o si hay otra persona.</p>
-
-                    {/* 5. BOTÃO CTA */}
-                    <button className="hero-cta" onClick={handleCTAClick}>
-                        QUIERO RECUPERARLA
-                    </button>
-
-                    {/* 6. MICRO-LINHA DE SEGURANÇA */}
-                    <p className="hero-safety">Anónimo · 2 minutos · Sin email</p>
-
                 </main>
+
+                {/* FOOTER MINIMALISTA */}
+                <footer className="landing-footer-simple">
+                    <p className="disclaimer-simple">
+                        🔒 Anónimo • 2 minutos • Sin juicio • Sin email
+                    </p>
+                </footer>
             </div>
 
             {/* CSS INLINE */}
@@ -131,103 +136,182 @@ export default function Landing({ onNavigate }: LandingProps) {
                     padding: 2rem;
                 }
 
-                /* ========================================
-                   PRIMEIRA DOBRA — ORDEM:
-                   HEADLINE → SUB → IMAGEM → COBERTURA → BOTÃO → SEGURANÇA
-                   ======================================== */
                 .landing-main-simple {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    text-align: center;
-                    gap: 1.25rem;
+                    gap: 3rem;
                     min-height: 70vh;
                 }
 
-                /* 1. HEADLINE */
-                .hero-headline {
+                /* ========================================
+                   HEADLINE COM DESTAQUES LARANJA/AMARELO
+                   ======================================== */
+                .headline-simple {
                     text-align: center;
                     font-size: 2.5rem;
-                    line-height: 1.2;
+                    line-height: 1.3;
                     color: #fff;
+                    font-weight: 700;
+                    margin: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .alert-emoji {
+                    font-size: 4rem;
+                    animation: pulse 2s infinite;
+                }
+
+                .headline-text {
+                    font-size: 2.2rem;
+                    font-weight: 700;
+                    line-height: 1.3;
+                }
+
+                .phrase-primary {
                     font-weight: 800;
-                    margin: 0;
+                    font-size: 1.05em;
                 }
 
-                /* 2. SUB */
-                .hero-sub {
+                .phrase-secondary {
+                    font-weight: 600;
+                    font-size: 0.95em;
+                    opacity: 0.9;
+                }
+
+                .highlight-orange {
+                    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-weight: 800;
+                }
+
+                .highlight-orange-italic {
+                    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    font-weight: 800;
+                    font-style: italic;
+                }
+
+                /* ✅ NOVO - SUBTITLE */
+                .subtitle-simple {
                     text-align: center;
-                    font-size: 1.05rem;
-                    line-height: 1.5;
-                    color: rgba(255, 255, 255, 0.75);
-                    margin: 0;
-                }
-
-                /* 3. IMAGEM HERO */
-                .hero-image {
-                    display: block;
-                    width: 100%;
-                    max-width: 400px;
-                    height: auto;
-                    border-radius: 16px;
-                    margin: 0 auto;
-                }
-
-                /* 4. LINHA DE COBERTURA */
-                .hero-coverage {
-                    text-align: center;
-                    font-size: 1rem;
-                    line-height: 1.4;
+                    font-size: 1.25rem;
                     color: rgba(255, 255, 255, 0.85);
+                    line-height: 1.6;
                     margin: 0;
-                    font-weight: 500;
+                    max-width: 580px;
                 }
 
-                /* 5. BOTÃO CTA */
-                .hero-cta {
-                    background: #16a34a;
+                .subtitle-simple strong {
+                    color: #fff;
+                    font-weight: 700;
+                }
+
+                @keyframes pulse {
+                    0%, 100% { 
+                        opacity: 1; 
+                        transform: scale(1);
+                    }
+                    50% { 
+                        opacity: 0.7; 
+                        transform: scale(1.1);
+                    }
+                }
+
+                /* ========================================
+                   CTA COM ANIMAÇÃO DE PULSAÇÃO
+                   ======================================== */
+                .cta-section-simple {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .cta-button-simple {
+                    background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
                     color: #fff;
                     border: none;
-                    border-radius: 14px;
-                    padding: 16px 40px;
-                    font-size: 1.2rem;
+                    border-radius: 16px;
+                    padding: 2rem 3rem;
+                    font-size: 1.5rem;
                     font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
                     cursor: pointer;
-                    transition: all 0.25s ease;
-                    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
-                    max-width: 90%;
-                    text-align: center;
-                    line-height: 1.25;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
+                    position: relative;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+                    min-width: 90%;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
                     animation: pulse-cta 2s ease-in-out infinite;
                 }
 
                 @keyframes pulse-cta {
                     0%, 100% { 
                         transform: scale(1);
-                        box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
+                        box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
                     }
                     50% { 
-                        transform: scale(1.04);
-                        box-shadow: 0 12px 32px rgba(22, 163, 74, 0.65);
+                        transform: scale(1.05);
+                        box-shadow: 0 12px 32px rgba(255, 59, 59, 0.7);
                     }
                 }
 
-                .hero-cta:hover {
-                    transform: translateY(-3px) scale(1.04);
-                    box-shadow: 0 12px 32px rgba(22, 163, 74, 0.6);
+                .cta-button-simple:hover {
+                    transform: translateY(-4px) scale(1.05);
+                    box-shadow: 0 12px 32px rgba(255, 59, 59, 0.6);
                     animation: none;
                 }
 
-                .hero-cta:active {
-                    transform: translateY(-1px) scale(1.02);
+                .cta-button-simple:active {
+                    transform: translateY(-2px) scale(1.02);
                 }
 
-                /* 6. MICRO-LINHA DE SEGURANÇA */
-                .hero-safety {
+                .cta-icon {
+                    font-size: 2rem;
+                }
+
+                .cta-text {
+                    position: relative;
+                    z-index: 2;
+                }
+
+                .cta-glow {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                    animation: glow-slide 3s infinite;
+                    z-index: 1;
+                }
+
+                @keyframes glow-slide {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(100%); }
+                }
+
+                /* FOOTER MINIMALISTA */
+                .landing-footer-simple {
                     text-align: center;
+                    padding: 2rem 0;
+                    margin-top: 4rem;
+                }
+
+                .disclaimer-simple {
                     font-size: 0.85rem;
                     color: rgba(255, 255, 255, 0.5);
                     margin: 0;
@@ -235,61 +319,47 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 /* RESPONSIVO */
                 @media (max-width: 768px) {
-                    .content-wrapper {
-                        padding: 1.25rem;
+                    .headline-simple {
+                        font-size: 1.8rem;
                     }
 
-                    .landing-main-simple {
-                        gap: 1rem;
-                        min-height: auto;
+                    .alert-emoji {
+                        font-size: 3rem;
                     }
 
-                    .hero-headline {
-                        font-size: 2rem;
+                    .headline-text {
+                        font-size: 1.6rem;
                     }
 
-                    .hero-sub {
-                        font-size: 1.05rem;
+                    .subtitle-simple {
+                        font-size: 1.1rem;
                     }
 
-                    .hero-image {
-                        max-width: 320px;
+                    .cta-button-simple {
+                        padding: 1.5rem 2rem;
+                        font-size: 1.2rem;
+                        min-width: 100%;
                     }
 
-                    .hero-cta {
-                        padding: 15px 34px;
-                        font-size: 1.15rem;
+                    .cta-icon {
+                        font-size: 1.5rem;
                     }
                 }
 
                 @media (max-width: 480px) {
-                    .content-wrapper {
-                        padding: 1rem;
+                    .headline-text {
+                        font-size: 1.4rem;
                     }
 
-                    .landing-main-simple {
-                        gap: 0.85rem;
-                    }
-
-                    .hero-headline {
-                        font-size: 1.9rem;
-                    }
-
-                    .hero-sub {
+                    .subtitle-simple {
                         font-size: 1rem;
                     }
 
-                    .hero-image {
-                        max-width: 280px;
-                    }
-
-                    .hero-coverage {
-                        font-size: 0.95rem;
-                    }
-
-                    .hero-cta {
-                        padding: 14px 32px;
-                        font-size: 1.1rem;
+                    .cta-button-simple {
+                        padding: 1.25rem 1.5rem;
+                        font-size: 1rem;
+                        flex-direction: column;
+                        gap: 0.5rem;
                     }
                 }
             `}</style>
