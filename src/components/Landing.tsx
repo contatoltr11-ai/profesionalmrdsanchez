@@ -39,11 +39,17 @@ export default function Landing({ onNavigate }: LandingProps) {
     };
 
     useEffect(() => {
+        // ✅ CAPTURA UTMs ASSIM QUE A PÁGINA CARREGA
         captureUTMs();
+
+        // Removido: tracking.pageView (gerenciado pelo Utmify)
         ga4Tracking.landingPageView();
+
+        // Removido: scrollObserver (não necessário)
     }, []);
 
     const handleCTAClick = () => {
+        // Removido: tracking.ctaClicked (gerenciado pelo Utmify)
         ga4Tracking.landingCTAClick();
         onNavigate('chat');
     };
@@ -54,131 +60,125 @@ export default function Landing({ onNavigate }: LandingProps) {
             <div className="scanlines"></div>
 
             <div className="content-wrapper">
-                {/* 📰 MOLDURA DA MATÉRIA — fundo preto do app em volta, bloco branco editorial */}
-                <article className="article-frame">
-                    <main className="landing-main-simple">
+                <main className="landing-main-simple">
 
-                        {/* 1. HEADLINE */}
-                        <h1 className="hero-headline">
-                            La ciencia descubrió la región exacta del cerebro que decide por quién{' '}
-                            <span className="accent">se obsesiona</span>.
-                        </h1>
+                    {/* 1. HEADLINE */}
+                    <h1 className="hero-headline">
+                        La ciencia descubrió la región exacta del cerebro que decide por quién{' '}
+                        <span className="accent">se obsesiona</span>.
+                    </h1>
 
-                        {/* 2. SUB (2 linhas) */}
-                        <p className="hero-sub">
-                            Sin importar si te bloqueó o si ya está con otra persona,<br />
-                            todavía hay una forma de reactivar lo que siente por ti.
+                    {/* 2. SUB (2 linhas) */}
+                    <p className="hero-sub">
+                        Sin importar si te bloqueó o si ya está con otra persona,<br />
+                        todavía hay una forma de reactivar lo que siente por ti.
+                    </p>
+
+                    {/* 3. CEREBRO + REGIÓN PRIMITIVA (pulse ring em CSS, sem GIF) */}
+                    <div className="hero-image">
+                        <div className="brain-wrap">
+                            <svg className="brain-svg" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cerebro con la región primitiva resaltada">
+                                <defs>
+                                    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stopColor="#ef4444" stopOpacity="0.55" />
+                                        <stop offset="55%" stopColor="#ef4444" stopOpacity="0.18" />
+                                        <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                                    </radialGradient>
+                                    <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+                                        <feGaussianBlur stdDeviation="3.5" result="b" />
+                                        <feMerge>
+                                            <feMergeNode in="b" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+
+                                {/* Contorno do cérebro */}
+                                <path
+                                    d="M200 56 C232 50 258 58 274 76 C293 66 315 74 328 96 C345 100 361 120 354 146 C372 160 375 190 359 206 C363 228 348 250 324 254 C313 274 288 284 262 278 C245 294 214 296 200 286 C186 296 155 294 138 278 C112 284 87 274 76 254 C52 250 37 228 41 206 C25 190 28 160 46 146 C39 120 55 100 72 96 C85 74 107 66 126 76 C142 58 168 50 200 56 Z"
+                                    fill="#0b1220" stroke="#22d3ee" strokeOpacity="0.55" strokeWidth="2"
+                                />
+
+                                {/* Fissura central */}
+                                <path d="M200 58 C197 130 203 200 200 282" stroke="#22d3ee" strokeOpacity="0.25" strokeWidth="1.5" />
+
+                                {/* Giros (detalhes internos) */}
+                                <path d="M196 96 C180 100 166 112 152 126 M192 150 C176 156 162 170 150 186 M198 210 C184 218 170 232 160 248" stroke="#22d3ee" strokeOpacity="0.22" strokeWidth="1.5" />
+                                <path d="M204 96 C220 100 234 112 248 126 M208 150 C224 156 238 170 250 186 M202 210 C216 218 230 232 240 248" stroke="#22d3ee" strokeOpacity="0.22" strokeWidth="1.5" />
+
+                                {/* Nós neurais decorativos */}
+                                <circle cx="152" cy="126" r="2.5" fill="#22d3ee" opacity="0.5" />
+                                <circle cx="248" cy="126" r="2.5" fill="#22d3ee" opacity="0.5" />
+                                <circle cx="150" cy="186" r="2.5" fill="#22d3ee" opacity="0.5" />
+                                <circle cx="250" cy="186" r="2.5" fill="#22d3ee" opacity="0.5" />
+                                <circle cx="160" cy="248" r="2.5" fill="#22d3ee" opacity="0.5" />
+                                <circle cx="240" cy="248" r="2.5" fill="#22d3ee" opacity="0.5" />
+
+                                {/* REGIÃO PRIMITIVA — ponto focal vermelho */}
+                                <circle cx="200" cy="168" r="34" fill="url(#coreGlow)" />
+                                <circle cx="200" cy="168" r="10" fill="#ef4444" filter="url(#softGlow)" />
+                                <circle cx="200" cy="168" r="3.2" fill="#ffffff" />
+                            </svg>
+
+                            {/* PULSE RING — anel pulsando (radar) em loop */}
+                            <span className="pulse-ring r1"></span>
+                            <span className="pulse-ring r2"></span>
+                            <span className="pulse-ring r3"></span>
+                        </div>
+
+                        <p className="brain-label">
+                            <span className="tag">Región primitiva</span>
+                            <span className="desc">la región que decide por quién se obsesiona</span>
                         </p>
+                    </div>
 
-                        {/* 3. CEREBRO + REGIÓN PRIMITIVA (pulse ring em CSS, sem GIF) */}
-                        <div className="hero-image">
-                            <div className="brain-wrap">
-                                <svg className="brain-svg" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cerebro con la región primitiva resaltada">
-                                    <defs>
-                                        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                                            <stop offset="0%" stopColor="#ef4444" stopOpacity="0.55" />
-                                            <stop offset="55%" stopColor="#ef4444" stopOpacity="0.18" />
-                                            <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
-                                        </radialGradient>
-                                        <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
-                                            <feGaussianBlur stdDeviation="3.5" result="b" />
-                                            <feMerge>
-                                                <feMergeNode in="b" />
-                                                <feMergeNode in="SourceGraphic" />
-                                            </feMerge>
-                                        </filter>
-                                    </defs>
+                    {/* 4. LINHA DE COBERTURA */}
+                    <p className="hero-coverage">
+                        Existe una forma de activarla — el test te muestra exactamente cómo.
+                    </p>
 
-                                    {/* Contorno do cérebro — traço escuro fino, estilo ilustração de matéria */}
-                                    <path
-                                        d="M200 56 C232 50 258 58 274 76 C293 66 315 74 328 96 C345 100 361 120 354 146 C372 160 375 190 359 206 C363 228 348 250 324 254 C313 274 288 284 262 278 C245 294 214 296 200 286 C186 296 155 294 138 278 C112 284 87 274 76 254 C52 250 37 228 41 206 C25 190 28 160 46 146 C39 120 55 100 72 96 C85 74 107 66 126 76 C142 58 168 50 200 56 Z"
-                                        fill="#ffffff"
-                                        stroke="#1f2937"
-                                        strokeOpacity="0.85"
-                                        strokeWidth="2"
-                                    />
+                    {/* 5. BOTÃO CTA */}
+                    <button className="hero-cta" onClick={handleCTAClick}>
+                        QUIERO RECUPERAR A MI EX
+                    </button>
 
-                                    {/* Fissura central */}
-                                    <path d="M200 58 C197 130 203 200 200 282" stroke="#1f2937" strokeOpacity="0.2" strokeWidth="1.5" />
+                    {/* 5.1 MICRO-LINHA DO CTA */}
+                    <p className="cta-micro">
+                        Haz clic aquí, haz el test rápido y descubre cómo.
+                    </p>
 
-                                    {/* Giros (detalhes internos) — cinza suave p/ fundo branco */}
-                                    <path d="M196 96 C180 100 166 112 152 126 M192 150 C176 156 162 170 150 186 M198 210 C184 218 170 232 160 248" stroke="#1f2937" strokeOpacity="0.16" strokeWidth="1.5" />
-                                    <path d="M204 96 C220 100 234 112 248 126 M208 150 C224 156 238 170 250 186 M202 210 C216 218 230 232 240 248" stroke="#1f2937" strokeOpacity="0.16" strokeWidth="1.5" />
-
-                                    {/* Nós neurais decorativos */}
-                                    <circle cx="152" cy="126" r="2.5" fill="#94a3b8" opacity="0.6" />
-                                    <circle cx="248" cy="126" r="2.5" fill="#94a3b8" opacity="0.6" />
-                                    <circle cx="150" cy="186" r="2.5" fill="#94a3b8" opacity="0.6" />
-                                    <circle cx="250" cy="186" r="2.5" fill="#94a3b8" opacity="0.6" />
-                                    <circle cx="160" cy="248" r="2.5" fill="#94a3b8" opacity="0.6" />
-                                    <circle cx="240" cy="248" r="2.5" fill="#94a3b8" opacity="0.6" />
-
-                                    {/* REGIÓN PRIMITIVA — ponto focal vermelho */}
-                                    <circle cx="200" cy="168" r="34" fill="url(#coreGlow)" />
-                                    <circle cx="200" cy="168" r="10" fill="#ef4444" filter="url(#softGlow)" />
-                                    <circle cx="200" cy="168" r="3.2" fill="#ffffff" />
+                    {/* 5.2 LISTA DE BENEFÍCIOS (3 caixas de checkmark) */}
+                    <div className="benefits">
+                        <div className="benefit">
+                            <span className="check">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 6 9 17l-5-5" />
                                 </svg>
-
-                                {/* PULSE RING — anel pulsando (radar) em loop */}
-                                <span className="pulse-ring r1"></span>
-                                <span className="pulse-ring r2"></span>
-                                <span className="pulse-ring r3"></span>
-                            </div>
-
-                            <p className="brain-label">
-                                <span className="tag">Región primitiva</span>
-                                <span className="desc">la región que decide por quién se obsesiona</span>
-                            </p>
+                            </span>
+                            <p>Un protocolo de recuperación <strong>personalizado</strong> según tu caso exacto.</p>
                         </div>
-
-                        {/* 4. LINHA DE COBERTURA */}
-                        <p className="hero-coverage">
-                            Existe una forma de activarla — el test te muestra exactamente cómo.
-                        </p>
-
-                        {/* 5. BOTÃO CTA */}
-                        <button className="hero-cta" onClick={handleCTAClick}>
-                            QUIERO RECUPERAR A MI EX
-                        </button>
-
-                        {/* 5.1 MICRO-LINHA DO CTA */}
-                        <p className="cta-micro">
-                            Haz clic aquí, haz el test rápido y descubre cómo.
-                        </p>
-
-                        {/* 5.2 LISTA DE BENEFÍCIOS (3 caixas de checkmark) */}
-                        <div className="benefits">
-                            <div className="benefit">
-                                <span className="check">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M20 6 9 17l-5-5" />
-                                    </svg>
-                                </span>
-                                <p>Un protocolo de recuperación <strong>personalizado</strong> según tu caso exacto.</p>
-                            </div>
-                            <div className="benefit">
-                                <span className="check">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M20 6 9 17l-5-5" />
-                                    </svg>
-                                </span>
-                                <p>El <strong>error</strong> que “apaga” esa región y la aleja para siempre.</p>
-                            </div>
-                            <div className="benefit">
-                                <span className="check">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M20 6 9 17l-5-5" />
-                                    </svg>
-                                </span>
-                                <p>El <strong>gatillo biológico</strong> que reaviva su obsesión por ti.</p>
-                            </div>
+                        <div className="benefit">
+                            <span className="check">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 6 9 17l-5-5" />
+                                </svg>
+                            </span>
+                            <p>El <strong>error</strong> que “apaga” esa región y la aleja para siempre.</p>
                         </div>
+                        <div className="benefit">
+                            <span className="check">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 6 9 17l-5-5" />
+                                </svg>
+                            </span>
+                            <p>El <strong>gatillo biológico</strong> que reaviva su obsesión por ti.</p>
+                        </div>
+                    </div>
 
-                        {/* 6. MICRO-LINHA DE SEGURANÇA */}
-                        <p className="hero-safety">Anónimo · 2 minutos · Sin email</p>
+                    {/* 6. MICRO-LINHA DE SEGURANÇA */}
+                    <p className="hero-safety">Anónimo · 2 minutos · Sin email</p>
 
-                    </main>
-                </article>
+                </main>
             </div>
 
             {/* CSS INLINE */}
@@ -217,26 +217,13 @@ export default function Landing({ onNavigate }: LandingProps) {
                     z-index: 2;
                     width: 100%;
                     max-width: 800px;
-                    padding: 1.5rem;
+                    padding: 2rem;
                 }
 
                 /* ========================================
-                   MOLDURA PRETA DA MATÉRIA
-                   O conteúdo branco fica emoldurado por
-                   12px de preto — conversa com o app que
-                   é preto e dá cara de reportagem.
+                   PRIMEIRA DOBRA — ORDEM:
+                   HEADLINE → SUB → CEREBRO → COBERTURA → CTA → BENEFÍCIOS → SEGURANÇA
                    ======================================== */
-                .article-frame {
-                    background: #fff;
-                    border: 12px solid #000;
-                    border-radius: 0;
-                    width: 100%;
-                    max-width: 540px;
-                    margin: 0 auto;
-                    padding: 2rem 1.5rem;
-                    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
-                }
-
                 .landing-main-simple {
                     display: flex;
                     flex-direction: column;
@@ -244,18 +231,18 @@ export default function Landing({ onNavigate }: LandingProps) {
                     justify-content: center;
                     text-align: center;
                     gap: 1.25rem;
-                    min-height: auto;
+                    min-height: 70vh;
                 }
 
-                /* 1. HEADLINE — escura, estilo manchete de matéria */
+                /* 1. HEADLINE */
                 .hero-headline {
                     text-align: center;
-                    font-size: 2.2rem;
+                    font-size: 2.4rem;
                     line-height: 1.15;
-                    color: #111827;
+                    color: #fff;
                     font-weight: 800;
                     letter-spacing: -0.5px;
-                    max-width: 460px;
+                    max-width: 720px;
                     margin: 0;
                 }
 
@@ -263,22 +250,22 @@ export default function Landing({ onNavigate }: LandingProps) {
                     color: #ef4444;
                 }
 
-                /* 2. SUB — itálico, tom de mistério */
+                /* 2. SUB */
                 .hero-sub {
                     text-align: center;
-                    font-size: 1.02rem;
+                    font-size: 1.05rem;
                     line-height: 1.5;
-                    color: rgba(17, 24, 39, 0.65);
+                    color: rgba(255, 255, 255, 0.78);
                     font-style: italic;
-                    max-width: 420px;
+                    max-width: 540px;
                     margin: 0;
                 }
 
-                /* 3. CEREBRO HERO — ilustração editorial sobre branco */
+                /* 3. CEREBRO HERO */
                 .hero-image {
                     position: relative;
                     width: 100%;
-                    max-width: 320px;
+                    max-width: 380px;
                     margin: 0 auto;
                 }
 
@@ -302,7 +289,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     width: 130px;
                     height: 130px;
                     transform: translate(-50%, -50%);
-                    background: radial-gradient(circle, rgba(239, 68, 68, 0.14), transparent 70%);
+                    background: radial-gradient(circle, rgba(239, 68, 68, 0.18), transparent 70%);
                     filter: blur(6px);
                     border-radius: 50%;
                     pointer-events: none;
@@ -344,22 +331,22 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .brain-label {
                     text-align: center;
                     margin: 0.9rem auto 0;
-                    max-width: 360px;
+                    max-width: 420px;
                 }
 
                 .brain-label .tag {
                     display: block;
-                    font-size: 0.85rem;
+                    font-size: 0.9rem;
                     font-weight: 800;
                     letter-spacing: 0.08em;
-                    color: #dc2626;
+                    color: #f87171;
                     text-transform: uppercase;
                 }
 
                 .brain-label .desc {
                     display: block;
-                    font-size: 0.8rem;
-                    color: rgba(17, 24, 39, 0.6);
+                    font-size: 0.82rem;
+                    color: rgba(255, 255, 255, 0.72);
                     margin-top: 2px;
                 }
 
@@ -368,13 +355,13 @@ export default function Landing({ onNavigate }: LandingProps) {
                     text-align: center;
                     font-size: 1rem;
                     line-height: 1.4;
-                    color: rgba(17, 24, 39, 0.8);
+                    color: rgba(255, 255, 255, 0.85);
                     margin: 0;
                     font-weight: 500;
-                    max-width: 400px;
+                    max-width: 520px;
                 }
 
-                /* 5. BOTÃO CTA — verde intacto, ganha contraste no branco */
+                /* 5. BOTÃO CTA */
                 .hero-cta {
                     background: #16a34a;
                     color: #fff;
@@ -418,18 +405,18 @@ export default function Landing({ onNavigate }: LandingProps) {
                 /* 5.1 MICRO-LINHA DO CTA */
                 .cta-micro {
                     text-align: center;
-                    font-size: 0.9rem;
-                    color: rgba(17, 24, 39, 0.6);
+                    font-size: 0.92rem;
+                    color: rgba(255, 255, 255, 0.6);
                     margin: 0;
                 }
 
-                /* 5.2 BENEFÍCIOS — cards claros sobre branco */
+                /* 5.2 BENEFÍCIOS */
                 .benefits {
                     display: flex;
                     flex-direction: column;
                     gap: 0.65rem;
                     width: 100%;
-                    max-width: 420px;
+                    max-width: 440px;
                     margin: 0 auto;
                     text-align: left;
                 }
@@ -438,8 +425,8 @@ export default function Landing({ onNavigate }: LandingProps) {
                     display: flex;
                     align-items: flex-start;
                     gap: 0.7rem;
-                    background: rgba(17, 24, 39, 0.04);
-                    border: 1px solid rgba(17, 24, 39, 0.1);
+                    background: rgba(255, 255, 255, 0.04);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
                     border-radius: 12px;
                     padding: 0.8rem 0.95rem;
                 }
@@ -449,7 +436,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     width: 26px;
                     height: 26px;
                     border-radius: 50%;
-                    background: rgba(22, 163, 74, 0.12);
+                    background: rgba(22, 163, 74, 0.15);
                     border: 1px solid rgba(34, 197, 94, 0.5);
                     display: flex;
                     align-items: center;
@@ -461,42 +448,38 @@ export default function Landing({ onNavigate }: LandingProps) {
                     margin: 0;
                     font-size: 0.95rem;
                     line-height: 1.45;
-                    color: rgba(17, 24, 39, 0.82);
+                    color: rgba(255, 255, 255, 0.85);
                 }
 
                 /* 6. MICRO-LINHA DE SEGURANÇA */
                 .hero-safety {
                     text-align: center;
-                    font-size: 0.83rem;
-                    color: rgba(17, 24, 39, 0.5);
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.5);
                     margin: 0;
                 }
 
                 /* RESPONSIVO */
                 @media (max-width: 768px) {
                     .content-wrapper {
-                        padding: 0.75rem;
-                    }
-
-                    .article-frame {
-                        border-width: 10px;
-                        padding: 1.75rem 1.25rem;
+                        padding: 1.25rem;
                     }
 
                     .landing-main-simple {
                         gap: 1rem;
+                        min-height: auto;
                     }
 
                     .hero-headline {
-                        font-size: 1.9rem;
+                        font-size: 2rem;
                     }
 
                     .hero-sub {
-                        font-size: 1rem;
+                        font-size: 1.05rem;
                     }
 
                     .hero-image {
-                        max-width: 280px;
+                        max-width: 320px;
                     }
 
                     .hero-cta {
@@ -507,12 +490,7 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 @media (max-width: 480px) {
                     .content-wrapper {
-                        padding: 0.5rem;
-                    }
-
-                    .article-frame {
-                        border-width: 8px;
-                        padding: 1.5rem 1.1rem;
+                        padding: 1rem;
                     }
 
                     .landing-main-simple {
@@ -520,15 +498,15 @@ export default function Landing({ onNavigate }: LandingProps) {
                     }
 
                     .hero-headline {
-                        font-size: 1.65rem;
+                        font-size: 1.8rem;
                     }
 
                     .hero-sub {
-                        font-size: 0.95rem;
+                        font-size: 1rem;
                     }
 
                     .hero-image {
-                        max-width: 250px;
+                        max-width: 280px;
                     }
 
                     .hero-coverage {
