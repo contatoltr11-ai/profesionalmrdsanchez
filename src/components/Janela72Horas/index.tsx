@@ -28,6 +28,21 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
                 <h2>LA VENTANA DE 72 HORAS</h2>
             </div>
 
+            {/* ALERTA DE RETENÇÃO — freio de abandono */}
+            <div className="ventana-retention-banner">
+                <span className="retention-icon">⚠️</span>
+                <div className="retention-text">
+                    <strong>ATENCIÓN: No salgas de esta página todavía.</strong>
+                    <br/>Lo que verás en los próximos 60 segundos puede cambiarlo todo.
+                </div>
+            </div>
+
+            {/* EFEITO ESPELHO — identificação com a dor do lead */}
+            <p className="ventana-mirror">
+                Si estás aquí es porque ya intentaste mensajes, ruegos o "darle tiempo"…
+                y nada funcionó. No es tu culpa: estabas usando el método equivocado.
+            </p>
+
             <div className="ventana-scientific-intro">
                 <p>
                     Estudios de Harvard y Nature Neuroscience comprueban: existen ventanas neuroquímicas de 72 horas donde el cerebro de tu ex multiplica su receptividad emocional (dopamina, oxitocina, apego). 
@@ -99,6 +114,11 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
                     );
                 })}
             </div>
+
+            {/* PROVA SOCIAL DE UMA LINHA — antecipa a prova da oferta */}
+            <p className="ventana-social-proof">
+                ⭐ 9.247+ hombres ya recuperaron a su ex con este protocolo.
+            </p>
 
             {buttonChecked ? (
                 <div className="checkmark-container">
