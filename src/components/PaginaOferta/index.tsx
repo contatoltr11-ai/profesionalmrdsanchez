@@ -214,57 +214,66 @@ export default function PaginaOferta({
                     />
                 </div>
 
-                {/* ✅ MELHORIA #4: Estatísticas de prova social */}
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
-                    border: '2px solid rgba(16, 185, 129, 0.3)',
-                    borderRadius: '16px',
-                    padding: 'clamp(24px, 5vw, 32px)',
-                    marginBottom: 'clamp(24px, 5vw, 32px)',
-                    textAlign: 'center'
-                }}>
-                    <h3 style={{
-                        fontSize: 'clamp(1.25rem, 5vw, 1.6rem)',
-                        color: '#10b981',
-                        fontWeight: '900',
-                        marginBottom: 'clamp(20px, 4vw, 24px)'
-                    }}>
-                        Únete a los 9.247+ hombres que recuperaron a su ex
-                    </h3>
-                    
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                        gap: 'clamp(16px, 4vw, 24px)'
-                    }}>
-                        <div>
-                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
-                                94%
-                            </p>
-                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                                volvieron con su ex
-                            </p>
-                        </div>
-                        
-                        <div>
-                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
-                                87%
-                            </p>
-                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                                notaron cambios en 13-21 días
-                            </p>
-                        </div>
-                        
-                        <div>
-                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
-                                72%
-                            </p>
-                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                                autoestima elevada
-                            </p>
-                        </div>
-                    </div>
-                </div>
+{/* ✅ MELHORIA #4: Estatísticas de prova social */}
+<div style={{
+    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
+    border: '2px solid rgba(16, 185, 129, 0.3)',
+    borderRadius: '16px',
+    padding: 'clamp(24px, 5vw, 32px)',
+    marginBottom: 'clamp(24px, 5vw, 32px)',
+    textAlign: 'center'
+}}>
+    <h3 style={{
+        fontSize: 'clamp(1.25rem, 5vw, 1.6rem)',
+        color: '#10b981',
+        fontWeight: '900',
+        marginBottom: 'clamp(20px, 4vw, 24px)'
+    }}>
+        Tu plan ya está listo según lo que respondiste
+    </h3>
+    
+    <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+        gap: 'clamp(16px, 4vw, 24px)'
+    }}>
+        <div>
+            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                87%
+            </p>
+            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                Tú estás aquí · tu plan ya está listo
+            </p>
+        </div>
+        
+        <div>
+            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                91%
+            </p>
+            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                En 48 horas · ella ya piensa en ti, pero no sabe por qué
+            </p>
+        </div>
+        
+        <div>
+            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                96%
+            </p>
+            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                En 72 horas · pico de tu ventana
+            </p>
+        </div>
+        
+        <div>
+            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                100%
+            </p>
+            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                En 7 días · ella da el paso y te escribe
+            </p>
+        </div>
+    </div>
+</div>
 
                 {/* Título principal */}
                 <h2 style={{
