@@ -383,6 +383,7 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Módulo 4: Protocolo de Emergencia</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Soporte WhatsApp Prioritario</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Comunidad Privada</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Bono Sorpresa (Regalo Misterioso)</div>
             </div>
         </div>
         <button 
@@ -460,7 +461,7 @@ export default function PaginaOferta({
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.6)', textDecoration: 'line-through', margin: '0 0 4px 0' }}>
-                USD 297
+                USD 342
             </p>
             <p style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', color: '#10b981', fontWeight: '900', margin: '0 0 4px 0', lineHeight: '1' }}>
                 $27
@@ -513,6 +514,66 @@ export default function PaginaOferta({
             {selectedPlan === 27 ? '✅ PLAN SELECCIONADO' : '🚀 ELEGIR PLAN TOTAL (RECOMENDADO)'}
         </button>
     </div>
+</div>
+{/* ✅ MELHORIA #6: Sección de bonos con anclas ($342) */}
+<div style={{
+    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(74, 222, 128, 0.08))',
+    border: '2px solid rgba(16, 185, 129, 0.3)',
+    borderRadius: '16px',
+    padding: 'clamp(20px, 5vw, 28px)',
+    marginBottom: 'clamp(24px, 5vw, 32px)',
+    textAlign: 'center'
+}}>
+    <h3 style={{
+        fontSize: 'clamp(1.15rem, 4.5vw, 1.45rem)',
+        color: '#10b981',
+        fontWeight: '900',
+        margin: '0 0 6px 0'
+    }}>
+        🎁 Hoy, junto a tu plan, recibes estos bonos GRATIS
+    </h3>
+    <p style={{
+        fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
+        color: 'rgba(255,255,255,0.7)',
+        fontWeight: '600',
+        margin: '0 0 20px 0'
+    }}>
+        Valor total: <span style={{ color: '#4ade80', fontWeight: '900', textDecoration: 'line-through' }}>$342</span> — hoy por $27
+    </p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'white', fontWeight: '600' }}>🎁 Guía: "Cómo Leer Su Mente"</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '900', whiteSpace: 'nowrap' }}>De $37 a GRATIS</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'white', fontWeight: '600' }}>🎁 Módulo 4: Protocolo de Emergencia</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '900', whiteSpace: 'nowrap' }}>De $47 a GRATIS</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'white', fontWeight: '600' }}>🎁 Soporte WhatsApp Prioritario 24/7</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '900', whiteSpace: 'nowrap' }}>De $47 a GRATIS</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'white', fontWeight: '600' }}>🎁 Comunidad Privada de Apoyo</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '900', whiteSpace: 'nowrap' }}>De $67 a GRATIS</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(255,255,255,0.04)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', textAlign: 'left' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'white', fontWeight: '600' }}>🎁 Actualizaciones de por vida</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '900', whiteSpace: 'nowrap' }}>De $47 a GRATIS</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap', padding: '12px 16px', background: 'rgba(234, 179, 8, 0.15)', border: '1px solid rgba(234, 179, 8, 0.35)', borderRadius: '10px', textAlign: 'left', animation: 'pulse 1.5s infinite' }}>
+            <span style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: '#fef08a', fontWeight: '800' }}>🎁 Regalo Sorpresa — no es un libro, no es un curso. Lo descubres al entrar.</span>
+            <span style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: '#facc15', fontWeight: '900', whiteSpace: 'nowrap' }}>De $97 a GRATIS</span>
+        </div>
+    </div>
+    <p style={{
+        fontSize: 'clamp(0.85rem, 3vw, 1rem)',
+        color: 'rgba(255,255,255,0.85)',
+        fontWeight: '700',
+        margin: '16px 0 0 0'
+    }}>
+        ✅ Todos los bonos se agregan automáticamente al elegir el Plan Total hoy
+    </p>
 </div>
 {/* ✅ CTA PRINCIPAL - POSIÇÃO OTIMIZADA (logo após os planos) */}
 <button 
