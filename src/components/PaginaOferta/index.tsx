@@ -237,68 +237,34 @@ export default function PaginaOferta({
                         gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
                         gap: 'clamp(16px, 4vw, 24px)'
                     }}>
- <div style={{ textAlign: 'center', margin: '0 0 24px 0' }}>
-    <p style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)', color: '#ffffff', fontWeight: '800', margin: '0 0 4px 0' }}>
-        Tu plan ya está listo según lo que respondiste
-    </p>
-    <p style={{ fontSize: 'clamp(0.95rem, 3.5vw, 1.1rem)', color: 'rgba(255,255,255,0.7)', fontWeight: '600', margin: '0 0 20px 0' }}>
-        Probabilidad de reconquista siguiendo tu protocolo 👇
-    </p>
-
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px' }}>
-        {/* HOY — TÚ ESTÁS AQUÍ */}
-        <div style={{ background: 'rgba(16,185,129,0.12)', border: '2px solid #10b981', borderRadius: '16px', padding: '20px 18px', minWidth: '150px', flex: '1 1 150px' }}>
-            <p style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)', color: '#10b981', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 6px 0' }}>
-                Tú estás aquí • Hoy
-            </p>
-            <p style={{ fontSize: 'clamp(2.4rem, 8vw, 3rem)', color: '#10b981', fontWeight: '900', margin: '0 0 6px 0', lineHeight: '1' }}>
-                87%
-            </p>
-            <p style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                Tu plan personalizado está listo
-            </p>
-        </div>
-
-        {/* 48 HORAS */}
-        <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '20px 18px', minWidth: '150px', flex: '1 1 150px' }}>
-            <p style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)', color: '#10b981', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 6px 0' }}>
-                48 horas
-            </p>
-            <p style={{ fontSize: 'clamp(2.4rem, 8vw, 3rem)', color: '#10b981', fontWeight: '900', margin: '0 0 6px 0', lineHeight: '1' }}>
-                91%
-            </p>
-            <p style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                Ella ya piensa en ti, pero no sabe por qué
-            </p>
-        </div>
-
-        {/* 72 HORAS — PICO DE TU VENTANA */}
-        <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '20px 18px', minWidth: '150px', flex: '1 1 150px' }}>
-            <p style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)', color: '#10b981', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 6px 0' }}>
-                72 horas • pico de tu ventana
-            </p>
-            <p style={{ fontSize: 'clamp(2.4rem, 8vw, 3rem)', color: '#10b981', fontWeight: '900', margin: '0 0 6px 0', lineHeight: '1' }}>
-                96%
-            </p>
-            <p style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                Su cerebro empieza a buscarte
-            </p>
-        </div>
-
-        {/* 7 DÍAS */}
-        <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '16px', padding: '20px 18px', minWidth: '150px', flex: '1 1 150px' }}>
-            <p style={{ fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)', color: '#10b981', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 6px 0' }}>
-                7 días
-            </p>
-            <p style={{ fontSize: 'clamp(2.4rem, 8vw, 3rem)', color: '#10b981', fontWeight: '900', margin: '0 0 6px 0', lineHeight: '1' }}>
-                100%
-            </p>
-            <p style={{ fontSize: 'clamp(0.85rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
-                Ella da el paso y te escribe
-            </p>
-        </div>
-    </div>
-</div>
+                        <div>
+                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                                94%
+                            </p>
+                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                                volvieron con su ex
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                                87%
+                            </p>
+                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                                notaron cambios en 13-21 días
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <p style={{ fontSize: 'clamp(3rem, 10vw, 4rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0', lineHeight: '1' }}>
+                                72%
+                            </p>
+                            <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+                                autoestima elevada
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Título principal */}
                 <h2 style={{
