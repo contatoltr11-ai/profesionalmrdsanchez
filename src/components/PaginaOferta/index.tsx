@@ -309,27 +309,62 @@ export default function PaginaOferta({
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
-                <div style={{
-                    background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1))',
-                    border: '2px solid rgba(234, 179, 8, 0.4)',
-                    borderRadius: '14px',
-                    padding: 'clamp(16px, 4vw, 20px)',
-                    marginBottom: 'clamp(20px, 4vw, 28px)',
-                    display: 'flex',
-                    gap: '12px',
-                    alignItems: 'flex-start'
-                }}>
-                    <span style={{ fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', flexShrink: 0 }}>👉</span>
-                    <p style={{
-                        fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
-                        color: 'white',
-                        lineHeight: '1.55',
-                        margin: 0,
-                        fontWeight: '600'
-                    }}>
-                        {scenarioContent.recomendacion_plan[scenario]}
-                    </p>
-                </div>
+ <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'clamp(12px, 3vw, 16px)',
+    marginBottom: 'clamp(20px, 4vw, 28px)'
+}}>
+    <img
+        src={{
+            contacto_cero: 'https://i.ibb.co/60LnCDTF/01-daniela.webp',
+            con_otro: 'https://i.ibb.co/FLfx23jT/02-valentina.webp',
+            bloqueo: 'https://i.ibb.co/Q7Vqh0x2/03-camila.webp',
+            ruptura_reciente: 'https://i.ibb.co/60bGW5mz/04-mariana.webp'
+        }[scenario]}
+        alt="Así le fue a alguien con tu mismo caso"
+        loading="lazy"
+        style={{
+            width: '100%',
+            maxWidth: '340px',
+            borderRadius: '16px',
+            border: '2px solid rgba(16, 185, 129, 0.35)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+            display: 'block'
+        }}
+    />
+    <p style={{
+        fontSize: 'clamp(0.85rem, 3.2vw, 1rem)',
+        color: 'rgba(255,255,255,0.75)',
+        fontWeight: '600',
+        margin: 0,
+        textAlign: 'center'
+    }}>
+        Así le fue a alguien con tu mismo caso
+    </p>
+    <div style={{
+        background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(249, 115, 22, 0.1))',
+        border: '2px solid rgba(234, 179, 8, 0.4)',
+        borderRadius: '14px',
+        padding: 'clamp(16px, 4vw, 20px)',
+        display: 'flex',
+        gap: '12px',
+        alignItems: 'flex-start',
+        width: '100%'
+    }}>
+        <span style={{ fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', flexShrink: 0 }}>👉</span>
+        <p style={{
+            fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
+            color: 'white',
+            lineHeight: '1.55',
+            margin: 0,
+            fontWeight: '600'
+        }}>
+            {scenarioContent.recomendacion_plan[scenario]}
+        </p>
+    </div>
+</div>
 
 {/* ✅ MELHORIA #5: 2 Planos lado a lado ($14 / $27) */}
 <div style={{
