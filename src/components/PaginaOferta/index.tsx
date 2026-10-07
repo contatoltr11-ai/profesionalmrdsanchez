@@ -844,7 +844,7 @@ export default function PaginaOferta({
                         fontWeight: '900',
                         textTransform: 'uppercase'
                     }}>
-                        GARANTÍA BLINDADA DE 30 DÍAS
+                        GARANTÍA BLINDADA DE 60 DÍAS
                     </h3>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
@@ -852,7 +852,7 @@ export default function PaginaOferta({
                         color: 'white',
                         marginBottom: 'clamp(12px, 3vw, 16px)'
                     }}>
-                        Si en 30 días no ves <strong style={{ color: '#4ade80' }}>resultados concretos</strong> en tu reconquista 
+                        Si en 60 días no ves <strong style={{ color: '#4ade80' }}>resultados concretos</strong> en tu reconquista 
                         (mensajes de {gender === 'HOMBRE' ? 'ella' : 'él'}, cambio de actitud, reaproximación), 
                         <strong style={{ color: '#4ade80' }}> devolvemos el 100% de tu dinero</strong>.
                     </p>
