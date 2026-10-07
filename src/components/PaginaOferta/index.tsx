@@ -1105,7 +1105,7 @@ export default function PaginaOferta({
                     fontStyle: 'italic',
                     margin: 0
                 }}>
-                    🔒 Compra 100% segura • Acceso instantáneo • 30 días de garantía blindada
+                    🔒 Compra 100% segura • Acceso instantáneo • 60 días de garantía blindada
                 </p>
 
             </div>
