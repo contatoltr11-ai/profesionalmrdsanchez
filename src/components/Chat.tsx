@@ -166,7 +166,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Holaa. Detecté que aún hay algo que puedes recuperar. Empecemos 👇',
+      text: 'Hola. Detecté que aún hay algo que puedes recuperar. Empecemos 👇',
       isTyping: true,
     };
 
@@ -415,3 +415,5 @@ function TypewriterText({ text }: { text: string }) {
 
   return <span>{displayText}<span className="cursor">▋</span></span>;
 }
+
+
