@@ -166,7 +166,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola. Detecté que aún hay algo que puedes recuperar. Empecemos 👇',
+      text: 'Holaa. Detecté que aún hay algo que puedes recuperar. Empecemos 👇',
       isTyping: true,
     };
 
