@@ -34,7 +34,7 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     id: 1,
-    text: 'Para calibrar el análisis, necesito saber: ¿cuál es tu género?',
+    text: 'Para que tu plan sea preciso: ¿cuál es tu género?',
     options: ['HOMBRE', 'MUJER'],
     response: 'Entendido.',
     responseByGender: {
@@ -166,7 +166,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola. Detecté que aún hay algo que puedes recuperar. Empecemos 👇',
+      text: 'Hola. Voy a hacerte 5 preguntas rápidas para armar tu plan. Menos de 2 minutos.',
       isTyping: true,
     };
 
