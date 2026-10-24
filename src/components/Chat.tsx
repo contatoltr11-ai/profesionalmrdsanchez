@@ -166,7 +166,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola. Voy a hacerte 7 preguntas rápidas para armar tu plan. Menos de 2 minutos.',
+      text: 'Hola. Soy Sophia Sanchez, especialista en reconquista y psicología conductual. Voy a hacerte 7 preguntas rápidas para armar tu plan. Menos de 2 minutos.',
       isTyping: true,
     };
 
