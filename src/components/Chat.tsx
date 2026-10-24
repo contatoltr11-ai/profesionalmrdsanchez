@@ -28,6 +28,9 @@ interface Question {
     HOMBRE: string;
     MUJER: string;
   };
+  responseByOption?: {
+    [option: string]: string;
+  };
   dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel';
 }
 
@@ -61,10 +64,12 @@ const QUESTIONS: Question[] = [
       HOMBRE: ['ELLA TERMINÓ', 'YO TERMINÉ', 'DECISIÓN MUTUA'],
       MUJER: ['ÉL TERMINÓ', 'YO TERMINÉ', 'DECISIÓN MUTUA']
     },
-    response: 'Correcto.',
-    responseByGender: {
-      HOMBRE: 'Entiendo. Cuando ella toma la decisión de terminar, significa que algo activó un "switch" emocional en su cerebro. La buena noticia: ese switch puede revertirse si sabes exactamente qué botones presionar. Y eso es lo que vamos a descubrir.',
-      MUJER: 'Entiendo. Cuando él toma la decisión de terminar, significa que algo activó un "switch" emocional en su cerebro. La buena noticia: ese switch puede revertirse si sabes exactamente qué botones presionar. Y eso es lo que vamos a descubrir.'
+    response: 'Entendido. Esto cambia el mapa de la estrategia.',
+    responseByOption: {
+      'ELLA TERMINÓ': 'Entiendo. Cuando ella toma la decisión de terminar, algo activó un "switch" emocional en su cerebro: ella ya procesó la ruptura antes de decírtelo. La buena noticia: ese switch puede revertirse si tocas la memoria emocional correcta. Vamos a usar eso.',
+      'ÉL TERMINÓ': 'Entiendo. Cuando él toma la decisión de terminar, la dinámica es distinta: actúa desde el impulso o el cansancio, no desde un proceso previo. Eso deja una puerta abierta que vamos a aprovechar.',
+      'YO TERMINÉ': 'Interesante. Cuando tú terminaste, ella activó un mecanismo de defensa: siente que fue rechazada, y eso la vuelve resistente a cualquier acercamiento directo. Vamos a revertir esa defensa antes de intentar cualquier contacto.',
+      'DECISIÓN MUTUA': 'Entiendo. La decisión mutua es el escenario más delicado: no hay un "rechazo" que active la memoria emocional, y sin eso no hay anclaje. Vamos a crear ese anclaje estratégicamente.'
     },
     dataKey: 'whoEnded',
   },
@@ -72,7 +77,7 @@ const QUESTIONS: Question[] = [
     id: 4,
     text: 'Registrado. ¿Por cuánto tiempo estuvieron juntos?',
     options: ['MENOS DE 6 MESES', '6 MESES-1 AÑO', '1-3 AÑOS', 'MÁS DE 3 AÑOS'],
-    response: 'Ok.',
+    response: 'Registrado. Cada detalle cuenta.',
     responseByGender: {
       HOMBRE: 'Perfecto. El tiempo de relación define cuántas "anclas emocionales" creaste en su memoria. Cuanto más tiempo juntos, más profundas las conexiones neuronales. Eso trabaja a tu favor si usas el protocolo correcto.',
       MUJER: 'Perfecto. El tiempo de relación define cuántas "anclas emocionales" creaste en su memoria. Cuanto más tiempo juntos, más profundas las conexiones neuronales. Eso trabaja a tu favor si usas el protocolo correcto.'
@@ -83,7 +88,7 @@ const QUESTIONS: Question[] = [
     id: 5,
     text: '¿Cuál es tu situación actual con tu ex-pareja?',
     options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
-    response: 'Analizando...',
+    response: 'Registrado. Esto es clave.',
     responseByGender: {
       HOMBRE: 'Información clave. El nivel de contacto actual revela exactamente en qué fase emocional está ella. Cada escenario requiere un protocolo diferente. Si hay contacto cero, usamos una estrategia. Si hay comunicación, usamos otra completamente distinta.',
       MUJER: 'Información clave. El nivel de contacto actual revela exactamente en qué fase emocional está él. Cada escenario requiere un protocolo diferente. Si hay contacto cero, usamos una estrategia. Si hay comunicación, usamos otra completamente distinta.'
@@ -92,15 +97,19 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 6,
-    text: 'Analizando... Ahora, una información crucial: ¿tu ex-pareja ya está con otra persona?',
+    text: 'Ahora, una información crucial: ¿tu ex-pareja ya está con otra persona?',
     optionsByGender: {
       HOMBRE: ['ESTÁ SOLTERA', 'NO ESTOY SEGURO', 'SALIENDO CASUAL', 'RELACIÓN SERIA', 'VARIAS PERSONAS'],
       MUJER: ['ESTÁ SOLTERO', 'NO ESTOY SEGURO', 'SALIENDO CASUAL', 'RELACIÓN SERIA', 'VARIAS PERSONAS']
     },
-    response: 'Crucial.',
-    responseByGender: {
-      HOMBRE: 'Entendido. Esto cambia el mapa, pero no el destino. Incluso si ella está con alguien, hay protocolos psicológicos específicos que funcionan. De hecho, en algunos casos, esto puede ser usado estratégicamente a tu favor.',
-      MUJER: 'Entendido. Esto cambia el mapa, pero no el destino. Incluso si él está con alguien, hay protocolos psicológicos específicos que funcionan. De hecho, en algunos casos, esto puede ser usado estratégicamente a tu favor.'
+    response: 'Crucial. Esto define la ruta que vamos a tomar.',
+    responseByOption: {
+      'ESTÁ SOLTERA': 'Mejor todavía. Si ella está soltera, hay una ventana de oportunidad abierta ahora mismo: el cerebro en soledad busca referencia emocional en el pasado. Vamos a ocupar ese espacio antes de que se cierre.',
+      'ESTÁ SOLTERO': 'Mejor todavía. Si él está soltero, hay una ventana de oportunidad abierta ahora mismo: el cerebro en soledad busca referencia emocional en el pasado. Vamos a ocupar ese espacio antes de que se cierre.',
+      'NO ESTOY SEGURO': 'No importa. Vamos a blindar tu plan para los dos escenarios: la estrategia que funciona si está con alguien también funciona si está soltera/o. Nada queda al azar.',
+      'SALIENDO CASUAL': 'Entendido. Si está saliendo casualmente, no hay vínculo consolidado. Vamos a usar la comparación emocional sin presionar, y eso juega a tu favor.',
+      'RELACIÓN SERIA': 'Entendido. Si hay una relación seria, la estrategia no es competir: es activar la memoria emocional de lo que tenía contigo. Eso es más efectivo que cualquier confrontación.',
+      'VARIAS PERSONAS': 'Entendido. Si está con varias personas, hay una búsqueda activa de algo que no encontró. Ahí es donde entras tú — y vamos a posicionarte exactamente en ese hueco.'
     },
     dataKey: 'exSituation',
   },
@@ -138,7 +147,7 @@ export default function Chat({ onNavigate }: ChatProps) {
       if (storedUTMs) {
         const utms = JSON.parse(storedUTMs);
         console.log('✅ UTMs preservadas no Chat:', utms);
-        
+
         // Sincroniza com Utmify se disponível
         if (window.location.search === '' && Object.keys(utms).length > 0) {
           const utmString = Object.entries(utms)
@@ -160,7 +169,6 @@ export default function Chat({ onNavigate }: ChatProps) {
     ensureUTMs();
 
     // Removido: tracking.pageView (gerenciado pelo Utmify)
-    
     ga4Tracking.chatPageView();
     ga4Tracking.chatStarted();
 
@@ -195,6 +203,7 @@ export default function Chat({ onNavigate }: ChatProps) {
 
   const askQuestion = (questionIndex: number) => {
     const question = QUESTIONS[questionIndex];
+
     const newMessage: Message = {
       type: 'bot',
       text: question.text,
@@ -204,13 +213,16 @@ export default function Chat({ onNavigate }: ChatProps) {
     setMessages(prev => [...prev, newMessage]);
 
     typewriterTimeoutRef.current = setTimeout(() => {
-      setMessages(prev => prev.map((msg, idx) => idx === prev.length - 1 ? { ...msg, isTyping: false } : msg));
+      setMessages(prev => prev.map((msg, idx) =>
+        idx === prev.length - 1 ? { ...msg, isTyping: false } : msg
+      ));
       setTimeout(() => setShowOptions(true), 300);
     }, question.text.length * 24);
   };
 
   const handleAnswer = (option: string) => {
     playKeySound();
+
     const question = QUESTIONS[currentQuestion];
 
     setMessages(prev => [...prev, { type: 'user', text: option }]);
@@ -237,12 +249,13 @@ export default function Chat({ onNavigate }: ChatProps) {
     setTimeout(() => {
       setIsProcessing(false);
 
-      let responseText = question.response;
-      
-      if (question.responseByGender && quizData.gender) {
-        const gender = quizData.gender as 'HOMBRE' | 'MUJER';
-        responseText = question.responseByGender[gender] || question.response;
-      }
+      // Prioriza resposta por opção escolhida; cai para gênero; cai para padrão
+      const responseText =
+        (question.responseByOption && question.responseByOption[option]) ||
+        (question.responseByGender && quizData.gender
+          ? question.responseByGender[quizData.gender as 'HOMBRE' | 'MUJER']
+          : undefined) ||
+        question.response;
 
       const responseMessage: Message = {
         type: 'bot',
@@ -253,7 +266,9 @@ export default function Chat({ onNavigate }: ChatProps) {
       setMessages(prev => [...prev, responseMessage]);
 
       typewriterTimeoutRef.current = setTimeout(() => {
-        setMessages(prev => prev.map((msg, idx) => idx === prev.length - 1 ? { ...msg, isTyping: false } : msg));
+        setMessages(prev => prev.map((msg, idx) =>
+          idx === prev.length - 1 ? { ...msg, isTyping: false } : msg
+        ));
 
         if (currentQuestion < QUESTIONS.length - 1) {
           setTimeout(() => {
@@ -262,17 +277,20 @@ export default function Chat({ onNavigate }: ChatProps) {
           }, 800);
         } else {
           ga4Tracking.chatCompleted();
-          
+
           setTimeout(() => {
             const finalMessage: Message = {
               type: 'bot',
               text: 'Análisis concluido. Tu plan personalizado está listo para ser revelado. Haz clic abajo para accederlo.',
               isTyping: true,
             };
+
             setMessages(prev => [...prev, finalMessage]);
 
             typewriterTimeoutRef.current = setTimeout(() => {
-              setMessages(prev => prev.map((msg, idx) => idx === prev.length - 1 ? { ...msg, isTyping: false } : msg));
+              setMessages(prev => prev.map((msg, idx) =>
+                idx === prev.length - 1 ? { ...msg, isTyping: false } : msg
+              ));
               setTimeout(() => setShowOptions(true), 300);
             }, finalMessage.text.length * 24);
           }, 1000);
@@ -289,12 +307,10 @@ export default function Chat({ onNavigate }: ChatProps) {
 
   const getQuestionOptions = (question: Question): string[] => {
     const quizData = storage.getQuizData();
-    
     if (question.optionsByGender && quizData.gender) {
       const gender = quizData.gender as 'HOMBRE' | 'MUJER';
       return question.optionsByGender[gender] || question.options || [];
     }
-    
     return question.options || [];
   };
 
@@ -385,9 +401,11 @@ export default function Chat({ onNavigate }: ChatProps) {
                 {getCompletionBadge(quizData.gender || 'HOMBRE').subtitle}
               </div>
             </div>
+
             <button className="option-button cta-final" onClick={handleViewPlan}>
               VER MI PLAN PERSONALIZADO
             </button>
+
             <p className="completion-count">+9.247 planes revelados</p>
           </div>
         )}
@@ -408,12 +426,9 @@ function TypewriterText({ text }: { text: string }) {
         setDisplayText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
       }, 24);
-
       return () => clearTimeout(timeout);
     }
   }, [currentIndex, text]);
 
   return <span>{displayText}<span className="cursor">▋</span></span>;
 }
-
-
