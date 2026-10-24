@@ -38,8 +38,8 @@ const QUESTIONS: Question[] = [
     options: ['HOMBRE', 'MUJER'],
     response: 'Entendido.',
     responseByGender: {
-      HOMBRE: 'Perfecto. Voy a calibrar el análisis basado en los patrones específicos de comportamiento femenino después de una ruptura. Cada respuesta que des me ayudará a entender exactamente qué está pasando con ella.',
-      MUJER: 'Perfecto. Voy a calibrar el análisis basado en los patrones específicos de comportamiento masculino después de una ruptura. Cada respuesta que des me ayudará a entender exactamente qué está pasando con él.'
+      HOMBRE: 'Perfecto. Ya sé lo esencial: buscas reconquistar a una mujer. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento femenino después de una ruptura.',
+      MUJER: 'Perfecto. Ya sé lo esencial: buscas reconquistar a una mujer. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento masculino después de una ruptura.'
     },
     dataKey: 'gender',
   },
