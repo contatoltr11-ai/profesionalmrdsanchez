@@ -175,7 +175,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     typewriterTimeoutRef.current = setTimeout(() => {
       setMessages([{ ...initialMessage, isTyping: false }]);
       setTimeout(() => setShowOptions(true), 300);
-    }, initialMessage.text.length * 50);
+    }, initialMessage.text.length * 14);
 
     return () => {
       if (typewriterTimeoutRef.current) clearTimeout(typewriterTimeoutRef.current);
@@ -206,7 +206,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     typewriterTimeoutRef.current = setTimeout(() => {
       setMessages(prev => prev.map((msg, idx) => idx === prev.length - 1 ? { ...msg, isTyping: false } : msg));
       setTimeout(() => setShowOptions(true), 300);
-    }, question.text.length * 50);
+    }, question.text.length * 14);
   };
 
   const handleAnswer = (option: string) => {
@@ -274,11 +274,11 @@ export default function Chat({ onNavigate }: ChatProps) {
             typewriterTimeoutRef.current = setTimeout(() => {
               setMessages(prev => prev.map((msg, idx) => idx === prev.length - 1 ? { ...msg, isTyping: false } : msg));
               setTimeout(() => setShowOptions(true), 300);
-            }, finalMessage.text.length * 50);
+            }, finalMessage.text.length * 14);
           }, 1000);
         }
-      }, responseText.length * 50);
-    }, 1500);
+      }, responseText.length * 14);
+    }, 600);
   };
 
   const handleViewPlan = () => {
@@ -407,7 +407,7 @@ function TypewriterText({ text }: { text: string }) {
       const timeout = setTimeout(() => {
         setDisplayText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
-      }, 50);
+      }, 14);
 
       return () => clearTimeout(timeout);
     }
