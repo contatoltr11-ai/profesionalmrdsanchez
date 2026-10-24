@@ -51,9 +51,11 @@ const QUESTIONS: Question[] = [
     text: 'Entendido. Ahora, ¿cuánto tiempo ha pasado desde que se separaron?',
     options: ['MENOS DE 1 SEMANA', '1-4 SEMANAS', '1-6 MESES', 'MÁS DE 6 MESES'],
     response: 'Registrado.',
-    responseByGender: {
-      HOMBRE: 'Registrado. El tiempo es crucial. En este período, el cerebro de ella pasa por fases químicas específicas. Cuanto más reciente la separación, más activa está la memoria emocional. Vamos a usar eso estratégicamente.',
-      MUJER: 'Registrado. El tiempo es crucial. En este período, el cerebro de él pasa por fases químicas específicas. Cuanto más reciente la separación, más activa está la memoria emocional. Vamos a usar eso estratégicamente.'
+    responseByOption: {
+      'MENOS DE 1 SEMANA': 'Registrado. Una semana es el momento más crítico y, a la vez, el más favorable. Tu ex-pareja todavía tiene la memoria emocional en su punto más alto: la ruptura está fresca y el vínculo sigue activo. Vamos a usar eso antes de que empiece a cerrarse.',
+      '1-4 SEMANAS': 'Registrado. Entre una y cuatro semanas se abre la fase de mayor contradicción interna: ya se siente el vacío, pero todavía no se admite. Es la ventana donde el recuerdo empieza a pesar más que el motivo de la ruptura. Vamos a trabajar exactamente ahí.',
+      '1-6 MESES': 'Registrado. Entre uno y seis meses es la fase de mayor riesgo de que tu ausencia se vuelva costumbre — pero también la de mayor apertura al recuerdo. Si tocamos la memoria emocional correcta ahora, revertimos el proceso antes de que se consolide.',
+      'MÁS DE 6 MESES': 'Registrado. Pasados los seis meses, tu ausencia ya se consolidó como rutina. Eso no significa que esté cerrado: significa que la estrategia cambia de dirección. No vamos a apelar a la nostalgia directa, vamos a reactivar el recuerdo desde otro ángulo. Es el escenario más lento, pero funciona.'
     },
     dataKey: 'timeSeparation',
   },
