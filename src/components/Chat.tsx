@@ -39,7 +39,7 @@ const QUESTIONS: Question[] = [
     response: 'Entendido.',
     responseByGender: {
       HOMBRE: 'Perfecto. Ya sé lo esencial: buscas reconquistar a una mujer. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento femenino después de una ruptura.',
-      MUJER: 'Perfecto. Ya sé lo esencial: buscas reconquistar a una mujer. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento masculino después de una ruptura.'
+      MUJER: 'Perfecto. Ya sé lo esencial: buscas reconquistar a un hombre. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento masculino después de una ruptura.'
     },
     dataKey: 'gender',
   },
