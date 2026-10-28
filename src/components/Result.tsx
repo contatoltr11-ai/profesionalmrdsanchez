@@ -181,12 +181,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-6ad0327612c04608fffad0b2" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-6ae203fef364d674b4bff2d5" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="6ad0327612c04608fffad0b2"]')) {
+                if (!document.querySelector('script[src*="6ae203fef364d674b4bff2d5"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/23e4a8c5-1995-4b32-b826-c84cc70520b2/players/6ad0327612c04608fffad0b2/v4/player.js";
+                    s.src = "https://scripts.converteai.net/130d0377-cf17-412b-ac10-7fe74e454b79/players/6ae203fef364d674b4bff2d5/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
