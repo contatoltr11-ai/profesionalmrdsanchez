@@ -158,7 +158,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .hero-sub {
                     font-size: 1.1rem;
                     line-height: 1.55;
-                    color: rgba(255, 255, 255, 0.78);
+                    color: rgba(255, 255, 255, 0.92);
                     max-width: 520px;
                     margin: 0;
                 }
