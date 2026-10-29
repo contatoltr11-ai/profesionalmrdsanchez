@@ -218,7 +218,7 @@ export default function PaginaOferta({
                     
                     {/* Foto 2 - COLE O LINK DA SEGUNDA IMAGEM NO src="" */}
                     <img 
-                        src="https://i.ibb.co/Z1KkPxC9/02-feliz.webp" 
+                        src="https://i.ibb.co/W4BCwz0R/02-feliz.webp" 
                         alt="Casal reconciliado - Foto 2" 
                         style={{
                             width: '100%',
