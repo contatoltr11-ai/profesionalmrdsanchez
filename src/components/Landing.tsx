@@ -75,7 +75,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                             <span className="cta-icon">⏰</span>
                             <span className="cta-text">DESCUBRIR EL PRÓXIMO PASO</span>
                         </button>
-                        <p className="cta-micro">Haz el test rápido — 2 minutos y esto puede cambiar tu caso.</p>
+                        <p className="cta-micro">2 minutos · 100% anónimo</p>
                     </div>
                 </main>
 
