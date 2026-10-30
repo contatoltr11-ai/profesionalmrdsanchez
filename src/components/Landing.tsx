@@ -47,8 +47,6 @@ export default function Landing({ onNavigate }: LandingProps) {
 
     return (
         <div className="landing-container">
-            <div className="matrix-bg"></div>
-            <div className="scanlines"></div>
             <div className="content-wrapper">
                 <main className="landing-main-simple">
                     {/* 1. HEADLINE — copy que converte, com hierarquia visual refinada */}
@@ -94,19 +92,6 @@ export default function Landing({ onNavigate }: LandingProps) {
                     position: relative;
                     background: #000;
                     overflow: hidden;
-                }
-                .matrix-bg {
-                    position: absolute;
-                    top: 0; left: 0;
-                    width: 100%; height: 100%;
-                    z-index: 0;
-                }
-                .scanlines {
-                    position: absolute;
-                    top: 0; left: 0;
-                    width: 100%; height: 100%;
-                    z-index: 1;
-                    pointer-events: none;
                 }
                 .content-wrapper {
                     position: relative;
