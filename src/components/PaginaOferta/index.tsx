@@ -124,7 +124,7 @@ export default function PaginaOferta({
         contacto_cero:    'https://ssplan.shop/wp-content/uploads/2026/10/01-daniela.webp',
         con_otro:         'https://ssplan.shop/wp-content/uploads/2026/10/02-valentina.webp',
         bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
-        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
+        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/lucia.webp',
         ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp'
     };
 
