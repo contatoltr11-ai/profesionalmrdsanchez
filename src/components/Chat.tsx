@@ -34,21 +34,21 @@ interface Question {
   dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel';
 }
 
-// ========================================
-// ✅ CONSTANTES DE VELOCIDADE E PROGRESSO
-// ========================================
-const TYPE_SPEED = 22;                  // ms por caractere (era 24)
-const DELAY_BEFORE_RESPONSE = 150;       // era 600
-const DELAY_BEFORE_NEXT_QUESTION = 200;  // era 800
-const DELAY_SHOW_OPTIONS = 100;          // era 300
-const DELAY_BEFORE_FINAL = 300;          // era 1000
-const BASE_PROGRESS = 14;                // barra já abre preenchida
-
-// Pergunta de gênero removida: público 100% masculino.
 const QUESTIONS: Question[] = [
   {
+    id: 1,
+    text: 'Para que tu plan sea preciso: ¿cuál es tu género?',
+    options: ['HOMBRE', 'MUJER'],
+    response: 'Entendido.',
+    responseByGender: {
+      HOMBRE: 'Perfecto. Ya sé lo esencial: buscas reconquistar a una mujer. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento femenino después de una ruptura.',
+      MUJER: 'Perfecto. Ya sé lo esencial: buscas reconquistar a un hombre. Ahora voy a calibrar el análisis con los patrones específicos de comportamiento masculino después de una ruptura.'
+    },
+    dataKey: 'gender',
+  },
+  {
     id: 2,
-    text: 'Ahora, ¿cuánto tiempo ha pasado desde que se separaron?',
+    text: 'Entendido. Ahora, ¿cuánto tiempo ha pasado desde que se separaron?',
     options: ['MENOS DE 1 SEMANA', '1-4 SEMANAS', '1-6 MESES', 'MÁS DE 6 MESES'],
     response: 'Registrado.',
     responseByOption: {
@@ -133,13 +133,12 @@ const QUESTIONS: Question[] = [
 
 export default function Chat({ onNavigate }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [progress, setProgress] = useState(BASE_PROGRESS);
+  const [currentQuestion, setCurrentQuestion] = useState(-1);
+  const [progress, setProgress] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typewriterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const optionsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // ========================================
   // ✅ SISTEMA DE PRESERVAÇÃO DE UTMs
@@ -150,6 +149,7 @@ export default function Chat({ onNavigate }: ChatProps) {
       if (storedUTMs) {
         const utms = JSON.parse(storedUTMs);
         console.log('✅ UTMs preservadas no Chat:', utms);
+
         // Sincroniza com Utmify se disponível
         if (window.location.search === '' && Object.keys(utms).length > 0) {
           const utmString = Object.entries(utms)
@@ -166,50 +166,29 @@ export default function Chat({ onNavigate }: ChatProps) {
     }
   };
 
-  // ========================================
-  // ✅ GARANTE gender = 'HOMBRE' NO STORAGE
-  // ========================================
-  // Sem a pergunta de gênero, quizData.gender ficaria '' e o
-  // contentByGender.getCopy cairia no pronome masculino errado.
-  // Isso grava 'HOMBRE' antes de qualquer página consumir o dado.
-  const ensureGender = () => {
-    try {
-      const quizData = storage.getQuizData();
-      if (!quizData.gender) {
-        quizData.gender = 'HOMBRE';
-        storage.saveQuizData(quizData);
-      }
-    } catch (error) {
-      console.error('❌ Erro ao garantir gênero:', error);
-    }
-  };
-
   useEffect(() => {
     // ✅ GARANTE QUE AS UTMs ESTEJAM PRESERVADAS
     ensureUTMs();
-    // ✅ GARANTE O GÊNERO PARA TODAS AS PÁGINAS A JUSANTE
-    ensureGender();
+
     // Removido: tracking.pageView (gerenciado pelo Utmify)
     ga4Tracking.chatPageView();
     ga4Tracking.chatStarted();
 
     const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola, soy Sophia. Voy a hacerte 6 preguntas rápidas para armar tu plan. Menos de 2 minutos.',
+      text: 'Hola. Soy Sophia Sanchez, especialista en reconquista y psicología conductual. Voy a hacerte 7 preguntas rápidas para armar tu plan. Menos de 2 minutos.',
       isTyping: true,
     };
+
     setMessages([initialMessage]);
 
     typewriterTimeoutRef.current = setTimeout(() => {
       setMessages([{ ...initialMessage, isTyping: false }]);
-      optionsTimeoutRef.current = setTimeout(() => {
-        askQuestion(0);
-      }, DELAY_SHOW_OPTIONS);
-    }, initialMessage.text.length * TYPE_SPEED);
+      setTimeout(() => setShowOptions(true), 300);
+    }, initialMessage.text.length * 24);
 
     return () => {
       if (typewriterTimeoutRef.current) clearTimeout(typewriterTimeoutRef.current);
-      if (optionsTimeoutRef.current) clearTimeout(optionsTimeoutRef.current);
     };
   }, []);
 
@@ -217,28 +196,37 @@ export default function Chat({ onNavigate }: ChatProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const handleStartAnalysis = () => {
+    playKeySound();
+    setShowOptions(false);
+    setCurrentQuestion(0);
+    askQuestion(0);
+  };
+
   const askQuestion = (questionIndex: number) => {
     const question = QUESTIONS[questionIndex];
+
     const newMessage: Message = {
       type: 'bot',
       text: question.text,
       isTyping: true,
     };
+
     setMessages(prev => [...prev, newMessage]);
+
     typewriterTimeoutRef.current = setTimeout(() => {
       setMessages(prev => prev.map((msg, idx) =>
         idx === prev.length - 1 ? { ...msg, isTyping: false } : msg
       ));
-      optionsTimeoutRef.current = setTimeout(() => {
-        setShowOptions(true);
-        setIsProcessing(false);
-      }, DELAY_SHOW_OPTIONS);
-    }, question.text.length * TYPE_SPEED);
+      setTimeout(() => setShowOptions(true), 300);
+    }, question.text.length * 24);
   };
 
   const handleAnswer = (option: string) => {
     playKeySound();
+
     const question = QUESTIONS[currentQuestion];
+
     setMessages(prev => [...prev, { type: 'user', text: option }]);
     setShowOptions(false);
     setIsProcessing(true);
@@ -257,8 +245,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     // Removido: tracking.questionAnswered (gerenciado pelo Utmify)
     ga4Tracking.questionAnswered(question.id, question.text, option);
 
-    const stepSize = (100 - BASE_PROGRESS) / QUESTIONS.length;
-    const newProgress = BASE_PROGRESS + (currentQuestion + 1) * stepSize;
+    const newProgress = ((currentQuestion + 1) / QUESTIONS.length) * 100;
     setProgress(newProgress);
 
     setTimeout(() => {
@@ -277,6 +264,7 @@ export default function Chat({ onNavigate }: ChatProps) {
         text: responseText,
         isTyping: true,
       };
+
       setMessages(prev => [...prev, responseMessage]);
 
       typewriterTimeoutRef.current = setTimeout(() => {
@@ -285,32 +273,32 @@ export default function Chat({ onNavigate }: ChatProps) {
         ));
 
         if (currentQuestion < QUESTIONS.length - 1) {
-          optionsTimeoutRef.current = setTimeout(() => {
+          setTimeout(() => {
             setCurrentQuestion(currentQuestion + 1);
             askQuestion(currentQuestion + 1);
-          }, DELAY_BEFORE_NEXT_QUESTION);
+          }, 800);
         } else {
           ga4Tracking.chatCompleted();
-          optionsTimeoutRef.current = setTimeout(() => {
+
+          setTimeout(() => {
             const finalMessage: Message = {
               type: 'bot',
               text: 'Análisis concluido. Tu plan personalizado está listo para ser revelado. Haz clic abajo para accederlo.',
               isTyping: true,
             };
+
             setMessages(prev => [...prev, finalMessage]);
+
             typewriterTimeoutRef.current = setTimeout(() => {
               setMessages(prev => prev.map((msg, idx) =>
                 idx === prev.length - 1 ? { ...msg, isTyping: false } : msg
               ));
-              optionsTimeoutRef.current = setTimeout(() => {
-                setShowOptions(true);
-                setIsProcessing(false);
-              }, DELAY_SHOW_OPTIONS);
-            }, finalMessage.text.length * TYPE_SPEED);
-          }, DELAY_BEFORE_FINAL);
+              setTimeout(() => setShowOptions(true), 300);
+            }, finalMessage.text.length * 24);
+          }, 1000);
         }
-      }, responseText.length * TYPE_SPEED);
-    }, DELAY_BEFORE_RESPONSE);
+      }, responseText.length * 24);
+    }, 600);
   };
 
   const handleViewPlan = () => {
@@ -328,7 +316,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     return question.options || [];
   };
 
-  const isComplete = progress >= 100;
+  const isComplete = progress === 100;
   const quizData = storage.getQuizData();
 
   return (
@@ -338,9 +326,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           <div className="progress-fill" style={{ width: `${progress}%` }}></div>
         </div>
         <p className="progress-text">ANÁLISIS: {Math.round(progress)}%</p>
-        {isProcessing && (
-          <p className="processing-text">ANALIZANDO TU CASO...</p>
-        )}
+        {isProcessing && <p className="processing-text">ANALIZANDO DATOS...</p>}
       </div>
 
       <div className="chat-messages">
@@ -362,6 +348,14 @@ export default function Chat({ onNavigate }: ChatProps) {
         {isProcessing && (
           <div className="processing-indicator">
             <div className="spinner"></div>
+          </div>
+        )}
+
+        {showOptions && currentQuestion === -1 && (
+          <div className="options-container">
+            <button className="option-button" onClick={handleStartAnalysis}>
+              EMPEZAR ANÁLISIS
+            </button>
           </div>
         )}
 
@@ -409,9 +403,11 @@ export default function Chat({ onNavigate }: ChatProps) {
                 {getCompletionBadge(quizData.gender || 'HOMBRE').subtitle}
               </div>
             </div>
+
             <button className="option-button cta-final" onClick={handleViewPlan}>
               VER MI PLAN PERSONALIZADO
             </button>
+
             <p className="completion-count">+9.247 planes revelados</p>
           </div>
         )}
@@ -431,7 +427,7 @@ function TypewriterText({ text }: { text: string }) {
       const timeout = setTimeout(() => {
         setDisplayText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
-      }, TYPE_SPEED);
+      }, 24);
       return () => clearTimeout(timeout);
     }
   }, [currentIndex, text]);
