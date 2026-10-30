@@ -728,7 +728,7 @@ export default function PaginaOferta({
                                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                                         color: '#10b981'
                                     }}>
-                                        Antonio S.
+                                        Pablo S.
                                     </strong>
                                     <span style={{
                                         fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
