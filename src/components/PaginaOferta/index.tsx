@@ -28,18 +28,16 @@ export default function PaginaOferta({
     const gender = quizData.gender || 'HOMBRE';
 
     // Detecta o cenário do lead com base no quizData (regra exata)
-    const detectScenario = (): 'contacto_cero' | 'con_otro' | 'bloqueo' | 'ruptura_reciente' => {
+    const detectScenario = (): 'contacto_cero' | 'con_otro' | 'bloqueo' | 'canal_abierto' | 'ruptura_reciente' => {
         // PRIORIDAD 1: Bloqueo (barrera objetiva, no hay contacto posible)
         if (quizData.currentSituation === 'BLOQUEADO') return 'bloqueo';
 
-        // PRIORIDAD 2: Canal abierto = vínculo activo.
-        // Vence al exSituation: si él todavía habla con ella, eso importa más
-        // que el hecho de que ella esté saliendo con alguien.
+        // PRIORIDAD 2: Canal abierto = vínculo activo (no importa hace cuánto tiempo)
         if (
             quizData.currentSituation === 'SOMOS AMIGOS' ||
             quizData.currentSituation === 'HABLAMOS A VECES' ||
             quizData.currentSituation === 'ENCUENTROS ÍNTIMOS'
-        ) return 'ruptura_reciente';
+        ) return 'canal_abierto';
 
         // PRIORIDAD 3: Ex-pareja con otra persona (información más fuerte del quiz)
         if (
@@ -55,8 +53,11 @@ export default function PaginaOferta({
             quizData.currentSituation === 'SÓLO TEMAS NECESARIOS'
         ) return 'contacto_cero';
 
-        // PRIORIDAD 5: Separación reciente (por tiempo)
-        if (quizData.timeSeparation === 'MENOS DE 1 SEMANA') return 'ruptura_reciente';
+        // PRIORIDAD 5: Ruptura reciente REAL (≤ 4 semanas)
+        if (
+            quizData.timeSeparation === 'MENOS DE 1 SEMANA' ||
+            quizData.timeSeparation === '1-4 SEMANAS'
+        ) return 'ruptura_reciente';
 
         // Fallback seguro: contacto cero (nunca contradice al lead)
         return 'contacto_cero';
@@ -70,26 +71,32 @@ export default function PaginaOferta({
             contacto_cero: 'Tu diagnóstico apuntó a un escenario concreto: contacto cero. El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
             con_otro: 'Tu diagnóstico apuntó a un escenario concreto: ella está con otro. Duele. Pero el mapa aún puede leerse con claridad.',
             bloqueo: 'Tu diagnóstico apuntó a un escenario concreto: bloqueo. El primer paso no es insistir. Es entender si todavía existe una aproximación segura.',
+            canal_abierto: 'Tu diagnóstico apuntó a un escenario concreto: canal abierto. Ella ya habla contigo — el problema no es llegar a ella, es cómo te ve cuando lo hace.',
             ruptura_reciente: 'Tu diagnóstico apuntó a un escenario concreto: ruptura reciente. El momento importa más que la intensidad.'
         },
         linea_caso: {
             contacto_cero: 'El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
             con_otro: 'Ella está con otro. Pero el mapa aún puede leerse con claridad.',
             bloqueo: 'El bloqueo no significa que la puerta esté cerrada para siempre. Significa que el primer paso es otro.',
-            ruptura_reciente: 'El dolor es reciente. Pero el timing decide si tu próxima acción abre o cierra la puerta.'
+            canal_abierto: 'La amistad que quedó es una puerta abierta. Pero puerta abierta no siempre es entrada.',
+            ruptura_reciente: 'La ruptura está fresca. Y el timing decide si tu próxima acción abre o cierra la puerta.'
         },
         testimonio_caso: {
             contacto_cero: {
-                texto: 'Estábamos en contacto cero total. Seguí el protocolo de la Fase 1 sin enviar mensajes. A los 12 días, ella me escribió primero. La recuperé.',
+                texto: 'Estábamos en contacto cero total. Seguí el protocolo de la Fase 1 sin enviar mensajes. A los 12 días, ella me escribió primero.',
                 autor: 'Antonio S.'
             },
             con_otro: {
-                texto: 'Ella ya estaba con otro tipo y yo estaba destruido. El Módulo 4 (Protocolo de Emergencia) me salvó de cometer errores fatales. 4 días después, no es perfecto, pero ya estamos juntos de nuevo.',
+                texto: 'Ella ya estaba con otro tipo y yo estaba destruido. El Módulo 4 (Protocolo de Emergencia) me salvó de cometer errores fatales. 4 días después ya estábamos hablando de nuevo.',
                 autor: 'Jose R.'
             },
             bloqueo: {
-                texto: 'Me había bloqueado de todo. Pensé que no había vuelta atrás. El diagnóstico me mostró que el primer paso no era insistir, era entender el riesgo. Hoy hablamos con calma.',
+                texto: 'Me había bloqueado de todo. Pensé que no había vuelta atrás. El diagnóstico me mostró que el primer paso no era insistir. Hoy hablamos con calma.',
                 autor: 'Carlos M.'
+            },
+            canal_abierto: {
+                texto: 'Llevábamos más de un año como amigos después de la ruptura. El problema no era hablar con ella, era cómo me veía. El plan me mostró cómo reposicionarme. Hoy estamos construyendo algo de nuevo.',
+                autor: 'Rodrigo V.'
             },
             ruptura_reciente: {
                 texto: 'Terminamos hace poco y yo actué en el impulso, empeoré todo. El plan me mostró qué hacer en cada fase. Hoy hay una conversación tranquila de nuevo.',
@@ -100,15 +107,34 @@ export default function PaginaOferta({
             contacto_cero: 'Para tu escenario (contacto cero), el plan recomendado es el Total: incluye el Protocolo de Emergencia para no perder la ventana en el silencio.',
             con_otro: 'Para tu escenario (ella con otro), el plan recomendado es el Total: el Módulo 4 es el que resuelve casos críticos. El 73% de casos como el tuyo lo elige.',
             bloqueo: 'Para tu escenario (bloqueo), el plan recomendado es el Total: incluye el soporte prioritario para saber qué hacer sin arriesgar la puerta.',
+            canal_abierto: 'Para tu escenario (canal abierto), el plan recomendado es el Total: el reposicionamiento es lo que cambia cómo ella te ve — sin perder el contacto que ya tienes.',
             ruptura_reciente: 'Para tu escenario (ruptura reciente), el plan recomendado es el Total: el timing es lo más delicado y el Módulo 4 evita los errores que cierran la puerta.'
         },
         cta_final: {
             contacto_cero: 'Aplicar mi plan — mi ventana no espera',
             con_otro: 'Aplicar mi plan — el timing es ahora',
             bloqueo: 'Aplicar mi plan — el primer paso correcto',
+            canal_abierto: 'Aplicar mi plan — cambiar cómo me ve',
             ruptura_reciente: 'Aplicar mi plan — antes de que el terreno cambie'
         }
+
     } as const;
+    
+     const testimonialImgByScenario: Record<string, string> = {
+        contacto_cero:    'https://ssplan.shop/wp-content/uploads/2026/10/01-daniela.webp',
+        con_otro:         'https://ssplan.shop/wp-content/uploads/2026/10/02-valentina.webp',
+        bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
+        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
+        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp'
+    };
+
+    const testimonialAvatarByScenario: Record<string, string> = {
+        contacto_cero:    'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        con_otro:         'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp'
+    };
 
     return (
         <>
@@ -340,12 +366,7 @@ export default function PaginaOferta({
     marginBottom: 'clamp(20px, 4vw, 28px)'
 }}>
     <img
-        src={{
-            contacto_cero: 'https://ssplan.shop/wp-content/uploads/2026/10/01-daniela.webp',
-            con_otro: 'https://ssplan.shop/wp-content/uploads/2026/10/02-valentina.webp',
-            bloqueo: 'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
-            ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp'
-        }[scenario]}
+        src={testimonialImgByScenario[scenario]}
         alt="Así le fue a alguien con tu mismo caso"
         loading="lazy"
         style={{
@@ -637,9 +658,9 @@ export default function PaginaOferta({
                             flexDirection: 'row',
                             flexWrap: 'wrap'
                         }}>
-                            {/* Avatar Mateo - COLE O LINK DA FOTO NO src="" */}
+                            {/* Avatar por cenário — vem da lookup testimonialAvatarByScenario */}
                             <img 
-                                src="https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp" 
+                                src={testimonialAvatarByScenario[scenario]} 
                                 alt={scenarioContent.testimonio_caso[scenario].autor} 
                                 style={{
                                     width: 'clamp(55px, 14vw, 70px)',
