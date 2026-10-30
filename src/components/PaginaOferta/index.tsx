@@ -207,7 +207,7 @@ export default function PaginaOferta({
                 }}>
                     {/* Foto 1 - COLE O LINK DA PRIMEIRA IMAGEM NO src="" */}
                     <img 
-                        src="https://i.ibb.co/k63yYvQZ/01-triste.png" 
+                        src="https://ssplan.shop/wp-content/uploads/2026/10/01-triste.png" 
                         alt="Casal reconciliado - Foto 1" 
                         style={{
                             width: '100%',
@@ -222,7 +222,7 @@ export default function PaginaOferta({
                     
                     {/* Foto 2 - COLE O LINK DA SEGUNDA IMAGEM NO src="" */}
                     <img 
-                        src="https://i.ibb.co/W4BCwz0R/02-feliz.webp" 
+                        src="https://ssplan.shop/wp-content/uploads/2026/10/02-feliz.webp" 
                         alt="Casal reconciliado - Foto 2" 
                         style={{
                             width: '100%',
@@ -341,10 +341,10 @@ export default function PaginaOferta({
 }}>
     <img
         src={{
-            contacto_cero: 'https://i.ibb.co/60LnCDTF/01-daniela.webp',
-            con_otro: 'https://i.ibb.co/FLfx23jT/02-valentina.webp',
-            bloqueo: 'https://i.ibb.co/Q7Vqh0x2/03-camila.webp',
-            ruptura_reciente: 'https://i.ibb.co/60bGW5mz/04-mariana.webp'
+            contacto_cero: 'https://ssplan.shop/wp-content/uploads/2026/10/01-daniela.webp',
+            con_otro: 'https://ssplan.shop/wp-content/uploads/2026/10/02-valentina.webp',
+            bloqueo: 'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
+            ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp'
         }[scenario]}
         alt="Así le fue a alguien con tu mismo caso"
         loading="lazy"
@@ -639,7 +639,7 @@ export default function PaginaOferta({
                         }}>
                             {/* Avatar Mateo - COLE O LINK DA FOTO NO src="" */}
                             <img 
-                                src="https://i.ibb.co/C3PmYyJ3/juan-prova.webp" 
+                                src="https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp" 
                                 alt={scenarioContent.testimonio_caso[scenario].autor} 
                                 style={{
                                     width: 'clamp(55px, 14vw, 70px)',
@@ -705,7 +705,7 @@ export default function PaginaOferta({
                         }}>
                             {/* Avatar Pablo - COLE O LINK DA FOTO NO src="" */}
                             <img 
-                                src="https://i.ibb.co/yB6rKdt3/Generatedimage-1785944179924.jpg" 
+                                src="https://ssplan.shop/wp-content/uploads/2026/10/pablo.webp" 
                                 alt="Pablo S." 
                                 style={{
                                     width: 'clamp(55px, 14vw, 70px)',

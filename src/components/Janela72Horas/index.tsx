@@ -36,7 +36,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
             </div>
 
             <img 
-                src="https://i.ibb.co/jkY6VNfc/SOPHIUNIVER.webp" 
+                src="https://ssplan.shop/wp-content/uploads/2026/10/SOPHIUNIVER.webp" 
                 alt="Ventana 72h - Fundamento Científico" 
                 className="ventana-img-top"
             />
