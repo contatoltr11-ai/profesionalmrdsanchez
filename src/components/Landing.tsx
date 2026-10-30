@@ -237,6 +237,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
                     animation: glow-slide 3s infinite;
                     z-index: 1;
+                    pointer-events: none; /* ✅ CORREÇÃO #1: não intercepta o clique/toque */
                 }
                 @keyframes glow-slide {
                     0% { transform: translateX(-100%); }
@@ -271,13 +272,14 @@ export default function Landing({ onNavigate }: LandingProps) {
                     .headline-primary { font-size: 1.42rem; }
                     .headline-secondary { font-size: 0.92rem; }
                     .hero-sub { font-size: 1rem; }
+                    /* ✅ CORREÇÃO #2: mantém o CTA em uma única linha no mobile */
                     .cta-button {
-                        padding: 1.1rem 1.25rem;
-                        font-size: 1rem;
-                        flex-direction: column;
-                        gap: 0.4rem;
+                        padding: 1.05rem 1rem;
+                        font-size: 0.92rem;
+                        gap: 0.5rem;
+                        letter-spacing: 0.3px;
                     }
-                    .cta-icon { font-size: 1.5rem; }
+                    .cta-icon { font-size: 1.3rem; }
                 }
             `}</style>
         </div>
