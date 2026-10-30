@@ -32,24 +32,28 @@ export default function PaginaOferta({
         // PRIORIDAD 1: Bloqueo (barrera objetiva, no hay contacto posible)
         if (quizData.currentSituation === 'BLOQUEADO') return 'bloqueo';
 
-        // PRIORIDAD 2: Ex-pareja con otra persona (información más fuerte del quiz)
+        // PRIORIDAD 2: Canal abierto = vínculo activo.
+        // Vence al exSituation: si él todavía habla con ella, eso importa más
+        // que el hecho de que ella esté saliendo con alguien.
+        if (
+            quizData.currentSituation === 'SOMOS AMIGOS' ||
+            quizData.currentSituation === 'HABLAMOS A VECES' ||
+            quizData.currentSituation === 'ENCUENTROS ÍNTIMOS'
+        ) return 'ruptura_reciente';
+
+        // PRIORIDAD 3: Ex-pareja con otra persona (información más fuerte del quiz)
         if (
             quizData.exSituation === 'RELACIÓN SERIA' ||
             quizData.exSituation === 'SALIENDO CASUAL' ||
             quizData.exSituation === 'VARIAS PERSONAS'
         ) return 'con_otro';
 
-        // PRIORIDAD 3: Sin contacto o contacto frío
+        // PRIORIDAD 4: Sin contacto o contacto frío
         if (
             quizData.currentSituation === 'CONTACTO CERO' ||
             quizData.currentSituation === 'ME IGNORA' ||
-            quizData.currentSituation === 'SÓLO TEMAS NECESARIOS' ||
-            quizData.currentSituation === 'HABLAMOS A VECES' ||
-            quizData.currentSituation === 'SOMOS AMIGOS'
+            quizData.currentSituation === 'SÓLO TEMAS NECESARIOS'
         ) return 'contacto_cero';
-
-        // PRIORIDAD 4: Encuentros íntimos = vínculo activo, momento delicado
-        if (quizData.currentSituation === 'ENCUENTROS ÍNTIMOS') return 'ruptura_reciente';
 
         // PRIORIDAD 5: Separación reciente (por tiempo)
         if (quizData.timeSeparation === 'MENOS DE 1 SEMANA') return 'ruptura_reciente';
