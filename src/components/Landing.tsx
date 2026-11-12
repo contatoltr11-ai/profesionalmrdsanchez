@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ga4Tracking } from '../utils/ga4Tracking';
 
-// Foto desfocada usada só na variante do sanchezmrd.online
+// Foto desfocada do avatar da conversa na primeira dobra
 const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/wpp-foto.webp';
 
 interface LandingProps {
@@ -48,14 +48,13 @@ export default function Landing({ onNavigate }: LandingProps) {
     };
 
     // ========================================
-    // TESTE A/B POR DOMÍNIO (somente visual)
-    // sanchezmrd.online → foto desfocada + nome "Andrea"
-    // qualquer outro domínio → "Ella" com a inicial (versão original)
+    // CONVERSA DA PRIMEIRA DOBRA (somente visual)
+    // Foto desfocada + nome "Andrea" em qualquer domínio.
+    // Se a foto não carregar, mostra a inicial "A".
     // ========================================
-    const isPhotoVariant = window.location.hostname.includes('sanchezmrd');
-    const exName = isPhotoVariant ? 'Andrea' : 'Ella';
+    const exName = 'Andrea';
     const [exPhotoFailed, setExPhotoFailed] = useState(false);
-    const showExPhoto = isPhotoVariant && !exPhotoFailed;
+    const showExPhoto = !exPhotoFailed;
 
     return (
         <div className="lp-container">
