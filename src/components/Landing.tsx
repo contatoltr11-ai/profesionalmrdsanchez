@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { storage } from '../utils/storage';
 import { ga4Tracking } from '../utils/ga4Tracking';
 
 interface LandingProps {
@@ -46,225 +45,271 @@ export default function Landing({ onNavigate }: LandingProps) {
     };
 
     return (
-        <div className="landing-container">
-            <div className="content-wrapper">
-                <main className="landing-main-simple">
-                    {/* 1. HEADLINE — copy que converte, com hierarquia visual refinada */}
-                    <h1 className="hero-headline">
-                        <span className="headline-primary">
-                            Crees que ser un hombre 'bueno, paciente y comprensivo'
-                            <span className="highlight-orange"> es lo que la traerá de vuelta?</span>
-                        </span>
-                        <span className="headline-secondary">
-                            Sí, eso es exactamente lo que el hombre que ella dejó de desear piensa
-                            mientras ve <span className="highlight-orange">cómo su propia relación se muere</span>.
-                        </span>
-                    </h1>
+        <div className="lp-container">
+            <main className="lp-main">
+                {/* 1. BARRA DE PROGRESSO — mesmo visual do chat, começa em 4% (o chat começa em 14%) */}
+                <div className="lp-progress" aria-hidden="true">
+                    <div className="lp-progress-fill"></div>
+                </div>
 
-                    {/* 2. SUB — o que ele vai descobrir */}
-                    <p className="hero-sub">
-                        Responde 6 preguntas y te digo el <strong>próximo paso exacto</strong> para que ella vuelva a verte.
-                    </p>
+                {/* 2. HEADLINE — esperança + curiosidade */}
+                <h1 className="lp-headline">
+                    ¿Qué la está alejando de ti? Descubre{' '}
+                    <span className="lp-highlight">el próximo paso para que vuelva a escribirte</span>.
+                </h1>
 
-                    {/* 3. CTA — o motor de conversão (urgência de tempo) */}
-                    <div className="cta-section">
-                        <button className="cta-button" onClick={handleCTAClick}>
-                            <span className="cta-glow"></span>
-                            <span className="cta-icon">⏰</span>
-                            <span className="cta-text">DESCUBRIR EL PRÓXIMO PASO</span>
-                        </button>
-                        <p className="cta-micro">2 minutos · 100% anónimo</p>
+                {/* 3. IMAGEM — conversa no estilo WhatsApp (feita em código, sem imagem externa) */}
+                <div className="lp-chat" role="img" aria-label="Conversación: ella te escribe preguntando si pueden hablar">
+                    <div className="lp-chat-header" aria-hidden="true">
+                        <div className="lp-chat-avatar">E</div>
+                        <div className="lp-chat-contact">
+                            <span className="lp-chat-name">Ella</span>
+                            <span className="lp-chat-typing">escribiendo…</span>
+                        </div>
                     </div>
-                </main>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>Hola… ¿cómo estás?</span>
+                        <span className="lp-bubble-time">21:47</span>
+                    </div>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>Estuve pensando mucho en nosotros</span>
+                        <span className="lp-bubble-time">21:48</span>
+                    </div>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>¿Podemos hablar?</span>
+                        <span className="lp-bubble-time">21:48</span>
+                    </div>
+                </div>
 
-                {/* 4. FOOTER — segurança */}
-                <footer className="landing-footer">
-                    <p className="disclaimer">🔒 100% anónimo • Sin juicio • Sin email</p>
-                </footer>
-            </div>
+                {/* 4. QUEBRA DE OBJEÇÃO */}
+                <p className="lp-objection">Aunque te haya bloqueado, te ignore o ya esté con otro.</p>
 
-            <style jsx="true">{`
-                .landing-container {
+                {/* 5. CTA — mesmo handleCTAClick de antes (GA4 + navegação para o chat) */}
+                <button className="lp-cta" onClick={handleCTAClick}>
+                    QUIERO QUE VUELVA
+                </button>
+
+                <p className="lp-micro">
+                    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="4" y="11" width="16" height="10" rx="2"></rect>
+                        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+                    </svg>
+                    <span>6 preguntas · 2 minutos · 100% anónimo</span>
+                </p>
+
+                {/* 6. BENEFÍCIOS */}
+                <ul className="lp-benefits">
+                    <li>
+                        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+                        <span>El error que la está alejando sin que te des cuenta</span>
+                    </li>
+                    <li>
+                        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+                        <span>Qué hacer (y qué no) en los próximos días</span>
+                    </li>
+                    <li>
+                        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+                        <span>Un plan según tu situación, no un consejo genérico</span>
+                    </li>
+                </ul>
+            </main>
+
+            {/* Classes com prefixo lp- para não colidir com o CSS global (ex.: .progress-bar do chat) */}
+            <style>{`
+                .lp-container {
                     min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: relative;
                     background: #000;
-                    overflow: hidden;
+                    color: #F5F5F5;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                    display: flex;
+                    justify-content: center;
                 }
-                .content-wrapper {
-                    position: relative;
-                    z-index: 2;
+                .lp-main {
                     width: 100%;
-                    max-width: 760px;
-                    padding: 2rem 2rem 1rem;
-                }
-                .landing-main-simple {
+                    max-width: 440px;
+                    box-sizing: border-box;
+                    padding: 20px 20px 32px;
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    text-align: center;
-                    gap: 1.75rem;
-                    min-height: 72vh;
+                    gap: 18px;
                 }
 
-                /* ===== HEADLINE — hierarquia por tamanho + opacidade ===== */
-                .hero-headline {
+                /* ===== PROGRESSO (igual ao do chat) ===== */
+                .lp-progress {
+                    width: 100%;
+                    height: 8px;
+                    background: #333;
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                .lp-progress-fill {
+                    width: 4%;
+                    height: 100%;
+                    border-radius: 4px;
+                    background: linear-gradient(90deg, #00FF00 0%, #00AA00 100%);
+                    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+                }
+
+                /* ===== HEADLINE ===== */
+                .lp-headline {
+                    margin: 0;
+                    font-size: 26px;
+                    line-height: 1.22;
+                    font-weight: 800;
+                    letter-spacing: -0.4px;
+                    text-align: center;
+                    color: #F5F5F5;
+                }
+                .lp-highlight {
+                    color: #FFB020;
+                }
+
+                /* ===== CONVERSA ===== */
+                .lp-chat {
+                    background: #0B141A;
+                    border: 1px solid #1F2C34;
+                    border-radius: 18px;
+                    padding: 12px;
                     display: flex;
                     flex-direction: column;
-                    gap: 0.9rem;
-                    max-width: 680px;
-                    margin: 0;
+                    gap: 8px;
                 }
-                .headline-primary {
-                    font-size: 1.9rem;
-                    line-height: 1.28;
-                    font-weight: 800;
-                    color: #fff;
-                    letter-spacing: -0.3px;
+                .lp-chat-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 2px 4px 8px;
+                    border-bottom: 1px solid #1F2C34;
                 }
-                .headline-secondary {
-                    font-size: 1.05rem;
-                    line-height: 1.5;
+                .lp-chat-avatar {
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 50%;
+                    background: #3B4A54;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 700;
+                    font-size: 15px;
+                    color: #E9EDEF;
+                    flex-shrink: 0;
+                }
+                .lp-chat-contact {
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                }
+                .lp-chat-name {
+                    font-weight: 700;
+                    font-size: 15px;
+                    color: #E9EDEF;
+                }
+                .lp-chat-typing {
+                    font-size: 12px;
                     font-weight: 600;
-                    color: rgba(255, 255, 255, 0.82);
+                    color: #25D366;
                 }
-                .highlight-orange {
-                    background: linear-gradient(135deg, #FFB800 0%, #FF8C00 100%);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    background-clip: text;
-                    font-weight: 800;
-                }
-
-                /* ===== SUB ===== */
-                .hero-sub {
-                    font-size: 1.1rem;
-                    line-height: 1.55;
-                    color: rgba(255, 255, 255, 0.92);
-                    max-width: 520px;
-                    margin: 0;
-                }
-                .hero-sub strong {
-                    color: #fff;
-                    font-weight: 700;
-                }
-
-                /* ===== CTA — urgência (vermelho + relógio + pulso) ===== */
-                .cta-section {
+                .lp-bubble {
+                    align-self: flex-start;
+                    max-width: 80%;
+                    background: #202C33;
+                    color: #E9EDEF;
+                    border-radius: 4px 14px 14px 14px;
+                    padding: 8px 12px;
+                    font-size: 15px;
+                    line-height: 1.35;
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 0.6rem;
-                    width: 100%;
+                    gap: 8px;
+                    align-items: flex-end;
+                    text-align: left;
                 }
-                .cta-button {
-                    background: linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%);
-                    color: #fff;
+                .lp-bubble-time {
+                    font-size: 11px;
+                    color: #8696A0;
+                    white-space: nowrap;
+                }
+
+                /* ===== OBJEÇÃO ===== */
+                .lp-objection {
+                    margin: 0;
+                    font-size: 16px;
+                    line-height: 1.45;
+                    font-weight: 600;
+                    text-align: center;
+                    color: #F5F5F5;
+                }
+
+                /* ===== CTA ===== */
+                .lp-cta {
+                    width: 100%;
+                    min-height: 56px;
                     border: none;
-                    border-radius: 16px;
-                    padding: 1.4rem 2.5rem;
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 0.8px;
+                    border-radius: 14px;
+                    background: #17803F;
+                    color: #FFFFFF;
+                    font-family: inherit;
+                    font-size: 18px;
+                    font-weight: 800;
+                    letter-spacing: 0.3px;
+                    padding: 18px 16px;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
-                    position: relative;
-                    overflow: hidden;
+                    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+                    transition: transform 0.15s ease, background 0.15s ease;
+                    -webkit-tap-highlight-color: transparent;
+                }
+                .lp-cta:hover {
+                    background: #1A9147;
+                }
+                .lp-cta:active {
+                    transform: scale(0.98);
+                }
+                .lp-cta:focus-visible {
+                    outline: 3px solid #FFB020;
+                    outline-offset: 3px;
+                }
+
+                .lp-micro {
+                    margin: 0;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 0.8rem;
-                    min-width: min(90%, 560px);
-                    z-index: 1;
-                    animation: pulse-cta 2s ease-in-out infinite;
-                }
-                @keyframes pulse-cta {
-                    0%, 100% {
-                        transform: scale(1);
-                        box-shadow: 0 8px 24px rgba(255, 59, 59, 0.4);
-                    }
-                    50% {
-                        transform: scale(1.04);
-                        box-shadow: 0 12px 32px rgba(255, 59, 59, 0.7);
-                    }
-                }
-                .cta-button:hover {
-                    transform: translateY(-3px) scale(1.04);
-                    box-shadow: 0 12px 32px rgba(255, 59, 59, 0.6);
-                    animation: none;
-                }
-                .cta-button:active {
-                    transform: translateY(-1px) scale(1.02);
-                }
-                .cta-icon {
-                    font-size: 1.7rem;
-                    position: relative;
-                    z-index: 2;
-                    animation: tick 1.6s ease-in-out infinite;
-                }
-                @keyframes tick {
-                    0%, 100% { transform: rotate(0deg) scale(1); }
-                    50% { transform: rotate(-6deg) scale(1.08); }
-                }
-                .cta-text {
-                    position: relative;
-                    z-index: 2;
-                }
-                .cta-glow {
-                    position: absolute;
-                    top: 0; left: 0;
-                    width: 100%; height: 100%;
-                    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-                    animation: glow-slide 3s infinite;
-                    z-index: 1;
-                    pointer-events: none; /* ✅ CORREÇÃO #1: não intercepta o clique/toque */
-                }
-                @keyframes glow-slide {
-                    0% { transform: translateX(-100%); }
-                    100% { transform: translateX(100%); }
-                }
-                .cta-micro {
-                    font-size: 0.9rem;
-                    color: rgba(255, 255, 255, 0.55);
-                    margin: 0;
+                    gap: 6px;
+                    font-size: 13px;
+                    color: #A1A1AA;
                 }
 
-                /* ===== FOOTER ===== */
-                .landing-footer {
-                    text-align: center;
-                    padding: 1.5rem 0 0.5rem;
-                }
-                .disclaimer {
-                    font-size: 0.85rem;
-                    color: rgba(255, 255, 255, 0.5);
+                /* ===== BENEFÍCIOS ===== */
+                .lp-benefits {
+                    list-style: none;
                     margin: 0;
+                    padding: 14px 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    background: #141416;
+                    border: 1px solid #26272B;
+                    border-radius: 14px;
+                }
+                .lp-benefits li {
+                    display: flex;
+                    gap: 10px;
+                    align-items: flex-start;
+                    font-size: 14px;
+                    line-height: 1.4;
+                    color: #E4E4E7;
+                    text-align: left;
+                }
+                .lp-benefits svg {
+                    flex-shrink: 0;
+                    margin-top: 1px;
                 }
 
-                /* ===== RESPONSIVO ===== */
-                @media (max-width: 768px) {
-                    .content-wrapper { padding: 1.5rem 1.25rem 0.5rem; }
-                    .landing-main-simple { gap: 1.5rem; min-height: auto; }
-                    .headline-primary { font-size: 1.6rem; }
-                    .headline-secondary { font-size: 0.98rem; }
-                    .cta-button { padding: 1.25rem 1.75rem; font-size: 1.1rem; min-width: 100%; }
-                }
-                @media (max-width: 480px) {
-                    .headline-primary { font-size: 1.42rem; }
-                    .headline-secondary { font-size: 0.92rem; }
-                    .hero-sub { font-size: 1rem; }
-                    /* ✅ CORREÇÃO #2: mantém o CTA em uma única linha no mobile */
-                    .cta-button {
-                        padding: 1.05rem 1rem;
-                        font-size: 0.92rem;
-                        gap: 0.5rem;
-                        letter-spacing: 0.3px;
-                    }
-                    .cta-icon { font-size: 1.3rem; }
+                /* ===== TELAS MUITO PEQUENAS (ex.: iPhone SE) ===== */
+                @media (max-width: 360px) {
+                    .lp-main { padding: 16px 16px 28px; gap: 14px; }
+                    .lp-headline { font-size: 23px; }
+                    .lp-bubble { font-size: 14px; }
+                    .lp-cta { font-size: 17px; }
                 }
             `}</style>
         </div>
