@@ -1,5 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ga4Tracking } from '../utils/ga4Tracking';
+
+// Foto desfocada usada só na variante do sanchezmrd.online
+const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/wpp-foto.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -44,6 +47,16 @@ export default function Landing({ onNavigate }: LandingProps) {
         onNavigate('chat');
     };
 
+    // ========================================
+    // TESTE A/B POR DOMÍNIO (somente visual)
+    // sanchezmrd.online → foto desfocada + nome "Andrea"
+    // qualquer outro domínio → "Ella" com a inicial (versão original)
+    // ========================================
+    const isPhotoVariant = window.location.hostname.includes('sanchezmrd');
+    const exName = isPhotoVariant ? 'Andrea' : 'Ella';
+    const [exPhotoFailed, setExPhotoFailed] = useState(false);
+    const showExPhoto = isPhotoVariant && !exPhotoFailed;
+
     return (
         <div className="lp-container">
             <main className="lp-main">
@@ -59,11 +72,23 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </h1>
 
                 {/* 3. IMAGEM — conversa no estilo WhatsApp (feita em código, sem imagem externa) */}
-                <div className="lp-chat" role="img" aria-label="Conversación: ella te escribe preguntando si pueden hablar">
+                <div className="lp-chat" role="img" aria-label={`Conversación: ${exName} te escribe preguntando si pueden hablar`}>
                     <div className="lp-chat-header" aria-hidden="true">
-                        <div className="lp-chat-avatar">E</div>
+                        {showExPhoto ? (
+                            <img
+                                src={EX_PHOTO_URL}
+                                alt=""
+                                className="lp-chat-avatar lp-chat-avatar-photo"
+                                width={34}
+                                height={34}
+                                decoding="async"
+                                onError={() => setExPhotoFailed(true)}
+                            />
+                        ) : (
+                            <div className="lp-chat-avatar">{exName.charAt(0)}</div>
+                        )}
                         <div className="lp-chat-contact">
-                            <span className="lp-chat-name">Ella</span>
+                            <span className="lp-chat-name">{exName}</span>
                             <span className="lp-chat-typing">escribiendo…</span>
                         </div>
                     </div>
@@ -193,6 +218,11 @@ export default function Landing({ onNavigate }: LandingProps) {
                     font-size: 15px;
                     color: #E9EDEF;
                     flex-shrink: 0;
+                }
+                .lp-chat-avatar-photo {
+                    object-fit: cover;
+                    object-position: 50% 40%;
+                    padding: 0;
                 }
                 .lp-chat-contact {
                     display: flex;
