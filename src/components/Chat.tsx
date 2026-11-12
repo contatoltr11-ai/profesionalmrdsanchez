@@ -37,7 +37,7 @@ const DELAY_BEFORE_FINAL = 300;
 const BASE_PROGRESS = 14;
 
 // Foto da Sophia no avatar do chat (fallback automático para "SS" se não carregar)
-const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/01-wpp-foto.webp';
+const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-chat.webp';
 
 // ========================================
 // ✅ CHAT 100% MASCULINO

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ga4Tracking } from '../utils/ga4Tracking';
 
 // Foto desfocada do avatar da conversa na primeira dobra
-const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/wpp-foto.webp';
+const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/01-wpp-foto.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
