@@ -36,6 +36,9 @@ const DELAY_SHOW_OPTIONS = 100;
 const DELAY_BEFORE_FINAL = 300;
 const BASE_PROGRESS = 14;
 
+// Foto da Sophia no avatar do chat (fallback automático para "SS" se não carregar)
+const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-chat.webp';
+
 // ========================================
 // ✅ CHAT 100% MASCULINO
 // Lead: homem reconquistando uma mulher.
@@ -112,6 +115,8 @@ export default function Chat({ onNavigate }: ChatProps) {
   const [progress, setProgress] = useState(BASE_PROGRESS);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  // Se a foto da Sophia não carregar, volta para as iniciais "SS"
+  const [avatarFailed, setAvatarFailed] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const typewriterTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const optionsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -310,7 +315,20 @@ export default function Chat({ onNavigate }: ChatProps) {
         {messages.map((msg, idx) => (
           <div key={idx} className={`message ${msg.type}`}>
             {msg.type === 'bot' && (
-              <div className="avatar-small">SS</div>
+              avatarFailed ? (
+                <div className="avatar-small">SS</div>
+              ) : (
+                <img
+                  src={SOPHIA_AVATAR_URL}
+                  alt="Sophia Sanchez"
+                  className="avatar-small"
+                  width={40}
+                  height={40}
+                  decoding="async"
+                  onError={() => setAvatarFailed(true)}
+                  style={{ objectFit: 'cover', objectPosition: '50% 35%', padding: 0 }}
+                />
+              )
             )}
             <div className="message-bubble">
               {msg.isTyping ? (
