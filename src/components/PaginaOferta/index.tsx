@@ -431,7 +431,7 @@ export default function PaginaOferta({
     }}>
         <div style={{ marginBottom: 'clamp(16px, 4vw, 20px)' }}>
             <h3 style={{ fontSize: 'clamp(1.25rem, 5vw, 1.6rem)', color: '#3b82f6', fontWeight: '900', margin: '0 0 8px 0' }}>
-                Plan Essencial
+                Plan Esencial
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
                 Para quien quiere empezar
@@ -479,7 +479,7 @@ export default function PaginaOferta({
                 transition: 'all 0.3s ease'
             }}
         >
-            {selectedPlan === 14 ? '✅ PLAN SELECCIONADO' : 'ELEGIR PLAN ESSENCIAL'}
+            {selectedPlan === 14 ? '✅ PLAN SELECCIONADO' : 'ELEGIR PLAN ESENCIAL'}
         </button>
     </div>
     {/* PLANO 2: TOTAL (RECOMENDADO) - $27 */}
@@ -546,7 +546,7 @@ export default function PaginaOferta({
                         🎁 +6 bonos incluidos — valor total <span style={{ textDecoration: 'line-through' }}>$342</span>
                     </span>
                 </div>
-                <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Essencial +</div>
+                <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo 4: Protocolo de Emergencia <span style={{ color: '#facc15', fontWeight: '700' }}>— De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Soporte WhatsApp Prioritario 24/7 <span style={{ color: '#facc15', fontWeight: '700' }}>— De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad Privada de Apoyo <span style={{ color: '#facc15', fontWeight: '700' }}>— De $67 a GRATIS</span></div>

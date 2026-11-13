@@ -12,7 +12,7 @@ export function getTitle(gender: string): string {
 
 export function getLoadingMessage(gender: string): string {
     return gender === 'HOMBRE'
-        ? 'Generando tu protocolo específico para reconquistar a ella...'
+        ? 'Generando tu protocolo específico para reconquistarla...'
         : 'Generando tu protocolo específico para reconquistar a él...';
 }
 
@@ -98,7 +98,7 @@ export function getVentana72Copy(gender: string): string {
     
     return `No importa si se separaron hace 3 días o hace 3 meses.
 
-Aquí está la verdad que los psicólogos comportamentales descubrieron:
+Aquí está la verdad que los psicólogos conductuales descubrieron:
 
 El cerebro humano opera en ciclos de 72 horas.
 

@@ -92,8 +92,8 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
                             <div className="fase-card-warning">{faseData.warning}</div>
 
                             <div className="fase-card-footer">
-                                <span className="fase-check">✔️ Fase {f} concluída</span>
-                                {f < 3 && <span className="fase-next">Avance para la próxima →</span>}
+                                <span className="fase-check">✔️ Fase {f} completada</span>
+                                {f < 3 && <span className="fase-next">Avanza a la siguiente →</span>}
                             </div>
                         </div>
                     );
