@@ -32,32 +32,32 @@ export default function PaginaOferta({
         // PRIORIDAD 1: Bloqueo (barrera objetiva, no hay contacto posible)
         if (quizData.currentSituation === 'BLOQUEADO') return 'bloqueo';
 
-        // PRIORIDAD 2: Canal abierto = vínculo activo (no importa hace cuánto tiempo)
-        if (
-            quizData.currentSituation === 'SOMOS AMIGOS' ||
-            quizData.currentSituation === 'HABLAMOS A VECES' ||
-            quizData.currentSituation === 'ENCUENTROS ÍNTIMOS'
-        ) return 'canal_abierto';
-
-        // PRIORIDAD 3: Ex-pareja con otra persona (información más fuerte del quiz)
+        // PRIORIDAD 2: Ex-pareja con otra persona (información más fuerte del quiz)
         if (
             quizData.exSituation === 'RELACIÓN SERIA' ||
             quizData.exSituation === 'SALIENDO CASUAL' ||
             quizData.exSituation === 'VARIAS PERSONAS'
         ) return 'con_otro';
 
-        // PRIORIDAD 4: Sin contacto o contacto frío
+        // PRIORIDAD 3: Ruptura reciente REAL (≤ 4 semanas)
+        if (
+            quizData.timeSeparation === 'MENOS DE 1 SEMANA' ||
+            quizData.timeSeparation === '1-4 SEMANAS'
+        ) return 'ruptura_reciente';
+
+        // PRIORIDAD 4: Canal abierto = vínculo activo
+        if (
+            quizData.currentSituation === 'SOMOS AMIGOS' ||
+            quizData.currentSituation === 'HABLAMOS A VECES' ||
+            quizData.currentSituation === 'ENCUENTROS ÍNTIMOS'
+        ) return 'canal_abierto';
+
+        // PRIORIDAD 5: Sin contacto o contacto frío
         if (
             quizData.currentSituation === 'CONTACTO CERO' ||
             quizData.currentSituation === 'ME IGNORA' ||
             quizData.currentSituation === 'SÓLO TEMAS NECESARIOS'
         ) return 'contacto_cero';
-
-        // PRIORIDAD 5: Ruptura reciente REAL (≤ 4 semanas)
-        if (
-            quizData.timeSeparation === 'MENOS DE 1 SEMANA' ||
-            quizData.timeSeparation === '1-4 SEMANAS'
-        ) return 'ruptura_reciente';
 
         // Fallback seguro: contacto cero (nunca contradice al lead)
         return 'contacto_cero';
