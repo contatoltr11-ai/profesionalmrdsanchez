@@ -64,11 +64,13 @@ export default function Landing({ onNavigate }: LandingProps) {
                     <div className="lp-progress-fill"></div>
                 </div>
 
-                {/* 2. HEADLINE — esperança + curiosidade */}
+                {/* 2. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
+                    Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
                 <h1 className="lp-headline">
-                    ¿Qué la está alejando de ti? Descubre{' '}
-                    <span className="lp-highlight">el próximo paso para que vuelva a escribirte</span>.
+                    ¿Cuál de los 3 disparadores{' '}
+                    <span className="lp-highlight">la hace volver a buscarte</span> en tu caso?
                 </h1>
+                <p className="lp-sub">Responde 6 preguntas y te digo qué hacer (y qué no) esta semana.</p>
 
                 {/* 3. IMAGEM — conversa no estilo WhatsApp (feita em código, sem imagem externa) */}
                 <div className="lp-chat" role="img" aria-label={`Conversación: ${exName} te escribe preguntando si pueden hablar`}>
@@ -106,7 +108,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </div>
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
-                <p className="lp-objection">Aunque te haya bloqueado, te ignore o ya esté con otro.</p>
+                <p className="lp-objection">Aunque te haya bloqueado, te ignore, ya esté con otro o sigan viviendo bajo el mismo techo.</p>
 
                 {/* 5. CTA — mesmo handleCTAClick de antes (GA4 + navegação para o chat) */}
                 <button className="lp-cta" onClick={handleCTAClick}>
@@ -125,15 +127,15 @@ export default function Landing({ onNavigate }: LandingProps) {
                 <ul className="lp-benefits">
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>El error que la está alejando sin que te des cuenta</span>
+                        <span>Por qué el contacto cero te está alejando más de ella</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Qué hacer (y qué no) en los próximos días</span>
+                        <span>Cuál de los 3 disparadores aplica a tu caso</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Un plan según tu situación, no un consejo genérico</span>
+                        <span>Qué hacer y qué no hacer en las próximas 72 horas</span>
                     </li>
                 </ul>
             </main>
@@ -186,6 +188,14 @@ export default function Landing({ onNavigate }: LandingProps) {
                 }
                 .lp-highlight {
                     color: #FFB020;
+                }
+                .lp-sub {
+                    margin: -6px 0 0;
+                    font-size: 16px;
+                    line-height: 1.4;
+                    font-weight: 500;
+                    text-align: center;
+                    color: #D4D4D8;
                 }
 
                 /* ===== CONVERSA ===== */
