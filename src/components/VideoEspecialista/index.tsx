@@ -31,7 +31,7 @@ export default function VideoEspecialista({
             className={`revelation fade-in vsl-revelation ${fadeOutPhase === 2 ? 'fade-out' : ''}`}
         >
             <div className="revelation-header">
-                <h2>Ahora solo falta un paso más para recuperar a la mujer que amas.</h2>
+                <h2>Antes de mostrarte tu Ventana de 72 horas, Sophia tiene algo que decirte.</h2>
             </div>
             <div className="vsl-container">
                 <div className="vsl-placeholder"></div> 
