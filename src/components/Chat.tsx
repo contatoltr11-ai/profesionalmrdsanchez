@@ -56,7 +56,7 @@ const QUESTIONS: Question[] = [
       'MENOS DE 1 SEMANA': 'Registrado. Una semana es el momento más crítico y, a la vez, el más favorable. Tu ex-pareja todavía tiene la memoria emocional en su punto más alto: la ruptura está fresca y el vínculo sigue activo. Vamos a usar eso antes de que empiece a cerrarse.',
       '1-4 SEMANAS': 'Registrado. Entre una y cuatro semanas se abre la fase de mayor contradicción interna: ya se siente el vacío, pero todavía no se admite. Es la ventana donde el recuerdo empieza a pesar más que el motivo de la ruptura. Vamos a trabajar exactamente ahí.',
       '1-6 MESES': 'Registrado. Entre uno y seis meses es la fase de mayor riesgo de que tu ausencia se vuelva costumbre — pero también la de mayor apertura al recuerdo. Si tocamos la memoria emocional correcta ahora, revertimos el proceso antes de que se consolide.',
-      'MÁS DE 6 MESES': 'Registrado. Pasados los seis meses, tu ausencia ya se consolidó como rutina. Eso no significa que esté cerrado: significa que la estrategia cambia de dirección. No vamos a apelar a la nostalgia directa, vamos a reactivar el recuerdo desde otro ángulo. Es el escenario más lento, pero funciona.'
+      'MÁS DE 6 MESES': 'Registrado. Pasados seis meses, tu ausencia ya se volvió rutina para ella. Eso no la cerró: significa que el camino es otro. Aquí lo que funciona es darle un motivo nuevo para mirarte distinto. Es más lento, pero funciona.'
     },
     dataKey: 'timeSeparation',
   },
@@ -68,7 +68,7 @@ const QUESTIONS: Question[] = [
     responseByOption: {
       'ELLA TERMINÓ': 'Entiendo. Cuando ella toma la decisión de terminar, algo activó un "switch" emocional en su cerebro: ella ya procesó la ruptura antes de decírtelo. La buena noticia: ese switch puede revertirse si tocas la memoria emocional correcta. Vamos a usar eso.',
       'YO TERMINÉ': 'Interesante. Cuando tú terminaste, ella activó un mecanismo de defensa: siente que fue rechazada, y eso la vuelve resistente a cualquier acercamiento directo. Vamos a revertir esa defensa antes de intentar cualquier contacto.',
-      'DECISIÓN MUTUA': 'Entiendo. La decisión mutua es el escenario más delicado: no hay un "rechazo" que active la memoria emocional, y sin eso no hay anclaje. Vamos a crear ese anclaje estratégicamente.'
+      'DECISIÓN MUTUA': 'Entiendo. Que la decisión haya sido de los dos es mejor de lo que parece: nadie quedó con la herida del rechazo. Más adelante te explico por qué eso te ayuda.'
     },
     dataKey: 'whoEnded',
   },
