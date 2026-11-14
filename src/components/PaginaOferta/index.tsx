@@ -1,5 +1,6 @@
 import { RefObject } from 'react';
 import { storage } from '../../utils/storage';
+import { getDisparadorClave } from '../../utils/contentByGender';
 
 interface PaginaOfertaProps {
     preOfferRef: RefObject<HTMLDivElement>;
@@ -17,7 +18,6 @@ export default function PaginaOferta({
     preOfferRef,
     offerRef,
     offerTimeLeft,
-    spotsLeft,
     peopleBuying,
     selectedPlan,
     setSelectedPlan,
@@ -64,6 +64,8 @@ export default function PaginaOferta({
     };
 
     const scenario = detectScenario();
+    // TESTE 3: o mesmo disparador clave do diagnóstico aparece na oferta
+    const disparadorClave = getDisparadorClave(quizData);
 
     // 5 variáveis × 4 cenários
     const scenarioContent = {
@@ -71,7 +73,7 @@ export default function PaginaOferta({
             contacto_cero: 'Tu diagnóstico apuntó a un escenario concreto: contacto cero. El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
             con_otro: 'Tu diagnóstico apuntó a un escenario concreto: ella está con otro. Duele. Pero el mapa aún puede leerse con claridad.',
             bloqueo: 'Tu diagnóstico apuntó a un escenario concreto: bloqueo. El primer paso no es insistir. Es entender si todavía existe una aproximación segura.',
-            canal_abierto: 'Tu diagnóstico apuntó a un escenario concreto: canal abierto. Ella ya habla contigo — el problema no es llegar a ella, es cómo te ve cuando lo hace.',
+            canal_abierto: 'Tu diagnóstico apuntó a un escenario concreto: canal abierto. Ella ya habla contigo. El problema no es llegar a ella, es cómo te ve cuando lo hace.',
             ruptura_reciente: 'Tu diagnóstico apuntó a un escenario concreto: ruptura reciente. El momento importa más que la intensidad.'
         },
         linea_caso: {
@@ -83,39 +85,39 @@ export default function PaginaOferta({
         },
         testimonio_caso: {
             contacto_cero: {
-                texto: 'Estábamos en contacto cero total. Seguí el protocolo de la Fase 1 sin enviar mensajes. A los 12 días, ella me escribió primero.',
+                texto: 'Pasaron meses sin hablarnos. Un día ella se contactó conmigo: quería hablar. Ya acordamos vernos.',
                 autor: 'Antonio S.'
             },
             con_otro: {
-                texto: 'Ella ya estaba con otro tipo y yo estaba destruido. El Módulo 4 (Protocolo de Emergencia) me salvó de cometer errores fatales. 4 días después ya estábamos hablando de nuevo.',
+                texto: 'Ella estaba con otro y yo pensé que la había perdido. Hoy fue nuestro aniversario y aceptó venir a la casa.',
                 autor: 'Jose R.'
             },
             bloqueo: {
-                texto: 'Me había bloqueado de todo. Pensé que no había vuelta atrás. El diagnóstico me mostró que el primer paso no era insistir. Hoy hablamos con calma.',
+                texto: 'Me tenía bloqueado por todas partes. Dejé de insistir y seguí el plan. Me desbloqueó, y después me escribió para vernos.',
                 autor: 'Carlos M.'
             },
             canal_abierto: {
-                texto: 'Llevábamos más de un año como amigos después de la ruptura. El problema no era hablar con ella, era cómo me veía. El plan me mostró cómo reposicionarme. Hoy estamos construyendo algo de nuevo.',
+                texto: 'Hablábamos, pero frío, como dos conocidos. Ahora la noto cambiada, y para bien. Está más cariñosa conmigo.',
                 autor: 'Rodrigo V.'
             },
             ruptura_reciente: {
-                texto: 'Terminamos hace poco y yo actué en el impulso, empeoré todo. El plan me mostró qué hacer en cada fase. Hoy hay una conversación tranquila de nuevo.',
+                texto: 'Al principio actué por impulso y empeoré todo. Después seguí el plan, fase por fase. Una noche me llamó y me dijo que no puede tirar todo a la basura.',
                 autor: 'Diego F.'
             }
         },
         recomendacion_plan: {
-            contacto_cero: 'Para tu escenario (contacto cero), el plan recomendado es el Total: incluye el Protocolo de Emergencia para no perder la ventana en el silencio.',
-            con_otro: 'Para tu escenario (ella con otro), el plan recomendado es el Total: el Módulo 4 es el que resuelve casos críticos. El 73% de casos como el tuyo lo elige.',
-            bloqueo: 'Para tu escenario (bloqueo), el plan recomendado es el Total: incluye el soporte prioritario para saber qué hacer sin arriesgar la puerta.',
-            canal_abierto: 'Para tu escenario (canal abierto), el plan recomendado es el Total: el reposicionamiento es lo que cambia cómo ella te ve — sin perder el contacto que ya tienes.',
-            ruptura_reciente: 'Para tu escenario (ruptura reciente), el plan recomendado es el Total: el timing es lo más delicado y el Módulo 4 evita los errores que cierran la puerta.'
+            contacto_cero: 'Para tu caso te recomiendo el Plan Completo: además de los 3 disparadores, incluye la guía de las señales para saber cuándo romper el silencio sin arriesgar nada.',
+            con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», que es justo tu situación.',
+            bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
+            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: te muestra cómo cambiar la forma en que te ve cuando hablan, sin perder el contacto que ya tienen.',
+            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: los primeros días son los más delicados, y ahí cada paso en falso pesa el doble.'
         },
         cta_final: {
-            contacto_cero: 'Aplicar mi plan — mi ventana no espera',
-            con_otro: 'Aplicar mi plan — el timing es ahora',
-            bloqueo: 'Aplicar mi plan — el primer paso correcto',
-            canal_abierto: 'Aplicar mi plan — cambiar cómo me ve',
-            ruptura_reciente: 'Aplicar mi plan — antes de que el terreno cambie'
+            contacto_cero: 'Quiero mi plan para romper el silencio',
+            con_otro: 'Quiero mi plan aunque esté con otro',
+            bloqueo: 'Quiero mi plan y dar el primer paso correcto',
+            canal_abierto: 'Quiero mi plan para que me vea distinto',
+            ruptura_reciente: 'Quiero mi plan antes de dar otro paso en falso'
         }
 
     } as const;
@@ -183,13 +185,12 @@ export default function PaginaOferta({
                     marginBottom: '0',
                     fontWeight: '600'
                 }}>
-                    Ya conoces tu diagnóstico.<br/>
-                    Ya viste la Ventana de 72 Horas.<br/>
-                    Ya sabes que <strong style={{ color: '#facc15' }}>esto funciona</strong>.<br/><br/>
+                    Ya sabes cuál es tu disparador clave: <strong style={{ color: '#facc15' }}>{disparadorClave.nombre}</strong>.<br/>
+                    Ya viste cómo funciona la Ventana de 72 horas.<br/><br/>
                     
-                    Ahora solo falta una cosa:<br/>
+                    Ahora falta lo más importante:<br/>
                     <strong style={{ color: '#4ade80', fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)' }}>
-                        APLICARLO EN TU CASO.
+                        saber exactamente qué hacer en cada fase, en tu caso.
                     </strong>
                 </p>
             </div>
@@ -215,7 +216,7 @@ export default function PaginaOferta({
                     <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>⏰</span>
                     <div>
                         <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '0 0 4px 0' }}>
-                            Tu oferta especial expira en:
+                            Tu precio especial está reservado por:
                         </p>
                         <p style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
                             {formatTime(offerTimeLeft)}
@@ -288,37 +289,37 @@ export default function PaginaOferta({
     }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                87%
+                HOY
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                Tú estás aquí · tu plan ya está listo
+                Tu plan ya está listo · tú estás aquí
             </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                91%
+                24h
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                En 48 horas · ella ya piensa en ti
+                Ella nota que algo cambió en ti
             </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                96%
+                72h
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                En 72 horas · pico de tu ventana
+                Ella siente que te puede perder
             </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                100%
+                7-21
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                En 7 días · ella da el paso y te escribe
+                Días · las primeras señales: te escribe, te busca, te mira distinto
             </p>
         </div>
     </div>
@@ -333,8 +334,19 @@ export default function PaginaOferta({
                     lineHeight: '1.2',
                     marginBottom: 'clamp(12px, 3vw, 16px)'
                 }}>
-                    Recupera A {gender === 'HOMBRE' ? 'La Mujer Que Amas' : 'El Hombre Que Amas'}
+                    Tu plan para que {gender === 'HOMBRE' ? 'ella vuelva a buscarte' : 'él vuelva a buscarte'}, armado para tu caso
                 </h2>
+
+                <p style={{
+                    fontSize: 'clamp(1.05rem, 4.2vw, 1.25rem)',
+                    color: '#facc15',
+                    textAlign: 'center',
+                    lineHeight: '1.4',
+                    marginBottom: 'clamp(8px, 2vw, 10px)',
+                    fontWeight: '800'
+                }}>
+                    Tu disparador clave: {disparadorClave.nombre}
+                </p>
 
                 <p style={{
                     fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)',
@@ -354,7 +366,7 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     fontStyle: 'italic'
                 }}>
-                    (O Devolvemos El 100% De Tu Dinero)
+                    Con el Protocolo de la Obsesión Inversa. Si en 60 días no ves cambios, te devolvemos el 100% de tu dinero.
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
@@ -448,20 +460,20 @@ export default function PaginaOferta({
                 USD 0.47 por día (30 días)
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#60a5fa', fontWeight: '700', margin: '6px 0 0 0' }}>
-                ✅ Pago único — sin mensualidades
+                ✅ Pago único, sin mensualidades
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)', flex: 1 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Protocolo de 72 Horas Completo</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Módulos 1-3 (Contacto Cero + Atracción + Reconquista)</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ 10 Templates de Mensajes Irresistibles</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ E-Book: 7 Pasos Para Ser Irresistible</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por Email</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 Días</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Módulo 4: Protocolo de Emergencia</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Soporte WhatsApp Prioritario</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Comunidad Privada</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Los 3 disparadores, paso a paso (Curiosidad, Nostalgia, Pérdida)</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Tu Ventana de 72 horas: qué hacer y qué NO hacer en cada fase</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Los mensajes que nunca debes mandarle (y por qué la alejan)</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Módulo «Si ya está con otro»</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Guía: ¿me voy de la casa o me quedo?</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Comunidad privada</div>
             </div>
         </div>
         <button 
@@ -512,10 +524,10 @@ export default function PaginaOferta({
         </div>
         <div style={{ marginBottom: 'clamp(14px, 3.5vw, 18px)' }}>
             <h3 style={{ fontSize: 'clamp(1.25rem, 5vw, 1.6rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0' }}>
-                Plan Total
+                Plan Completo
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Para casos críticos (ella con otro)
+                Para quien quiere el plan completo, con todos los casos
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
@@ -529,7 +541,7 @@ export default function PaginaOferta({
                 USD 0.90 por día (30 días)
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '700', margin: '6px 0 0 0' }}>
-                ✅ Pago único — sin mensualidades
+                ✅ Pago único, sin mensualidades
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)', flex: 1 }}>
@@ -543,17 +555,18 @@ export default function PaginaOferta({
                     marginBottom: '4px'
                 }}>
                     <span style={{ fontSize: 'clamp(0.9rem, 3.4vw, 1.05rem)', color: '#facc15', fontWeight: '800' }}>
-                        🎁 +6 bonos incluidos — valor total <span style={{ textDecoration: 'line-through' }}>$342</span>
+                        🎁 +6 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$342</span>
                     </span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo 4: Protocolo de Emergencia <span style={{ color: '#facc15', fontWeight: '700' }}>— De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Soporte WhatsApp Prioritario 24/7 <span style={{ color: '#facc15', fontWeight: '700' }}>— De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad Privada de Apoyo <span style={{ color: '#facc15', fontWeight: '700' }}>— De $67 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía "Cómo Leer Su Mente" <span style={{ color: '#facc15', fontWeight: '700' }}>— De $37 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>— De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>🎁 Regalo Sorpresa (misterioso) <span style={{ color: '#facc15', fontWeight: '700' }}>— De $97 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía Extendida de 60 Días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo «Si ya está con otro» (o te dijo que los quiere a los dos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las señales de que está volviendo (y cómo no arruinarlas) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad privada de hombres en tu misma situación <span style={{ color: '#facc15', fontWeight: '700' }}>· De $67 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: ¿me voy de la casa o me quedo? (si viven juntos o tienen hijos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>✉️ Sophia te escribe personalmente para conocer tu caso</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía extendida de 60 días</div>
             </div>
         </div>
         <button 
@@ -572,7 +585,7 @@ export default function PaginaOferta({
                 animation: selectedPlan !== 27 ? 'pulse 1.5s infinite' : 'none'
             }}
         >
-            {selectedPlan === 27 ? '✅ PLAN SELECCIONADO' : '🚀 ELEGIR PLAN TOTAL (RECOMENDADO)'}
+            {selectedPlan === 27 ? '✅ PLAN SELECCIONADO' : '🚀 ELEGIR PLAN COMPLETO (RECOMENDADO)'}
         </button>
     </div>
 </div>
@@ -613,14 +626,14 @@ export default function PaginaOferta({
         color: '#fef08a',
         fontWeight: '700'
     }}>
-        ⏰ Tu análisis expira en {formatTime(offerTimeLeft)} • Solo {spotsLeft} vacantes
+        ⏰ Tu precio especial está reservado por {formatTime(offerTimeLeft)}
     </span>
     <span style={{
         fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
         color: 'rgba(255,255,255,0.95)',
         fontWeight: '600'
     }}>
-        🛡️ Garantía de 60 días • Riesgo cero
+        🛡️ Garantía de 60 días · Riesgo cero
     </span>
 </button>
 
@@ -636,7 +649,7 @@ export default function PaginaOferta({
                         textAlign: 'center',
                         marginBottom: 'clamp(16px, 3vw, 24px)'
                     }}>
-                        Lo Que Dicen Quienes Ya Recuperaron A Su Ex
+                        Lo que cuentan los hombres que ya pasaron por esto
                     </h2>
                     
                     <div style={{
@@ -773,7 +786,7 @@ export default function PaginaOferta({
                                     fontStyle: 'italic',
                                     fontWeight: '700'
                                 }}>
-                                    "La recuperé. He programado dos citas con ella. La recuperé."
+                                    "Le tendí la mano y no me la quiso soltar. Hasta ella me dice que me quede."
                                 </p>
                             </div>
                         </div>
@@ -793,7 +806,7 @@ export default function PaginaOferta({
                         textAlign: 'center',
                         marginBottom: 'clamp(16px, 3vw, 24px)'
                     }}>
-                        Lo Que Obtienes Con Tu Plan Personalizado
+                        Lo que vas a saber hacer con tu plan
                     </h2>
                     
                     <div style={{
@@ -811,14 +824,14 @@ export default function PaginaOferta({
                             gap: '12px',
                             alignItems: 'flex-start'
                         }}>
-                            <span style={{ fontSize: 'clamp(1.8rem, 5vw, 2.2rem)', flexShrink: 0 }}>🧠</span>
+                            <span style={{ fontSize: 'clamp(1.8rem, 5vw, 2.2rem)', flexShrink: 0 }}>⏰</span>
                             <p style={{
                                 fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
                                 color: 'white',
                                 lineHeight: '1.5',
                                 margin: 0
                             }}>
-                                Técnicas extremadamente poderosas para <strong style={{ color: '#4ade80' }}>activar su oxitocina</strong>, adaptadas a tu perfil de relación
+                                <strong style={{ color: '#4ade80' }}>Cuándo hablarle y cuándo esperar</strong>: qué hacer cuando te deja en visto, cuando te responde frío y cuando por fin te escribe.
                             </p>
                         </div>
 
@@ -838,7 +851,7 @@ export default function PaginaOferta({
                                 lineHeight: '1.5',
                                 margin: 0
                             }}>
-                                Ella estará <strong style={{ color: '#4ade80' }}>indefensa e incontrolablemente atraída</strong> hacia ti
+                                <strong style={{ color: '#4ade80' }}>Que la obsesión pase de ti a ella</strong>: los 3 disparadores en el orden correcto, sin rogar ni perseguirla.
                             </p>
                         </div>
 
@@ -858,7 +871,7 @@ export default function PaginaOferta({
                                 lineHeight: '1.5',
                                 margin: 0
                             }}>
-                                Tendrás <strong style={{ color: '#facc15' }}>confianza y autoestima elevadas</strong>
+                                <strong style={{ color: '#facc15' }}>Qué significa de verdad</strong> cuando te dice "necesito tiempo" o "te quiero, pero no lo suficiente", y qué no hacer en ese momento.
                             </p>
                         </div>
                         
@@ -966,8 +979,8 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> El Módulo 4 (Protocolo de Emergencia) 
-                                fue creado específicamente para esa situación. Ya salvó +2.100 casos donde {gender === 'HOMBRE' ? 'ella estaba con otro tipo' : 'él estaba con otra persona'}.
+                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Es uno de los casos más comunes. Ahí tu disparador clave es La Pérdida, 
+                                y el módulo «Si ya está con otro» te dice qué hacer y qué no, para no empujarla más hacia él.
                             </p>
                         </details>
 
@@ -994,9 +1007,9 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>La Ventana de 72 Horas empieza HOY.</strong> 
-                                La mayoría de los hombres ven los primeros cambios (mensajes, miradas, señales) 
-                                entre el día 7 y 21. Casos de emergencia pueden llevar hasta 45 días.
+                                <strong style={{ color: '#4ade80' }}>Tu Ventana de 72 horas empieza hoy.</strong> 
+                                La mayoría de los hombres ve las primeras señales (te escribe, te mira distinto, te busca por algo) 
+                                entre el día 7 y el 21.
                             </p>
                         </details>
 
@@ -1015,7 +1028,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Qué necesito para tener éxito?
+                                ❓ ¿Sirve si todavía vivimos juntos o tenemos hijos?
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1023,7 +1036,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                Completar las tareas diarias, dar feedback y estudiar los materiales. Hemos diseñado el plan de forma que <strong style={{ color: '#4ade80' }}>cada día te acerca más a tu objetivo</strong>, paso a paso.
+                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Es de los casos más comunes. El Plan Completo incluye una guía solo para cuando la ves todos los días y no puedes desaparecer.
                             </p>
                         </details>
 
@@ -1042,7 +1055,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Y si me cuesta mantenerme motivado?
+                                ❓ ¿Tengo que hacer contacto cero?
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1050,7 +1063,34 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                ¡No te preocupes! Nuestro plan está diseñado para <strong style={{ color: '#4ade80' }}>construir motivación gradualmente</strong>, así que no tendrás que depender de ella demasiado desde el principio. Además, estamos aquí para brindarte <strong style={{ color: '#4ade80' }}>apoyo constante</strong> y orientación experta.
+                                <strong style={{ color: '#4ade80' }}>No.</strong> El contacto cero sirve para olvidarla, no para recuperarla. Mientras tú esperas, ella se acostumbra. El plan te dice cuándo hablarle, cuándo esperar y qué no hacer nunca.
+                            </p>
+                        </details>
+
+                        {/* Pergunta 5 (TESTE 3) */}
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ❓ ¿Sirve si ya probé otros cursos o tengo más de 45 años?
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Casi todos esos cursos están pensados para gente joven y relaciones cortas: no escribir, ir al gimnasio, subir fotos. Este plan parte de tu caso: lo que respondiste, cuánto tiempo estuvieron juntos y en qué punto están hoy.
                             </p>
                         </details>
                     </div>
@@ -1110,10 +1150,10 @@ export default function PaginaOferta({
                         border: '2px solid rgba(234, 179, 8, 0.3)'
                     }}>
                         <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 6px 0' }}>
-                            🔥 Vacantes:
+                            🛡️ Garantía:
                         </p>
-                        <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#f97316', fontWeight: '900', margin: 0 }}>
-                            {spotsLeft}/50
+                        <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#4ade80', fontWeight: '900', margin: 0 }}>
+                            60 días
                         </p>
                     </div>
                 </div>
@@ -1133,7 +1173,7 @@ export default function PaginaOferta({
                         fontWeight: '700',
                         margin: 0
                     }}>
-                        ⭐ 4.8/5 estrellas • +9.247 reconquistas exitosas<br/>
+                        Más de 9.000 hombres acompañados<br/>
                         <span style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', opacity: 0.8 }}>
                             ✨ {peopleBuying} personas comprando ahora
                         </span>

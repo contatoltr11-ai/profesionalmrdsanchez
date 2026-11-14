@@ -17,6 +17,31 @@ export function getLoadingMessage(gender: string): string {
 }
 
 /**
+ * Disparador clave do lead (prioridade: com outro > ainda falam > sem contato).
+ * Usado no diagnóstico e na página de oferta, para os dois mostrarem o mesmo.
+ */
+export function getDisparadorClave(quizData: QuizData): { nombre: string; texto: string } {
+    const currentSituation = quizData.currentSituation || '';
+    const exSituation = quizData.exSituation || '';
+    const sinContacto =
+        currentSituation.includes('CONTACTO CERO') ||
+        currentSituation.includes('ME IGNORA') ||
+        currentSituation.includes('BLOQUEADO');
+    const conOtro =
+        exSituation.includes('RELACIÓN SERIA') ||
+        exSituation.includes('SALIENDO CASUAL') ||
+        exSituation.includes('VARIAS PERSONAS');
+
+    if (conOtro) {
+        return { nombre: 'La Pérdida', texto: 'En tu caso, ella necesita sentir que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.' };
+    }
+    if (currentSituation && !sinContacto) {
+        return { nombre: 'La Nostalgia', texto: 'En tu caso, ella ya te ve. Falta que vuelva a recordar lo que sentía contigo, y no al hombre de las últimas peleas.' };
+    }
+    return { nombre: 'La Curiosidad', texto: 'En tu caso, el primer paso no es escribirle. Es que ella note que algo cambió en ti, sin que tú se lo digas.' };
+}
+
+/**
  * TESTE 2 (14/11/2026): Diagnóstico com a Obsesión Inversa.
  * Toda resposta vira boa notícia + "tu disparador clave" conforme a situação.
  * Texto renderizado com pre-line (sem markdown).
@@ -65,15 +90,9 @@ export function getCopy(quizData: QuizData): string {
         ? 'Y que esté con otro no cierra la puerta. Muchas veces es su forma de no pensar en ti.'
         : '';
 
-    // 5. Disparador clave (prioridade: com outro > ainda falam > sem contato)
-    let disparador: string;
-    if (conOtro) {
-        disparador = 'Tu disparador clave: La Pérdida\nEn tu caso, ella necesita sentir que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.';
-    } else if (currentSituation && !sinContacto) {
-        disparador = 'Tu disparador clave: La Nostalgia\nEn tu caso, ella ya te ve. Falta que vuelva a recordar lo que sentía contigo, y no al hombre de las últimas peleas.';
-    } else {
-        disparador = 'Tu disparador clave: La Curiosidad\nEn tu caso, el primer paso no es escribirle. Es que ella note que algo cambió en ti, sin que tú se lo digas.';
-    }
+    // 5. Disparador clave (mesma regra usada na página de oferta)
+    const clave = getDisparadorClave(quizData);
+    const disparador = `Tu disparador clave: ${clave.nombre}\n${clave.texto}`;
 
     return [
         'No fue por falta de amor.',
@@ -161,7 +180,7 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
 }
 
 // ✅ REFATORADO: Agora retorna objeto estruturado (Instruções #2, #3, #8)
-export function getFaseText(gender: string, fase: number): { 
+export function getFaseText(_gender: string, fase: number): {
     title: string; 
     timeRange: string;
     summary: string; 
