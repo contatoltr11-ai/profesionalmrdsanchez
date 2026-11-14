@@ -90,7 +90,7 @@ export default function PaginaOferta({
             },
             con_otro: {
                 texto: 'Ella estaba con otro y yo pensé que la había perdido. Hoy fue nuestro aniversario y aceptó venir a la casa.',
-                autor: 'Jose R.'
+                autor: 'José R.'
             },
             bloqueo: {
                 texto: 'Me tenía bloqueado por todas partes. Dejé de insistir y seguí el plan. Me desbloqueó, y después me escribió para vernos.',
@@ -131,10 +131,10 @@ export default function PaginaOferta({
     };
 
     const testimonialAvatarByScenario: Record<string, string> = {
-        contacto_cero:    'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
-        con_otro:         'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
-        bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
-        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        contacto_cero:    'https://ssplan.shop/wp-content/uploads/2026/11/avatar-50.webp',
+        con_otro:         'https://ssplan.shop/wp-content/uploads/2026/11/avatar-55.webp',
+        bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/11/avatar-45.webp',
+        canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/11/avatar-40.webp',
         ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp'
     };
 
