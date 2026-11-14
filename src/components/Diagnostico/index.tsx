@@ -41,6 +41,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     <div><span>✓</span> <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Quién terminó:</strong> {quizData.whoEnded || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Compromiso:</strong> {quizData.commitmentLevel || 'No especificado'}</div>
                 </div>
             </div>

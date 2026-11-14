@@ -30,19 +30,18 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
 
             <div className="ventana-scientific-intro">
                 <p>
-                    Estudios de Harvard y Nature Neuroscience comprueban: existen ventanas neuroquímicas de 72 horas donde el cerebro de tu ex multiplica su receptividad emocional (dopamina, oxitocina, apego). 
-                    <strong> Este es el fundamento científico del proceso que verás ahora.</strong>
+                    Después de acompañar a más de 9.000 hombres, vi algo que se repite: lo que haces en las primeras 72 horas decide si ella se acerca o se cierra.
                 </p>
             </div>
 
             <img 
-                src="https://ssplan.shop/wp-content/uploads/2026/10/SOPHIUNIVER.webp" 
-                alt="Ventana 72h - Fundamento Científico" 
+                src="https://ssplan.shop/wp-content/uploads/2026/11/ss-reun-3.webp"
+                alt="La Ventana de 72 horas"
                 className="ventana-img-top"
             />
 
             <p className="ventana-img-caption">
-                La ciencia confirma: 72 horas es la ventana crítica para reactivar vínculos emocionales.
+                Cada disparador tiene su momento. Usarlo antes o después lo cambia todo.
             </p>
 
             <div className="ventana-importance-box">

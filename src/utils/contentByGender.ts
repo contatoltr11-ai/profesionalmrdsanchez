@@ -17,124 +17,109 @@ export function getLoadingMessage(gender: string): string {
 }
 
 /**
- * ALTERAÇÃO #6: Diagnóstico Ultra-Personalizado
- * Transforma os dados do quiz em una narrativa de autoridade e empatia.
+ * TESTE 2 (14/11/2026): Diagnóstico com a Obsesión Inversa.
+ * Toda resposta vira boa notícia + "tu disparador clave" conforme a situação.
+ * Texto renderizado com pre-line (sem markdown).
  */
 export function getCopy(quizData: QuizData): string {
-    const pronoun = quizData.gender === 'HOMBRE' ? 'ella' : 'él';
-    const exPronoun = quizData.gender === 'HOMBRE' ? 'Ella' : 'Él';
-    
     const whoEnded = quizData.whoEnded || '';
     const timeSeparation = quizData.timeSeparation || '';
     const currentSituation = quizData.currentSituation || '';
-    const reason = quizData.reason || '';
+    const exSituation = quizData.exSituation || '';
 
-    // 
-    // 1. LÓGICA DE INTRODUÇÃO (QUEM TERMINOU) - CORRIGIDA
-    // 
+    // 1. Quem terminou
     let intro = '';
-    
-    // Caso 1: ELA/ELE TERMINOU
     if (whoEnded.includes('ELLA TERMINÓ') || whoEnded.includes('ÉL TERMINÓ')) {
-        intro = `Basado en que ${exPronoun} decidió terminar la relación, entendemos que hubo un desgaste en los "interruptores de valor" que ${pronoun} percibía en ti. `;
-    } 
-    // Caso 2: EU TERMINEI
-    else if (whoEnded.includes('YO TERMINÉ')) {
-        intro = `Considerando que fuiste tú quien terminó, el desafío ahora es revertir el sentimiento de rechazo que ${pronoun} procesó, transformándolo en una nueva oportunidad. `;
-    }
-    // Caso 3: DECISÃO MÚTUA
-    else if (whoEnded.includes('DECISIÓN MUTUA')) {
-        intro = `Considerando que la decisión fue mutua, el desafío ahora es identificar si aún existe interés genuino de ambas partes y reconstruir la atracción desde cero. `;
-    }
-    // Caso 4: FALLBACK (valor inesperado ou vazio)
-    else {
-        intro = `Considerando el contexto de la ruptura, el desafío ahora es comprender las dinámicas emocionales que llevaron a este punto y revertirlas estratégicamente. `;
+        intro = 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y eso es una buena noticia: lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.';
+    } else if (whoEnded.includes('YO TERMINÉ')) {
+        intro = 'Cuando tú terminaste, ella se sintió rechazada y levantó una defensa. Por eso, si hoy la buscas de frente, se cierra más. El camino es que vuelva a verte sin sentirse presionada.';
+    } else if (whoEnded.includes('DECISIÓN MUTUA')) {
+        intro = 'Cuando la decisión es de los dos, nadie quedó con la herida del rechazo. Eso juega a tu favor: no hay una herida que reparar, hay un interés que volver a despertar.';
     }
 
-    // 
-    // 2. LÓGICA DE URGÊNCIA (TEMPO DE SEPARAÇÃO) - MELHORADA
-    // 
+    // 2. Tempo de separação
     let urgency = '';
     if (timeSeparation.includes('MENOS DE 1 SEMANA') || timeSeparation.includes('1-4 SEMANAS')) {
-        urgency = `Estás en la **ventana de tiempo IDEAL**. El cerebro de ${pronoun} aún tiene rastros químicos de tu presencia, lo que facilita la reconexión si actúas ahora. `;
+        urgency = 'Todavía estás a tiempo de hacerlo bien. Ella sigue pensando en ti, pero lo que hagas en los próximos días puede acercarla o alejarla.';
     } else if (timeSeparation.includes('1-6 MESES')) {
-        urgency = `Aunque ha pasado tiempo (${timeSeparation}), la neurociencia explica que las memorias emocionales pueden ser reactivadas mediante los estímulos correctos. `;
+        urgency = 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a vivir sin ti. Por eso ahora importa más el cuándo que el qué.';
     } else if (timeSeparation.includes('MÁS DE 6 MESES')) {
-        urgency = `Aunque ha pasado tiempo (${timeSeparation}), la neurociencia explica que las memorias emocionales pueden ser reactivadas mediante los estímulos correctos. `;
+        urgency = 'Pasaron meses, y aun así no está cerrado. Una mujer no olvida años en meses. Solo necesita un motivo nuevo para mirarte distinto.';
     }
 
-    // 
-    // 3. LÓGICA DE CONTATO (SITUAÇÃO ATUAL) - MELHORADA
-    // 
-    let insight = '';
-    if (currentSituation.includes('CONTACTO CERO') || currentSituation.includes('ME IGNORA') || currentSituation.includes('BLOQUEADO')) {
-        insight = `El hecho de que no haya contacto es, irónicamente, tu mayor ventaja. Estamos en la fase de "limpieza de picos de cortisol", preparando el terreno para un regreso impactante. `;
+    // 3. Situação de contato
+    const sinContacto =
+        currentSituation.includes('CONTACTO CERO') ||
+        currentSituation.includes('ME IGNORA') ||
+        currentSituation.includes('BLOQUEADO');
+    const insight = sinContacto
+        ? 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
+        : 'Que todavía hablen es una puerta abierta. El problema no es llegar a ella, es cómo te ve cuando le hablas. Si cada conversación se siente igual que antes, nada cambia.';
+
+    // 4. Ela está com outro?
+    const conOtro =
+        exSituation.includes('RELACIÓN SERIA') ||
+        exSituation.includes('SALIENDO CASUAL') ||
+        exSituation.includes('VARIAS PERSONAS');
+    const otroInsight = conOtro
+        ? 'Y que esté con otro no cierra la puerta. Muchas veces es su forma de no pensar en ti.'
+        : '';
+
+    // 5. Disparador clave (prioridade: com outro > ainda falam > sem contato)
+    let disparador: string;
+    if (conOtro) {
+        disparador = 'Tu disparador clave: La Pérdida\nEn tu caso, ella necesita sentir que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.';
+    } else if (currentSituation && !sinContacto) {
+        disparador = 'Tu disparador clave: La Nostalgia\nEn tu caso, ella ya te ve. Falta que vuelva a recordar lo que sentía contigo, y no al hombre de las últimas peleas.';
     } else {
-        insight = `El contacto actual indica que el hilo emocional no se ha cortado, pero debemos tener cuidado de no saturar su sistema de dopamina con desesperación. `;
+        disparador = 'Tu disparador clave: La Curiosidad\nEn tu caso, el primer paso no es escribirle. Es que ella note que algo cambió en ti, sin que tú se lo digas.';
     }
 
-    // 4. Motivo da Ruptura
-    let reasonInsight = '';
-    if (reason) {
-        reasonInsight = `Al analizar que el motivo principal fue "${reason}", el protocolo se enfocará en neutralizar esa objeción específica en el subconsciente de ${pronoun}. `;
-    }
-
-    return `No fue por falta de amor.
-
-${intro}
-
-${urgency}
-
-${insight}
-
-${reasonInsight}
-
-La clave no es rogar, sino entender la psicología de ${pronoun} y actuar de forma estratégica. En el siguiente paso, voy a revelar EXACTAMENTE el paso a paso científico para que ${pronoun} sienta que SÍ eres la persona correcta.`;
+    return [
+        'No fue por falta de amor.',
+        intro,
+        urgency,
+        insight,
+        otroInsight,
+        disparador,
+        'Los 3 disparadores se aplican en orden, pero en tu caso todo depende de este.',
+        'La clave no es rogar ni desaparecer. Es saber qué hacer y en qué momento. En el siguiente paso te muestro cómo funciona en tu caso.'
+    ].filter(Boolean).join('\n\n');
 }
 
-// ✅ INSTRUÇÃO #9: Sumário rápido + Instrução #6: Explicação da importância
-export function getVentana72Copy(gender: string): string {
-    const pronoun = gender === 'HOMBRE' ? 'ella' : 'él';
-    
+// TESTE 2: Ventana 72h ligada à Obsesión Inversa (sem "psicólogos conductuales")
+export function getVentana72Copy(_gender: string): string {
     return `No importa si se separaron hace 3 días o hace 3 meses.
 
-Aquí está la verdad que los psicólogos conductuales descubrieron:
+Hoy el obsesionado eres tú: miras si vio tu historia, relees sus mensajes, escribes y borras.
 
-El cerebro humano opera en ciclos de 72 horas.
+La Obsesión Inversa da vuelta a eso. Con 3 disparadores, en el orden y el momento correctos, ella empieza a pensar en ti.
 
-Cada vez que tú tomas una ACCIÓN ESTRATÉGICA, el cerebro de ${pronoun} entra en un nuevo ciclo de 72 horas donde todo puede cambiar.
+En cada fase hay cosas que hacer y cosas que NO hacer.
 
-—
+✅ Si haces lo correcto en cada fase, ella te busca.
 
-Aquí está lo crucial:
+❌ Si te equivocas, se cierra todavía más.
 
-En cada una de estas 3 fases, hay acciones CORRECTAS e INCORRECTAS.
-
-✅ Si actúas correcto en cada fase, ${pronoun} te busca.
-
-❌ Si actúas incorrecto, su cerebro borra la atracción.
-
-—
-
-Tu plan personalizado revela EXACTAMENTE qué hacer en cada fase.`;
+Tu plan te dice exactamente qué hacer en cada fase, en tu caso.`;
 }
 
-// ✅ NOVO: Sumário rápido das 3 fases (Instrução #9)
-export function getVentanaSummary(gender: string): string[] {
+// Sumário rápido das 3 fases = 3 disparadores
+export function getVentanaSummary(_gender: string): string[] {
     return [
-        '🎯 Fase 1: Activar curiosidad y romper expectativas',
-        '💡 Fase 2: Restaurar valor percibido sin presión',
-        '❤️ Fase 3: Crear oportunidad de reconexión emocional'
+        '🎯 Disparador 1 · La Curiosidad (0 a 24 h)',
+        '💡 Disparador 2 · La Nostalgia (24 a 48 h)',
+        '❤️ Disparador 3 · La Pérdida (48 a 72 h)'
     ];
 }
 
-// ✅ NOVO: Explicação da importância (Instrução #6)
+// Por qué la Ventana es crucial
 export function getVentanaImportance(): string[] {
     return [
-        '🔬 Respaldado por neurociencia del comportamiento',
-        '⏰ Cada ciclo de 72h reescribe memorias emocionales',
-        '🎯 Actuar correcto = atracción renovada',
-        '⚠️ Actuar incorrecto = cierre emocional definitivo'
+        '🔁 Hoy el obsesionado eres tú. Esto lo da vuelta',
+        '⏰ Cada disparador tiene su momento dentro de las 72 horas',
+        '🎯 En el momento correcto, ella da el paso',
+        '⚠️ Fuera de tiempo, la alejas más que antes'
     ];
 }
 
@@ -183,51 +168,47 @@ export function getFaseText(gender: string, fase: number): {
     bullets: string[];
     warning: string;
 } {
-    const pronoun = gender === 'HOMBRE' ? 'Ella' : 'Él';
-    const pronounLower = gender === 'HOMBRE' ? 'ella' : 'él';
-    const oppositeGender = gender === 'HOMBRE' ? 'él' : 'ella';
-    
     const fases: Record<number, { title: string; timeRange: string; summary: string; bullets: string[]; warning: string }> = {
         1: {
-            title: 'Activación de Curiosidad',
+            title: 'Disparador 1 · La Curiosidad',
             timeRange: '0-24 HORAS',
-            summary: `${pronoun} recibe la primera señal de que algo cambió en ti y su cerebro activa el "modo curiosidad"`,
+            summary: 'Ella nota que algo cambió en ti y empieza a preguntarse qué pasa.',
             bullets: [
-                `✨ ${pronoun} abandona el "modo alivio" post-ruptura`,
-                '🧠 Su cerebro detecta cambios en tu comportamiento',
-                `💭 Empieza a preguntarse: "¿Qué está pasando con ${oppositeGender}?"`,
-                '🔄 Se activa el circuito de curiosidad neurológica'
+                '✓ Sale del "alivio" de después de la ruptura',
+                '✓ Nota que ya no la persigues',
+                '✓ Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
+                '✓ Vuelve a mirar tus historias'
             ],
-            warning: `⚠️ Si actúas incorrectamente aquí, confirmas que ${pronounLower} tomó la decisión correcta`
+            warning: '⚠️ Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
         },
-        
+
         2: {
-            title: 'Restauración de Valor Percibido',
+            title: 'Disparador 2 · La Nostalgia',
             timeRange: '24-48 HORAS',
-            summary: `${pronoun} empieza a reevaluar las memorias archivadas y la oxitocina se reactiva`,
+            summary: 'Ella vuelve a recordar lo bueno, y lo malo pierde peso.',
             bullets: [
-                `🧬 La oxitocina (hormona del apego) vuelve a activarse`,
-                `💫 Los buenos momentos que ${pronounLower} había "olvidado" regresan a su mente`,
-                '🎭 Su cerebro reconstruye tu imagen de forma más positiva',
-                '🔓 Las defensas emocionales empiezan a debilitarse'
+                '✓ Vuelven los buenos momentos que había guardado',
+                '✓ Deja de verte como el hombre de las últimas peleas',
+                '✓ Su defensa empieza a bajar',
+                '✓ Siente ganas de saber de ti'
             ],
-            warning: `⚠️ Si presionas demasiado, ${pronounLower} cierra el ciclo y te bloquea definitivamente`
+            warning: '⚠️ Si presionas en este momento, se asusta y te cierra la puerta. Y una puerta que se cierra dos veces es mucho más difícil de abrir.'
         },
-        
+
         3: {
-            title: 'Reconexión Estratégica',
+            title: 'Disparador 3 · La Pérdida',
             timeRange: '48-72 HORAS',
-            summary: `${pronoun} siente la necesidad de "cerrar el ciclo" emocionalmente y aquí reapareces con el Protocolo`,
+            summary: 'Ella siente que te puede perder de verdad, y da el paso.',
             bullets: [
-                `🎯 ${pronoun} busca una resolución emocional definitiva`,
-                '💝 El apego latente busca expresión consciente',
-                '🚪 Aquí es donde tú reapareces de forma estratégica',
-                '⚡ Momento crítico para aplicar el Protocolo de Reconexión'
+                '✓ Siente que ya no estás disponible como antes',
+                '✓ Le da miedo que otra ocupe su lugar',
+                '✓ Busca una excusa para escribirte o verte',
+                '✓ Aquí reapareces, con el mensaje correcto'
             ],
-            warning: '⚠️ 87% de las personas pierden a su ex en esta fase por no saber qué hacer'
+            warning: '⚠️ Aquí se pierde la mayoría. Reaparecen tarde o con el mensaje equivocado, y ella lo toma como la prueba de que nada cambió.'
         }
     };
-    
+
     return fases[fase] || {
         title: '',
         timeRange: '',
