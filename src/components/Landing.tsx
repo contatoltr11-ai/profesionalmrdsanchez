@@ -3,7 +3,7 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 
 // Cartão de notícia da primeira dobra (17/11/2026) — mesmo jornal "Relaciones Hoy" da imagem da Ventana 72h.
 // Substituiu a conversa estilo WhatsApp ("Andrea", foto 01-wpp-foto.webp).
-const NEWS_CARD_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card.webp';
+const NEWS_CARD_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -56,15 +56,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     <div className="lp-progress-fill"></div>
                 </div>
 
-                {/* 2. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
-                    Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
-                <h1 className="lp-headline">
-                    ¿Cuál de los 3 disparadores{' '}
-                    <span className="lp-highlight">la hace volver a buscarte</span> en tu caso?
-                </h1>
-                <p className="lp-sub">Responde 6 preguntas y te digo qué hacer (y qué no) esta semana.</p>
-
-                {/* 3. IMAGEM — cartão de notícia (17/11/2026). Antes: conversa estilo WhatsApp com "Andrea" */}
+                {/* 2. IMAGEM — cartão de notícia no topo (17/11/2026, v2: notícia antes da pergunta, como o concorrente). Antes: conversa estilo WhatsApp com "Andrea" */}
                 <img
                     src={NEWS_CARD_URL}
                     alt="Relaciones Hoy: Por qué algunas mujeres vuelven a buscar a su ex semanas después de terminar (y otras nunca)"
@@ -74,6 +66,14 @@ export default function Landing({ onNavigate }: LandingProps) {
                     {...{ fetchpriority: 'high' }}
                     decoding="async"
                 />
+
+                {/* 3. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
+                    Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
+                <h1 className="lp-headline">
+                    ¿Cuál de los 3 disparadores{' '}
+                    <span className="lp-highlight">la hace volver a buscarte</span> en tu caso?
+                </h1>
+                {/* 17/11/2026: removida a linha "Responde 6 preguntas y te digo qué hacer (y qué no) esta semana." (já repetida no microtexto do botão) para o botão subir */}
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
                 <p className="lp-objection">Aunque te haya bloqueado, te ignore, ya esté con otro o sigan viviendo bajo el mismo techo.</p>
