@@ -35,7 +35,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
             </div>
 
             <img 
-                src="https://ssplan.shop/wp-content/uploads/2026/11/ss-reun-v2.webp"
+                src="https://ssplan.shop/wp-content/uploads/2026/11/ventana-noticia.webp"
                 alt="La Ventana de 72 horas"
                 className="ventana-img-top"
             />
