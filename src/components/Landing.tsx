@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ga4Tracking } from '../utils/ga4Tracking';
 
-// Foto desfocada do avatar da conversa na primeira dobra
-const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/01-wpp-foto.webp';
+// Cartão de notícia da primeira dobra (17/11/2026) — mesmo jornal "Relaciones Hoy" da imagem da Ventana 72h.
+// Substituiu a conversa estilo WhatsApp ("Andrea", foto 01-wpp-foto.webp).
+const NEWS_CARD_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -47,15 +48,6 @@ export default function Landing({ onNavigate }: LandingProps) {
         onNavigate('chat');
     };
 
-    // ========================================
-    // CONVERSA DA PRIMEIRA DOBRA (somente visual)
-    // Foto desfocada + nome "Andrea" em qualquer domínio.
-    // Se a foto não carregar, mostra a inicial "A".
-    // ========================================
-    const exName = 'Andrea';
-    const [exPhotoFailed, setExPhotoFailed] = useState(false);
-    const showExPhoto = !exPhotoFailed;
-
     return (
         <div className="lp-container">
             <main className="lp-main">
@@ -72,40 +64,16 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </h1>
                 <p className="lp-sub">Responde 6 preguntas y te digo qué hacer (y qué no) esta semana.</p>
 
-                {/* 3. IMAGEM — conversa no estilo WhatsApp (feita em código, sem imagem externa) */}
-                <div className="lp-chat" role="img" aria-label={`Conversación: ${exName} te escribe preguntando si pueden hablar`}>
-                    <div className="lp-chat-header" aria-hidden="true">
-                        {showExPhoto ? (
-                            <img
-                                src={EX_PHOTO_URL}
-                                alt=""
-                                className="lp-chat-avatar lp-chat-avatar-photo"
-                                width={34}
-                                height={34}
-                                decoding="async"
-                                onError={() => setExPhotoFailed(true)}
-                            />
-                        ) : (
-                            <div className="lp-chat-avatar">{exName.charAt(0)}</div>
-                        )}
-                        <div className="lp-chat-contact">
-                            <span className="lp-chat-name">{exName}</span>
-                            <span className="lp-chat-typing">escribiendo…</span>
-                        </div>
-                    </div>
-                    <div className="lp-bubble" aria-hidden="true">
-                        <span>Hola… ¿cómo estás?</span>
-                        <span className="lp-bubble-time">21:47</span>
-                    </div>
-                    <div className="lp-bubble" aria-hidden="true">
-                        <span>Estuve pensando mucho en nosotros</span>
-                        <span className="lp-bubble-time">21:48</span>
-                    </div>
-                    <div className="lp-bubble" aria-hidden="true">
-                        <span>¿Podemos hablar?</span>
-                        <span className="lp-bubble-time">21:48</span>
-                    </div>
-                </div>
+                {/* 3. IMAGEM — cartão de notícia (17/11/2026). Antes: conversa estilo WhatsApp com "Andrea" */}
+                <img
+                    src={NEWS_CARD_URL}
+                    alt="Relaciones Hoy: Por qué algunas mujeres vuelven a buscar a su ex semanas después de terminar (y otras nunca)"
+                    className="lp-news"
+                    width={720}
+                    height={594}
+                    {...{ fetchpriority: 'high' }}
+                    decoding="async"
+                />
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
                 <p className="lp-objection">Aunque te haya bloqueado, te ignore, ya esté con otro o sigan viviendo bajo el mismo techo.</p>
@@ -198,7 +166,16 @@ export default function Landing({ onNavigate }: LandingProps) {
                     color: #D4D4D8;
                 }
 
-                /* ===== CONVERSA ===== */
+                /* ===== CARTÃO DE NOTÍCIA ===== */
+                .lp-news {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                    border-radius: 16px;
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+                }
+
+                /* ===== CONVERSA (não usada desde 17/11/2026) ===== */
                 .lp-chat {
                     background: #0B141A;
                     border: 1px solid #1F2C34;
