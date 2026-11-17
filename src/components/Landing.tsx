@@ -48,6 +48,12 @@ export default function Landing({ onNavigate }: LandingProps) {
         onNavigate('chat');
     };
 
+    // Cartão de notícia clicável (17/11/2026): leva ao chat como o botão; GA4 marca a origem separada
+    const handleNewsClick = () => {
+        ga4Tracking.landingCTAClick('landing_news_card');
+        onNavigate('chat');
+    };
+
     return (
         <div className="lp-container">
             <main className="lp-main">
@@ -57,15 +63,17 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </div>
 
                 {/* 2. IMAGEM — cartão de notícia no topo (17/11/2026, v2: notícia antes da pergunta, como o concorrente). Antes: conversa estilo WhatsApp com "Andrea" */}
-                <img
-                    src={NEWS_CARD_URL}
-                    alt="Relaciones Hoy: Por qué algunas mujeres vuelven a buscar a su ex semanas después de terminar (y otras nunca)"
-                    className="lp-news"
-                    width={720}
-                    height={594}
-                    {...{ fetchpriority: 'high' }}
-                    decoding="async"
-                />
+                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre cuál de los 3 disparadores aplica a tu caso">
+                    <img
+                        src={NEWS_CARD_URL}
+                        alt="Relaciones Hoy: Por qué algunas mujeres vuelven a buscar a su ex semanas después de terminar (y otras nunca)"
+                        className="lp-news"
+                        width={720}
+                        height={594}
+                        {...{ fetchpriority: 'high' }}
+                        decoding="async"
+                    />
+                </button>
 
                 {/* 3. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
                     Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
@@ -167,6 +175,18 @@ export default function Landing({ onNavigate }: LandingProps) {
                 }
 
                 /* ===== CARTÃO DE NOTÍCIA ===== */
+                .lp-news-btn {
+                    display: block;
+                    width: 100%;
+                    padding: 0;
+                    margin: 0;
+                    border: 0;
+                    background: none;
+                    cursor: pointer;
+                    -webkit-tap-highlight-color: transparent;
+                    transition: transform 0.12s ease;
+                }
+                .lp-news-btn:active { transform: scale(0.985); }
                 .lp-news {
                     display: block;
                     width: 100%;

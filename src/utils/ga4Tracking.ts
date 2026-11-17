@@ -50,10 +50,11 @@ class GA4Tracking {
     });
   }
 
-  landingCTAClick() {
+  // location: 'landing_primary' (botão verde) ou 'landing_news_card' (cartão de notícia, desde 17/11/2026)
+  landingCTAClick(location: string = 'landing_primary') {
     this.sendEvent('cta_click', {
       button_name: 'Iniciar Análisis',
-      button_location: 'landing_primary',
+      button_location: location,
       page: 'landing'
     });
   }
