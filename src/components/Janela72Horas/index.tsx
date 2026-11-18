@@ -38,15 +38,15 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
                 </p>
             </div>
 
+            {/* Lab 18/11: foto da Sophia com homens (sem legenda) no lugar da imagem de "notícia" */}
             <img 
-                src="https://ssplan.shop/wp-content/uploads/2026/11/ventana-noticia.webp"
-                alt="La Ventana de 72 horas"
+                src="/img/sophia-hombres.webp"
+                alt="Sophia"
                 className="ventana-img-top"
+                width={1200}
+                height={675}
+                style={{ height: 'auto', marginBottom: '24px' }}
             />
-
-            <p className="ventana-img-caption">
-                Cada disparador tiene su momento. Usarlo antes o después lo cambia todo.
-            </p>
 
             <div className="ventana-importance-box">
                 <h3 className="importance-title">🔥 Por qué la Ventana es crucial</h3>
