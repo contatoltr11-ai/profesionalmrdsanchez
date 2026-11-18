@@ -28,7 +28,7 @@ export default function PaginaOferta({
     const gender = quizData.gender || 'HOMBRE';
 
     // Detecta o cenário do lead com base no quizData (regra exata)
-    const detectScenario = (): 'contacto_cero' | 'con_otro' | 'bloqueo' | 'canal_abierto' | 'ruptura_reciente' => {
+    const detectScenario = (): 'contacto_cero' | 'con_otro' | 'bloqueo' | 'canal_abierto' | 'ruptura_reciente' | 'mismo_techo' => {
         // PRIORIDAD 1: Bloqueo (barrera objetiva, no hay contacto posible)
         if (quizData.currentSituation === 'BLOQUEADO') return 'bloqueo';
 
@@ -45,6 +45,10 @@ export default function PaginaOferta({
             quizData.timeSeparation === '1-4 SEMANAS'
         ) return 'ruptura_reciente';
 
+        // PRIORIDAD 3b: Hablan solo de lo necesario (viven juntos / hijos). Coherente con el diagnóstico
+        // ("todavía hablan") y con el disparador La Nostalgia — no es contacto cero.
+        if (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS') return 'mismo_techo';
+
         // PRIORIDAD 4: Canal abierto = vínculo activo
         if (
             quizData.currentSituation === 'SOMOS AMIGOS' ||
@@ -55,8 +59,7 @@ export default function PaginaOferta({
         // PRIORIDAD 5: Sin contacto o contacto frío
         if (
             quizData.currentSituation === 'CONTACTO CERO' ||
-            quizData.currentSituation === 'ME IGNORA' ||
-            quizData.currentSituation === 'SÓLO TEMAS NECESARIOS'
+            quizData.currentSituation === 'ME IGNORA'
         ) return 'contacto_cero';
 
         // Fallback seguro: contacto cero (nunca contradice al lead)
@@ -70,15 +73,17 @@ export default function PaginaOferta({
     // 5 variáveis × 4 cenários
     const scenarioContent = {
         escenario_diagnostico: {
-            contacto_cero: 'Tu diagnóstico apuntó a un escenario concreto: contacto cero. El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
-            con_otro: 'Tu diagnóstico apuntó a un escenario concreto: ella está con otro. Duele. Pero el mapa aún puede leerse con claridad.',
-            bloqueo: 'Tu diagnóstico apuntó a un escenario concreto: bloqueo. El primer paso no es insistir. Es entender si todavía existe una aproximación segura.',
+            contacto_cero: 'Tu diagnóstico apuntó a un escenario concreto: contacto cero.',
+            con_otro: 'Tu diagnóstico apuntó a un escenario concreto: ella está con otro.',
+            bloqueo: 'Tu diagnóstico apuntó a un escenario concreto: bloqueo. Insistir ahora solo la aleja más.',
+            mismo_techo: 'Tu diagnóstico apuntó a un escenario concreto: se hablan solo de lo necesario.',
             canal_abierto: 'Tu diagnóstico apuntó a un escenario concreto: canal abierto. Ella ya habla contigo. El problema no es llegar a ella, es cómo te ve cuando lo hace.',
             ruptura_reciente: 'Tu diagnóstico apuntó a un escenario concreto: ruptura reciente. El momento importa más que la intensidad.'
         },
         linea_caso: {
             contacto_cero: 'El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
-            con_otro: 'Ella está con otro. Pero el mapa aún puede leerse con claridad.',
+            con_otro: 'Duele. Pero el mapa aún puede leerse con claridad.',
+            mismo_techo: 'Hablan, pero como dos desconocidos. Lo que cambia eso no es hablar más, es cómo te ve cuando hablan.',
             bloqueo: 'El bloqueo no significa que la puerta esté cerrada para siempre. Significa que el primer paso es otro.',
             canal_abierto: 'La amistad que quedó es una puerta abierta. Pero puerta abierta no siempre es entrada.',
             ruptura_reciente: 'La ruptura está fresca. Y el timing decide si tu próxima acción abre o cierra la puerta.'
@@ -103,6 +108,10 @@ export default function PaginaOferta({
             ruptura_reciente: {
                 texto: 'Al principio actué por impulso y empeoré todo. Después seguí el plan, fase por fase. Una noche me llamó y me dijo que no puede tirar todo a la basura.',
                 autor: 'Diego F.'
+            },
+            mismo_techo: {
+                texto: 'Éramos como desconocidos bajo el mismo techo. Ahora me dice que me nota distinto, que me estoy arreglando más.',
+                autor: 'Jorge P.'
             }
         },
         recomendacion_plan: {
@@ -110,14 +119,16 @@ export default function PaginaOferta({
             con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», que es justo tu situación.',
             bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
             canal_abierto: 'Para tu caso te recomiendo el Plan Completo: te muestra cómo cambiar la forma en que te ve cuando hablan, sin perder el contacto que ya tienen.',
-            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: los primeros días son los más delicados, y ahí cada paso en falso pesa el doble.'
+            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: los primeros días son los más delicados, y ahí cada paso en falso pesa el doble.',
+            mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «¿Me voy de la casa o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
         },
         cta_final: {
             contacto_cero: 'Quiero mi plan para romper el silencio',
             con_otro: 'Quiero mi plan aunque esté con otro',
             bloqueo: 'Quiero mi plan y dar el primer paso correcto',
             canal_abierto: 'Quiero mi plan para que me vea distinto',
-            ruptura_reciente: 'Quiero mi plan antes de dar otro paso en falso'
+            ruptura_reciente: 'Quiero mi plan antes de dar otro paso en falso',
+            mismo_techo: 'Quiero mi plan para que me vuelva a mirar'
         }
 
     } as const;
@@ -127,7 +138,8 @@ export default function PaginaOferta({
         con_otro:         'https://ssplan.shop/wp-content/uploads/2026/10/02-valentina.webp',
         bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/10/03-camila.webp',
         canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/10/lucia.webp',
-        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp'
+        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/04-mariana.webp',
+        mismo_techo:      'https://ssplan.shop/wp-content/uploads/2026/10/lucia.webp'
     };
 
     const testimonialAvatarByScenario: Record<string, string> = {
@@ -135,7 +147,8 @@ export default function PaginaOferta({
         con_otro:         'https://ssplan.shop/wp-content/uploads/2026/11/avatar-55.webp',
         bloqueo:          'https://ssplan.shop/wp-content/uploads/2026/11/avatar-45.webp',
         canal_abierto:    'https://ssplan.shop/wp-content/uploads/2026/11/avatar-40.webp',
-        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp'
+        ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
+        mismo_techo:      'https://ssplan.shop/wp-content/uploads/2026/11/avatar-50.webp'
     };
 
     return (
@@ -565,7 +578,13 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: ¿me voy de la casa o me quedo? (si viven juntos o tienen hijos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>✉️ Sophia te escribe personalmente para conocer tu caso</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-label="WhatsApp" style={{ flexShrink: 0 }}>
+                        <path fill="#25D366" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/>
+                        <path fill="#fff" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
+                    </svg>
+                    Sophia te escribe personalmente para conocer tu caso
+                </div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía extendida de 60 días</div>
             </div>
         </div>
