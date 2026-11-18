@@ -12,6 +12,10 @@ export interface QuizData {
   currentSituation: string;
   exSituation: string;
   commitmentLevel: string;
+  // TESTE 4 (lab): culpa, dor e medo
+  mainCause?: string;
+  mainPain?: string;
+  mainFear?: string;
   answers: QuizAnswer[];
 }
 

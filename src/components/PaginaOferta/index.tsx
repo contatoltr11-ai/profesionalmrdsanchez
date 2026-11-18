@@ -39,6 +39,9 @@ export default function PaginaOferta({
             quizData.exSituation === 'VARIAS PERSONAS'
         ) return 'con_otro';
 
+        // PRIORIDAD 2b (lab 18/11): quien vive junto ve su escenario aunque la ruptura sea reciente
+        if (quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES') return 'mismo_techo';
+
         // PRIORIDAD 3: Ruptura reciente REAL (≤ 4 semanas)
         if (
             quizData.timeSeparation === 'MENOS DE 1 SEMANA' ||
@@ -47,7 +50,7 @@ export default function PaginaOferta({
 
         // PRIORIDAD 3b: Hablan solo de lo necesario (viven juntos / hijos). Coherente con el diagnóstico
         // ("todavía hablan") y con el disparador La Nostalgia — no es contacto cero.
-        if (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS') return 'mismo_techo';
+        if (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS' || quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES') return 'mismo_techo';
 
         // PRIORIDAD 4: Canal abierto = vínculo activo
         if (
@@ -70,6 +73,38 @@ export default function PaginaOferta({
     // TESTE 3: o mesmo disparador clave do diagnóstico aparece na oferta
     const disparadorClave = getDisparadorClave(quizData);
 
+    // TESTE 4 (lab): quem marcou "VIVIMOS JUNTOS" vê o próprio cenário (não "temas necesarios")
+    const vivenJuntos = quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+
+    // TESTE 4 (lab): o medo que ele escolheu no chat, devolvido antes do preço
+    const miedoByOption: Record<string, string> = {
+        'QUE SE ACOSTUMBRE A VIVIR SIN MÍ': 'Me dijiste que lo que más miedo te da es que se acostumbre a vivir sin ti. Por eso tu plan empieza hoy.',
+        'QUE SE ENAMORE DE OTRO': 'Me dijiste que lo que más miedo te da es que se enamore de otro. Por eso tu plan te dice qué hacer y en qué momento, sin actuar a ciegas.',
+        'PERDER A MI FAMILIA': 'Me dijiste que lo que más miedo te da es perder a tu familia. Por eso cada paso de tu plan está pensado para no arriesgar lo que tienen.',
+        'QUE VOLVAMOS Y PASE LO MISMO': 'Me dijiste que lo que más miedo te da es que vuelvan y pase lo mismo. Por eso, además de qué hacer, vas a ver qué no repetir.'
+    };
+    const miedoEco = miedoByOption[quizData.mainFear || ''] || '';
+
+    // Lab 18/11 (J): no Plan Esencial, o ❌ do que o caso dele precisa aparece primeiro e destacado
+    const itensFaltantes = [
+        'Guía: las señales de que está volviendo',
+        'Módulo «Si ya está con otro»',
+        'Guía: ¿me voy de la casa o me quedo?',
+        'Comunidad privada'
+    ];
+    const casoItemFaltante =
+        scenario === 'con_otro' ? 'Módulo «Si ya está con otro»'
+        : scenario === 'mismo_techo' ? 'Guía: ¿me voy de la casa o me quedo?'
+        : 'Guía: las señales de que está volviendo';
+    const casoItemTexto =
+        scenario === 'con_otro' ? 'el módulo «Si ya está con otro»'
+        : scenario === 'mismo_techo' ? 'la guía «¿Me voy de la casa o me quedo?»'
+        : 'la guía de las señales de que está volviendo';
+    const subtituloCompleto =
+        scenario === 'con_otro' ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
+        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «¿Me voy de la casa o me quedo?»'
+        : 'Armado para tu caso: incluye la guía de las señales de que está volviendo';
+
     // 5 variáveis × 4 cenários
     const scenarioContent = {
         escenario_diagnostico: {
@@ -82,11 +117,11 @@ export default function PaginaOferta({
         },
         linea_caso: {
             contacto_cero: 'El silencio no es el final. Pero cada día que pasa, el terreno cambia.',
-            con_otro: 'Duele. Pero el mapa aún puede leerse con claridad.',
+            con_otro: 'Que esté con otro no significa que te olvidó. Lo que decide no es lo que él hace, es lo que haces tú mientras tanto, sin competir con él.',
             mismo_techo: 'Hablan, pero como dos desconocidos. Lo que cambia eso no es hablar más, es cómo te ve cuando hablan.',
             bloqueo: 'El bloqueo no significa que la puerta esté cerrada para siempre. Significa que el primer paso es otro.',
-            canal_abierto: 'La amistad que quedó es una puerta abierta. Pero puerta abierta no siempre es entrada.',
-            ruptura_reciente: 'La ruptura está fresca. Y el timing decide si tu próxima acción abre o cierra la puerta.'
+            canal_abierto: 'Que todavía tengan contacto es una ventaja. Pero cada conversación cuenta: puede acercarla o dejarte en el mismo lugar de siempre.',
+            ruptura_reciente: 'Seguro te estás preguntando si escribirle o esperar. Es la duda de casi todos al principio, y la respuesta depende del momento, no de las ganas.'
         },
         testimonio_caso: {
             contacto_cero: {
@@ -118,8 +153,8 @@ export default function PaginaOferta({
             contacto_cero: 'Para tu caso te recomiendo el Plan Completo: además de los 3 disparadores, incluye la guía de las señales para saber cuándo romper el silencio sin arriesgar nada.',
             con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», que es justo tu situación.',
             bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
-            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: te muestra cómo cambiar la forma en que te ve cuando hablan, sin perder el contacto que ya tienen.',
-            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: los primeros días son los más delicados, y ahí cada paso en falso pesa el doble.',
+            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber cuándo avanzar sin perder el contacto que ya tienen.',
+            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber si está volviendo y cuándo dar el siguiente paso.',
             mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «¿Me voy de la casa o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
         },
         cta_final: {
@@ -188,8 +223,22 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(16px, 4vw, 20px)',
                     fontWeight: '700'
                 }}>
-                    {scenarioContent.escenario_diagnostico[scenario]}
+                    {scenario === 'mismo_techo' && vivenJuntos
+                        ? 'Tu diagnóstico apuntó a un escenario concreto: viven bajo el mismo techo, pero distantes.'
+                        : scenarioContent.escenario_diagnostico[scenario]}
                 </p>
+
+                {miedoEco && (
+                    <p style={{
+                        fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                        color: 'rgba(255,255,255,0.9)',
+                        lineHeight: '1.6',
+                        marginBottom: 'clamp(16px, 4vw, 20px)',
+                        fontStyle: 'italic'
+                    }}>
+                        {miedoEco}
+                    </p>
+                )}
 
                 <p style={{
                     fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
@@ -300,32 +349,24 @@ export default function PaginaOferta({
         gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
         gap: 'clamp(10px, 2.5vw, 16px)'
     }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
-            <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                HOY
-            </p>
-            <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                Tu plan ya está listo · tú estás aquí
-            </p>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
-            <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                24h
-            </p>
-            <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                Ella nota que algo cambió en ti
-            </p>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
-            <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
-                72h
-            </p>
-            <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
-                Ella siente que te puede perder
-            </p>
-        </div>
+        {[
+            { t: 'HOY', d: 'Empiezas hoy · tú estás aquí', n: '' },
+            { t: '24h', d: 'La Curiosidad: ella nota que algo cambió en ti', n: 'La Curiosidad' },
+            { t: '48h', d: 'La Nostalgia: vuelve a recordar lo bueno', n: 'La Nostalgia' },
+            { t: '72h', d: 'La Pérdida: siente que te puede perder', n: 'La Pérdida' }
+        ].map(step => (
+            <div key={step.t} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
+                <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
+                    {step.t}
+                </p>
+                <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
+                    {step.d}
+                    {step.n === disparadorClave.nombre && (
+                        <span style={{ display: 'block', color: '#facc15', fontWeight: '800', marginTop: '2px' }}>⭐ tu disparador clave</span>
+                    )}
+                </p>
+            </div>
+        ))}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
@@ -459,7 +500,7 @@ export default function PaginaOferta({
                 Plan Esencial
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Para quien quiere empezar
+                El método general, sin lo de tu caso
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
@@ -470,7 +511,7 @@ export default function PaginaOferta({
                 $14
             </p>
             <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
-                USD 0.47 por día (30 días)
+                Menos que un café
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#60a5fa', fontWeight: '700', margin: '6px 0 0 0' }}>
                 ✅ Pago único, sin mensualidades
@@ -478,15 +519,18 @@ export default function PaginaOferta({
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)', flex: 1 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Los 3 disparadores, paso a paso (Curiosidad, Nostalgia, Pérdida)</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Tu Ventana de 72 horas: qué hacer y qué NO hacer en cada fase</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Los errores más comunes que la alejan (y cómo evitarlos)</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 1 · La Curiosidad: lo que ella tiene que notar en ti en las primeras 24 horas</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 2 · La Nostalgia: cómo hacer que recuerde lo bueno, sin presionarla</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 3 · La Pérdida: cuándo y cómo reaparecer</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Qué NO hacer en cada fase (los errores que la alejan)</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 días</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Módulo «Si ya está con otro»</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Guía: ¿me voy de la casa o me quedo?</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ Comunidad privada</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
+                    ❌ Lo que tu caso necesita: {casoItemTexto} (solo en el Plan Completo)
+                </div>
+                {itensFaltantes.filter(item => item !== casoItemFaltante).map(item => (
+                    <div key={item} style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ {item}</div>
+                ))}
             </div>
         </div>
         <button 
@@ -540,18 +584,18 @@ export default function PaginaOferta({
                 Plan Completo
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                Para quien quiere el plan completo, con todos los casos
+                {subtituloCompleto}
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.6)', textDecoration: 'line-through', margin: '0 0 4px 0' }}>
-                USD 342
+                USD 379
             </p>
             <p style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', color: '#10b981', fontWeight: '900', margin: '0 0 4px 0', lineHeight: '1' }}>
                 $27
             </p>
             <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 8px 0' }}>
-                USD 0.90 por día (30 días)
+                Menos que una cena para dos
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '700', margin: '6px 0 0 0' }}>
                 ✅ Pago único, sin mensualidades
@@ -568,13 +612,14 @@ export default function PaginaOferta({
                     marginBottom: '4px'
                 }}>
                     <span style={{ fontSize: 'clamp(0.9rem, 3.4vw, 1.05rem)', color: '#facc15', fontWeight: '800' }}>
-                        🎁 +6 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$342</span>
+                        🎁 +7 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$379</span>
                     </span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo «Si ya está con otro» (o te dijo que los quiere a los dos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las señales de que está volviendo (y cómo no arruinarlas) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad privada de hombres en tu misma situación <span style={{ color: '#facc15', fontWeight: '700' }}>· De $67 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: ¿me voy de la casa o me quedo? (si viven juntos o tienen hijos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
@@ -585,7 +630,7 @@ export default function PaginaOferta({
                     </svg>
                     Sophia te escribe personalmente para conocer tu caso
                 </div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía extendida de 60 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía de 60 días</div>
             </div>
         </div>
         <button 
@@ -639,13 +684,6 @@ export default function PaginaOferta({
             ? `🚀 ${scenarioContent.cta_final[scenario]} ($${selectedPlan})` 
             : '👆 ELIGE UN PLAN ARRIBA PRIMERO'
         }
-    </span>
-    <span style={{
-        fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
-        color: '#fef08a',
-        fontWeight: '700'
-    }}>
-        ⏰ Tu precio especial está reservado por {formatTime(offerTimeLeft)}
     </span>
     <span style={{
         fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
@@ -1101,7 +1139,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Sirve si ya probé otros cursos o tengo más de 45 años?
+                                ❓ ¿Sirve si ya probé otros cursos o ya no tengo 20 años?
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',

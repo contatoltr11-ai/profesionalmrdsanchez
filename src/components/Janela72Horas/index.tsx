@@ -2,9 +2,9 @@ import { RefObject } from 'react';
 import { storage } from '../../utils/storage';
 import {
     getVentana72Copy,
-    getVentanaSummary,
     getVentanaImportance,
-    getFaseText
+    getFaseText,
+    getVentanaEnTuCaso
 } from '../../utils/contentByGender';
 
 interface Janela72HorasProps {
@@ -17,6 +17,7 @@ interface Janela72HorasProps {
 export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked, onButtonClick }: Janela72HorasProps) {
     const quizData = storage.getQuizData();
     const gender = quizData.gender || 'HOMBRE';
+    const enTuCaso = getVentanaEnTuCaso(quizData);
 
     return (
         <div 
@@ -30,7 +31,10 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
 
             <div className="ventana-scientific-intro">
                 <p>
-                    Después de acompañar a más de 9.000 hombres, vi algo que se repite: lo que haces en las primeras 72 horas decide si ella se acerca o se cierra.
+                    Después de acompañar a más de 9.000 hombres, vi algo que se repite: las 72 horas no empiezan el día en que terminaron. <strong>Empiezan el día en que tú cambias.</strong> Y lo que haces en esas 72 horas decide si ella se acerca o se cierra.
+                </p>
+                <p style={{ marginTop: 12 }}>
+                    Por eso no importa si se separaron hace 3 días o hace 3 meses.
                 </p>
             </div>
 
@@ -55,20 +59,19 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
 
             <p className="ventana-intro" style={{ whiteSpace: 'pre-line' }}>{getVentana72Copy(gender)}</p>
 
-            <div className="ventana-summary-box">
-                <h3 className="summary-quick-title">📋 Resumen de las 3 fases:</h3>
-                <div className="summary-quick-list">
-                    {getVentanaSummary(gender).map((item, index) => (
-                        <div key={index} className="summary-quick-item">{item}</div>
-                    ))}
-                </div>
+            <div className="ventana-entucaso-box">
+                <h3 className="entucaso-title">📍 En tu caso</h3>
+                {enTuCaso.situacionTexto && <p className="entucaso-text">{enTuCaso.situacionTexto}</p>}
+                <p className="entucaso-clave">⭐ Tu disparador clave: <strong>{enTuCaso.nombre}</strong> (Fase {enTuCaso.fase})</p>
+                <p className="entucaso-text">{enTuCaso.claveTexto}</p>
             </div>
 
             <div className="fases-list-dopamine">
                 {[1, 2, 3].map(f => {
                     const faseData = getFaseText(gender, f);
                     return (
-                        <div key={f} className="fase-card-dopamine">
+                        <div key={f} className={`fase-card-dopamine ${f === enTuCaso.fase ? 'fase-card-clave' : ''}`}>
+                            {f === enTuCaso.fase && <div className="fase-clave-badge">⭐ TU DISPARADOR CLAVE</div>}
                             <div className="fase-card-header">
                                 <div className="fase-number">FASE {f}</div>
                                 <div className="fase-timerange">{faseData.timeRange}</div>
@@ -90,10 +93,6 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
 
                             <div className="fase-card-warning">{faseData.warning}</div>
 
-                            <div className="fase-card-footer">
-                                <span className="fase-check">✔️ Fase {f} completada</span>
-                                {f < 3 && <span className="fase-next">Avanza a la siguiente →</span>}
-                            </div>
                         </div>
                     );
                 })}

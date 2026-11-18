@@ -59,6 +59,15 @@ class GA4Tracking {
     });
   }
 
+  // Lab: qual dos dois botões "sí" o lead escolhe no fim do diagnóstico
+  diagnosticoCTAClick(location: string) {
+    this.sendEvent('cta_click', {
+      button_name: 'Ver Video',
+      button_location: location,
+      page: 'diagnostico'
+    });
+  }
+
   landingScrollDepth(depth: number) {
     this.sendEvent('scroll_depth', {
       depth_percentage: depth,

@@ -23,7 +23,7 @@ interface Question {
   responseByOption?: {
     [option: string]: string;
   };
-  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel';
+  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel' | 'mainCause' | 'mainPain' | 'mainFear';
 }
 
 // ========================================
@@ -49,63 +49,91 @@ const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-cha
 const QUESTIONS: Question[] = [
   {
     id: 2,
-    text: 'Ahora, ¿cuánto tiempo ha pasado desde que se separaron?',
+    text: 'Empecemos. ¿Cuánto tiempo ha pasado desde que se separaron?',
     options: ['MENOS DE 1 SEMANA', '1-4 SEMANAS', '1-6 MESES', 'MÁS DE 6 MESES'],
-    response: 'Registrado.',
+    response: 'Entiendo.',
     responseByOption: {
-      'MENOS DE 1 SEMANA': 'Registrado. Una semana es el momento más crítico y, a la vez, el más favorable. Tu ex-pareja todavía tiene la memoria emocional en su punto más alto: la ruptura está fresca y el vínculo sigue activo. Vamos a usar eso antes de que empiece a cerrarse.',
-      '1-4 SEMANAS': 'Registrado. Entre una y cuatro semanas se abre la fase de mayor contradicción interna: ya se siente el vacío, pero todavía no se admite. Es la ventana donde el recuerdo empieza a pesar más que el motivo de la ruptura. Vamos a trabajar exactamente ahí.',
-      '1-6 MESES': 'Registrado. Entre uno y seis meses es la fase de mayor riesgo de que tu ausencia se vuelva costumbre — pero también la de mayor apertura al recuerdo. Si tocamos la memoria emocional correcta ahora, revertimos el proceso antes de que se consolide.',
-      'MÁS DE 6 MESES': 'Registrado. Pasados seis meses, tu ausencia ya se volvió rutina para ella. Eso no la cerró: significa que el camino es otro. Aquí lo que funciona es darle un motivo nuevo para mirarte distinto. Es más lento, pero funciona.'
+      'MENOS DE 1 SEMANA': 'Está muy reciente, y eso juega a tu favor: ella todavía tiene todo a flor de piel. Pero también es cuando más fácil es equivocarse. Vamos con calma.',
+      '1-4 SEMANAS': 'Es justo cuando ella empieza a sentir el vacío, aunque todavía no lo admita. Bien usado, este tiempo te ayuda.',
+      '1-6 MESES': 'Ya pasó un tiempo, y eso no cierra nada. Lo que hagas desde hoy pesa más que todo lo que pasó en estos meses.',
+      'MÁS DE 6 MESES': 'Muchos llegan aquí pensando que ya es tarde. Por lo que veo todos los días, no lo es. El camino es otro, nada más.'
     },
     dataKey: 'timeSeparation',
   },
   {
-    id: 3,
-    text: 'Bien. ¿Y cómo fue la separación? ¿Quién tomó la iniciativa?',
-    options: ['ELLA TERMINÓ', 'YO TERMINÉ', 'DECISIÓN MUTUA'],
-    response: 'Entendido. Esto cambia el mapa de la estrategia.',
+    // TESTE 4 (lab planreconquista): culpa no lugar de "quién terminó"
+    id: 8,
+    text: 'Y dime algo con sinceridad: ¿qué crees que la fue alejando?',
+    options: ['MIS CELOS O MI CARÁCTER', 'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ', 'PELEAS QUE LA FUERON CANSANDO', 'UNA INFIDELIDAD O UNA MENTIRA', 'DEJÓ DE SENTIR Y NO SÉ POR QUÉ'],
+    response: 'Gracias por contármelo.',
     responseByOption: {
-      'ELLA TERMINÓ': 'Entiendo. Cuando ella toma la decisión de terminar, algo activó un "switch" emocional en su cerebro: ella ya procesó la ruptura antes de decírtelo. La buena noticia: ese switch puede revertirse si tocas la memoria emocional correcta. Vamos a usar eso.',
-      'YO TERMINÉ': 'Interesante. Cuando tú terminaste, ella activó un mecanismo de defensa: siente que fue rechazada, y eso la vuelve resistente a cualquier acercamiento directo. Vamos a revertir esa defensa antes de intentar cualquier contacto.',
-      'DECISIÓN MUTUA': 'Entiendo. Que la decisión haya sido de los dos es mejor de lo que parece: nadie quedó con la herida del rechazo. Más adelante te explico por qué eso te ayuda.'
+      'MIS CELOS O MI CARÁCTER': 'Gracias por decírmelo. Que lo reconozcas ya te pone por delante de la mayoría. Eso se corrige, y ella lo va a notar.',
+      'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Lo escucho mucho: hombres que lo dieron todo trabajando y pensaron que eso bastaba. Ella necesitaba sentirlo de otra forma, y eso todavía se puede mostrar.',
+      'PELEAS QUE LA FUERON CANSANDO': 'Las peleas cansan, pero no borran lo que sintieron. Lo que se desgastó de a poco se puede recuperar.',
+      'UNA INFIDELIDAD O UNA MENTIRA': 'Es de los casos más difíciles, no te voy a mentir. Pero he visto a muchos hombres volver después de un error así. Lo que va a contar es lo que ella vea en ti desde hoy.',
+      'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Esa frase duele, lo sé. Pero casi nunca significa que el amor se acabó.'
     },
-    dataKey: 'whoEnded',
+    dataKey: 'mainCause',
   },
   {
-    id: 4,
-    text: 'Registrado. ¿Por cuánto tiempo estuvieron juntos?',
-    options: ['MENOS DE 6 MESES', '6 MESES-1 AÑO', '1-3 AÑOS', 'MÁS DE 3 AÑOS'],
-    response: 'Perfecto. El tiempo de relación define cuántas "anclas emocionales" creaste en su memoria. Cuanto más tiempo juntos, más profundas las conexiones neuronales. Eso trabaja a tu favor si usas el protocolo correcto.',
-    dataKey: 'relationshipDuration',
+    // TESTE 4: dor no lugar de "cuánto tiempo estuvieron juntos"
+    id: 9,
+    text: 'Ahora quiero entenderte mejor. ¿Qué es lo que más te duele hoy?',
+    options: ['QUE ME DEJE EN VISTO', 'VIVIR CON ELLA COMO DOS DESCONOCIDOS', 'IMAGINARLA CON OTRO', 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE', 'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR'],
+    response: 'Te entiendo.',
+    responseByOption: {
+      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia mucho, y es normal que lo revises a cada rato. Te adelanto algo: insistir más no la acerca. Hay otra forma, y te la voy a mostrar.',
+      'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Y tiene arreglo: muchas veces empieza por que ella vuelva a verte distinto.',
+      'IMAGINARLA CON OTRO': 'Esa imagen no te deja dormir, lo sé. Lo que imaginas casi siempre es peor que lo que pasa de verdad. Y aunque hubiera alguien, eso no cierra la puerta.',
+      'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase confunde mucho, porque abre y cierra la puerta al mismo tiempo. Si todavía te quiere, hay algo con qué trabajar. Falta que vuelva a elegirte.',
+      'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Extrañar tu casa, tu familia, la rutina con ella… es lo que más pesa en relaciones largas. Y justo por esa historia, hay mucho de dónde reconstruir.'
+    },
+    dataKey: 'mainPain',
   },
   {
     id: 5,
-    text: '¿Cuál es tu situación actual con tu ex-pareja?',
-    options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
-    response: 'Esto es clave. El nivel de contacto actual revela exactamente en qué fase emocional está ella. Cada escenario requiere un protocolo diferente. Si hay contacto cero, usamos una estrategia. Si hay comunicación, usamos otra completamente distinta.',
+    text: 'Gracias por contarme. ¿Cómo está hoy el contacto entre ustedes?',
+    options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'VIVIMOS JUNTOS PERO DISTANTES', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
+    response: 'Entiendo.',
+    responseByOption: {
+      'CONTACTO CERO': 'El contacto cero se siente como hacer lo correcto, pero mientras tú esperas, ella se acostumbra. Más adelante te explico cuándo romperlo.',
+      'ME IGNORA': 'Cuando ignora, casi siempre es una defensa, no indiferencia. Y las defensas bajan cuando dejas de empujar.',
+      'BLOQUEADO': 'El bloqueo parece el final, pero muchas veces es lo contrario: se bloquea a quien todavía le mueve algo por dentro.',
+      'SÓLO TEMAS NECESARIOS': 'Que todavía hablen, aunque sea de lo necesario, es una puerta abierta. Lo importante es cómo te ve en esas conversaciones.',
+      'VIVIMOS JUNTOS PERO DISTANTES': 'Vivir bajo el mismo techo y sentirse lejos duele mucho. Pero verla todos los días es una ventaja enorme si sabes qué hacer y qué no.',
+      'HABLAMOS A VECES': 'Que hablen de vez en cuando es muy buena señal. El canal está abierto, falta cambiar lo que ella siente cuando habla contigo.',
+      'SOMOS AMIGOS': 'La amistad puede ser una trampa o un puente. Depende de lo que hagas en las próximas semanas.',
+      'ENCUENTROS ÍNTIMOS': 'Si todavía hay intimidad, la atracción sigue viva. Falta que vuelva a verte como su pareja.'
+    },
     dataKey: 'currentSituation',
   },
   {
     id: 6,
-    text: 'Ahora, una información crucial: ¿tu ex-pareja ya está con otra persona?',
+    text: '¿Y ella ya está con otra persona?',
     options: ['ESTÁ SOLTERA', 'NO ESTOY SEGURO', 'SALIENDO CASUAL', 'RELACIÓN SERIA', 'VARIAS PERSONAS'],
-    response: 'Crucial. Esto define la ruta que vamos a tomar.',
+    response: 'Entiendo.',
     responseByOption: {
-      'ESTÁ SOLTERA': 'Mejor todavía. Si ella está soltera, hay una ventana de oportunidad abierta ahora mismo: el cerebro en soledad busca referencia emocional en el pasado. Vamos a ocupar ese espacio antes de que se cierre.',
-      'NO ESTOY SEGURO': 'No importa. Vamos a blindar tu plan para los dos escenarios: la estrategia que funciona si está con alguien también funciona si está soltera. Nada queda al azar.',
-      'SALIENDO CASUAL': 'Entendido. Si está saliendo casualmente, no hay vínculo consolidado. Vamos a usar la comparación emocional sin presionar, y eso juega a tu favor.',
-      'RELACIÓN SERIA': 'Entendido. Si hay una relación seria, la estrategia no es competir: es activar la memoria emocional de lo que tenía contigo. Eso es más efectivo que cualquier confrontación.',
-      'VARIAS PERSONAS': 'Entendido. Si está con varias personas, hay una búsqueda activa de algo que no encontró. Ahí es donde entras tú — y vamos a posicionarte exactamente en ese hueco.'
+      'ESTÁ SOLTERA': 'Bien. Si está sola, nadie está ocupando tu lugar. Ese espacio es tuyo, pero no va a esperar para siempre.',
+      'NO ESTOY SEGURO': 'Tranquilo, es lo más común. Tu plan va a servir en los dos casos.',
+      'SALIENDO CASUAL': 'Si es algo casual, no hay nada firme. No compitas con él: lo que funciona es que ella vuelva a comparar, sin que tú la presiones.',
+      'RELACIÓN SERIA': 'Duele, lo sé. Pero muchas veces una relación nueva es la forma de no pensar en lo que dejó. No vas a competir con él. Vas a hacer que recuerde lo que tenía contigo.',
+      'VARIAS PERSONAS': 'Si está con varias personas, está buscando algo que todavía no encuentra. Eso dice mucho de lo que siente.'
     },
     dataKey: 'exSituation',
   },
   {
-    id: 7,
-    text: 'Última pregunta para finalizar el análisis: en una escala de 1 a 4, ¿cuánto quieres recuperar esta relación?',
-    options: ['1 - NO ESTOY SEGURO', '2 - LO ESTOY CONSIDERANDO', '3 - LO QUIERO MUCHO', '4 - LO QUIERO CON TODA MI ALMA'],
-    response: '¡Análisis completo! Tu nivel de compromiso define la intensidad del protocolo. Cuanto más comprometido estés, más poderosas serán las técnicas que voy a revelarte. Ahora tengo todo lo que necesito para mostrarte el camino exacto para reconquistarla.',
-    dataKey: 'commitmentLevel',
+    // TESTE 4: medo da perda no lugar da escala de compromiso 1-4
+    id: 10,
+    text: 'Última pregunta, y es la más importante. Si no haces nada, ¿qué es lo que más miedo te da?',
+    options: ['QUE SE ACOSTUMBRE A VIVIR SIN MÍ', 'QUE SE ENAMORE DE OTRO', 'PERDER A MI FAMILIA', 'QUE VOLVAMOS Y PASE LO MISMO'],
+    response: 'Te entiendo.',
+    responseByOption: {
+      'QUE SE ACOSTUMBRE A VIVIR SIN MÍ': 'Ese miedo tiene sentido: el tiempo sin hacer nada sí juega en contra. Por eso tu plan empieza hoy, no cuando te sientas listo.',
+      'QUE SE ENAMORE DE OTRO': 'Es el miedo de casi todos los hombres que me escriben. Por eso no puedes quedarte quieto ni actuar por impulso. Hay un momento para cada paso.',
+      'PERDER A MI FAMILIA': 'Cuando hay hijos y años de historia, hay más en juego. Y también más de dónde reconstruir. No es tarde.',
+      'QUE VOLVAMOS Y PASE LO MISMO': 'Me gusta que lo pienses. Volver no sirve si todo sigue igual. Por eso el plan no es solo para que vuelva, es para que esta vez funcione.'
+    },
+    dataKey: 'mainFear',
   }
 ];
 
@@ -169,20 +197,28 @@ export default function Chat({ onNavigate }: ChatProps) {
     ga4Tracking.chatPageView();
     ga4Tracking.chatStarted();
 
-    // ✅ APRESENTAÇÃO DA SOPHIA (autoridade + promessa)
-    const initialMessage: Message = {
+    // ✅ APRESENTAÇÃO DA SOPHIA (TESTE 4): duas mensagens curtas, estilo WhatsApp
+    const intro1: Message = {
       type: 'bot',
-      text: 'Hola, soy Sophia Sanchez, especialista en reconquista y psicología conductual. Voy a hacerte 6 preguntas para armar tu plan.',
+      text: 'Hola, soy Sophia. Ya acompañé a más de 9.000 hombres que estaban justo donde estás tú ahora.',
       isTyping: true,
     };
-    setMessages([initialMessage]);
+    const intro2: Message = {
+      type: 'bot',
+      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo cuál de los 3 disparadores pesa más en tu caso. Lo que respondas queda entre tú y yo.',
+      isTyping: true,
+    };
+    setMessages([intro1]);
 
     typewriterTimeoutRef.current = setTimeout(() => {
-      setMessages([{ ...initialMessage, isTyping: false }]);
-      optionsTimeoutRef.current = setTimeout(() => {
-        askQuestion(0);
-      }, DELAY_SHOW_OPTIONS);
-    }, initialMessage.text.length * TYPE_SPEED);
+      setMessages([{ ...intro1, isTyping: false }, intro2]);
+      typewriterTimeoutRef.current = setTimeout(() => {
+        setMessages([{ ...intro1, isTyping: false }, { ...intro2, isTyping: false }]);
+        optionsTimeoutRef.current = setTimeout(() => {
+          askQuestion(0);
+        }, DELAY_SHOW_OPTIONS);
+      }, intro2.text.length * TYPE_SPEED);
+    }, intro1.text.length * TYPE_SPEED);
 
     return () => {
       if (typewriterTimeoutRef.current) clearTimeout(typewriterTimeoutRef.current);
@@ -267,7 +303,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           optionsTimeoutRef.current = setTimeout(() => {
             const finalMessage: Message = {
               type: 'bot',
-              text: 'Análisis concluido. Tu plan personalizado está listo para ser revelado. Haz clic abajo para accederlo.',
+              text: 'Listo. Ya sé cuál es tu disparador clave. Toca abajo y te lo muestro.',
               isTyping: true,
             };
             setMessages(prev => [...prev, finalMessage]);
@@ -393,7 +429,7 @@ export default function Chat({ onNavigate }: ChatProps) {
             <button className="option-button cta-final" onClick={handleViewPlan}>
               VER MI PLAN PERSONALIZADO
             </button>
-            <p className="completion-count">+9.247 planes revelados</p>
+            <p className="completion-count">Más de 9.000 hombres ya vieron su plan</p>
           </div>
         )}
 

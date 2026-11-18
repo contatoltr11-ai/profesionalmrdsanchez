@@ -25,6 +25,9 @@ export const storage = {
         currentSituation: '',
         exSituation: '',
         commitmentLevel: '',
+        mainCause: '',
+        mainPain: '',
+        mainFear: '',
         answers: [],
       };
     }
