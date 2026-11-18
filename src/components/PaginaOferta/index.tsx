@@ -1065,8 +1065,8 @@ export default function PaginaOferta({
                                 lineHeight: '1.6'
                             }}>
                                 <strong style={{ color: '#4ade80' }}>Tu Ventana de 72 horas empieza hoy.</strong> 
-                                La mayoría de los hombres ve las primeras señales (te escribe, te mira distinto, te busca por algo) 
-                                entre el día 7 y el 21.
+                                Muchos hombres ven la primera señal en esos 3 días. Para la mayoría, entre el día 7 y el 21 
+                                ella ya te escribe, te mira distinto o te busca por algo.
                             </p>
                         </details>
 
