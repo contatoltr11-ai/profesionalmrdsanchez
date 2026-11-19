@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { storage } from '../../utils/storage';
 import { ga4Tracking } from '../../utils/ga4Tracking';
-import { getDisparadorClave } from '../../utils/contentByGender';
+import { getDisparadorClave, getProbabilidad } from '../../utils/contentByGender';
 
 interface PaginaOfertaProps {
     preOfferRef: RefObject<HTMLDivElement>;
@@ -19,6 +19,7 @@ export default function PaginaOferta({
     preOfferRef,
     offerRef,
     offerTimeLeft,
+    spotsLeft,
     peopleBuying,
     selectedPlan,
     setSelectedPlan,
@@ -132,27 +133,28 @@ export default function PaginaOferta({
     const miedoEco = miedoByOption[quizData.mainFear || ''] || '';
 
     // Lab 18/11 (J): no Plan Esencial, o ❌ do que o caso dele precisa aparece primeiro e destacado
+    // Etapa 3A (19/11): bônus com nome de curiosidade ligado ao mecanismo
     const itensFaltantes = [
-        'Guía: las señales de que está volviendo',
-        'Módulo «Si ya está con otro»',
-        'Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo?',
-        'Comunidad privada'
+        'Mapa de señales (cómo saber que está volviendo)',
+        'Protocolo La Pérdida (si ya está con otro)',
+        'Protocolo Mismo Techo (si la sigues viendo)',
+        'Círculo privado'
     ];
     // 19/11: bloqueado E ela com outro → o disparador dele é La Pérdida, então o item do caso é o módulo «Si ya está con otro»
     const bloqueoConOtro = scenario === 'bloqueo' && ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(quizData.exSituation || '');
     const casoConOtro = scenario === 'con_otro' || bloqueoConOtro;
     const casoItemFaltante =
-        casoConOtro ? 'Módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo?'
-        : 'Guía: las señales de que está volviendo';
+        casoConOtro ? 'Protocolo La Pérdida (si ya está con otro)'
+        : scenario === 'mismo_techo' ? 'Protocolo Mismo Techo (si la sigues viendo)'
+        : 'Mapa de señales (cómo saber que está volviendo)';
     const casoItemTexto =
-        casoConOtro ? 'el módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'la guía «Si la sigues viendo: ¿me alejo o me quedo?»'
-        : 'la guía de las señales de que está volviendo';
+        casoConOtro ? 'el Protocolo La Pérdida (si ya está con otro)'
+        : scenario === 'mismo_techo' ? 'el Protocolo Mismo Techo (si la sigues viendo)'
+        : 'el Mapa de señales (cómo saber que está volviendo)';
     const subtituloCompleto =
-        casoConOtro ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «Si la sigues viendo: ¿me alejo o me quedo?»'
-        : 'Armado para tu caso: incluye la guía de las señales de que está volviendo';
+        casoConOtro ? 'Armado para tu caso: incluye el Protocolo La Pérdida (si ya está con otro)'
+        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye el Protocolo Mismo Techo (si la sigues viendo)'
+        : 'Armado para tu caso: incluye el Mapa de señales (cómo saber que está volviendo)';
 
     // 5 variáveis × 4 cenários
     const scenarioContent = {
@@ -199,12 +201,12 @@ export default function PaginaOferta({
             }
         },
         recomendacion_plan: {
-            contacto_cero: 'Para tu caso te recomiendo el Plan Completo: además de los 3 disparadores, incluye la guía de las señales para saber cuándo romper el silencio sin arriesgar nada.',
-            con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», que es justo tu situación.',
+            contacto_cero: 'Para tu caso te recomiendo el Plan Completo: además de los 3 disparadores, incluye el Mapa de señales para saber cuándo romper el silencio sin arriesgar nada.',
+            con_otro: 'Para tu caso te recomiendo el Plan Completo: incluye el Protocolo La Pérdida (si ya está con otro), que es justo tu situación.',
             bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
-            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber cuándo avanzar sin perder el contacto que ya tienen.',
-            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber si está volviendo y cuándo dar el siguiente paso.',
-            mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «Si la sigues viendo: ¿me alejo o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
+            canal_abierto: 'Para tu caso te recomiendo el Plan Completo: incluye el Mapa de señales, para saber cuándo avanzar sin perder el contacto que ya tienen.',
+            ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: incluye el Mapa de señales, para saber si está volviendo y cuándo dar el siguiente paso.',
+            mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye el Protocolo Mismo Techo, para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
         },
         cta_final: {
             contacto_cero: 'Quiero mi plan para romper el silencio',
@@ -234,6 +236,29 @@ export default function PaginaOferta({
         ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
         mismo_techo:      'https://ssplan.shop/wp-content/uploads/2026/11/avatar-50.webp'
     };
+
+    // Etapa 3A (19/11): escassez, bônus do caso primeiro, prova perto do preço, FAQ do caso primeiro
+    const probabilidad = getProbabilidad(quizData);
+    const cuposSophia = Math.max(3, Math.round((spotsLeft || 50) / 4));
+    const bonos = [
+        { k: 'otro', n: 'Protocolo La Pérdida: si ya está con otro (o te dijo que los quiere a los dos)', v: 47 },
+        { k: 'senales', n: 'Mapa de señales: cómo saber que está volviendo (y no arruinarlo)', v: 47 },
+        { k: 'circulo', n: 'Círculo privado de hombres en tu misma situación', v: 67 },
+        { k: 'reset', n: 'Reset del Ancla: cómo dejar de rogar y volver a ser el hombre que ella eligió', v: 37 },
+        { k: 'deco', n: 'Decodificador: las 12 frases que ella dice y lo que de verdad significan', v: 37 },
+        { k: 'techo', n: 'Protocolo Mismo Techo: si la sigues viendo (casa, hijos o trabajo)', v: 97 },
+    ];
+    const casoKey = casoConOtro ? 'otro' : scenario === 'mismo_techo' ? 'techo' : 'senales';
+    const bonosOrdenados = [...bonos.filter(b => b.k === casoKey), ...bonos.filter(b => b.k !== casoKey)];
+    // Prints da oferta = WhatsApp escuro, diferentes dos do diagnóstico (Carolina / Mónica / Verónica)
+    const printPrecio = casoConOtro ? '/img/oferta-otro.jpg' : scenario === 'mismo_techo' ? '/img/oferta-casa.jpg' : '/img/oferta-senales.jpg';
+    const faqPrimero =
+        scenario === 'bloqueo' && !casoConOtro ? 'rafael'
+        : casoConOtro ? 'tiago'
+        : scenario === 'mismo_techo' ? 'jorge'
+        : quizData.timeSeparation === 'MÁS DE 6 MESES' ? 'marcos'
+        : scenario === 'ruptura_reciente' ? 'silvio'
+        : '';
 
     // Etapa 2 (19/11): textos certos para SÓLO TEMAS (sem morar junto), "no hice nada", quem mora junto e bloqueado
     const soloTemas = quizData.currentSituation === 'SÓLO TEMAS NECESARIOS';
@@ -291,6 +316,7 @@ export default function PaginaOferta({
                 <div className="of4-rows">
                     <div className="of4-row"><span>✅</span><span>Ya sabes por qué se alejó: <b>el cariño sigue ahí, las ganas se apagaron.</b></span></div>
                     <div className="of4-row"><span>✅</span><span>Ya sabes tu disparador clave: <b className="of4-yellow">{disparadorClave.nombre}</b></span></div>
+                    <div className="of4-row"><span>✅</span><span>Tu probabilidad hoy: <b className="of4-yellow">{probabilidad}%</b> · con tu disparador activado: <b>hasta 87%</b>.</span></div>
                     <div className="of4-row"><span>✅</span><span>Ya viste cómo cambia su cerebro en la Ventana de 72 horas.</span></div>
                 </div>
 
@@ -319,7 +345,7 @@ export default function PaginaOferta({
                     <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>⏰</span>
                     <div>
                         <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '0 0 4px 0' }}>
-                            Tu precio especial está reservado por:
+                            Tu precio y tu lugar con Sophia están reservados por:
                         </p>
                         <p style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
                             {formatTime(offerTimeLeft)}
@@ -395,7 +421,7 @@ export default function PaginaOferta({
                     lineHeight: '1.2',
                     marginBottom: 'clamp(12px, 3vw, 16px)'
                 }}>
-                    Tu plan para que {gender === 'HOMBRE' ? 'ella vuelva a buscarte' : 'él vuelva a buscarte'}, armado para tu caso
+                    Tu plan de 72 horas para que {gender === 'HOMBRE' ? 'ella vuelva a buscarte' : 'él vuelva a buscarte'}, sin rogar ni perseguirla
                 </h2>
 
                 <p style={{
@@ -427,7 +453,7 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     fontStyle: 'italic'
                 }}>
-                    Con el Protocolo de la Obsesión Inversa. Garantía doble: 7 días sin preguntas + 90 días si ella no vuelve a buscarte.
+                    Con el Protocolo de la Obsesión Inversa. Unos 10 minutos al día, desde tu celular. Garantía doble: 7 días sin preguntas + 90 días si ella no vuelve a buscarte.
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
@@ -479,7 +505,7 @@ export default function PaginaOferta({
             fontWeight: '600'
         }}>
             {bloqueoConOtro
-                ? 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», y te muestra el primer paso correcto para no cerrar más la puerta mientras te tiene bloqueado.'
+                ? 'Para tu caso te recomiendo el Plan Completo: incluye el Protocolo La Pérdida (si ya está con otro), y te muestra el primer paso correcto para no cerrar más la puerta mientras te tiene bloqueado.'
                 : scenarioContent.recomendacion_plan[scenario]}
         </p>
     </div>
@@ -499,6 +525,12 @@ export default function PaginaOferta({
     <p style={{ fontSize: 'clamp(1.05rem, 4.2vw, 1.2rem)', color: '#4ade80', fontWeight: 800, lineHeight: 1.5, margin: 0, textAlign: 'center' }}>
         Hoy tienes el plan completo de tu caso por $27. Menos que una cena para dos.
     </p>
+</div>
+
+{/* Etapa 3A (19/11): prova colada ao preço — print do caso dele */}
+<div style={{ textAlign: 'center', margin: '0 0 clamp(20px, 4vw, 28px)' }}>
+    <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: '#facc15', fontWeight: 700, margin: '0 0 10px' }}>Así le escribió ella a un hombre en tu misma situación</p>
+    <img src={printPrecio} alt="Mensaje de WhatsApp de ella" loading="lazy" style={{ display: 'block', margin: '0 auto', width: '78%', maxWidth: '280px', borderRadius: '14px', boxShadow: '0 6px 20px rgba(0,0,0,0.45)' }} />
 </div>
 
 {/* ✅ MELHORIA #5: 2 Planos lado a lado ($14 / $27) */}
@@ -602,7 +634,7 @@ export default function PaginaOferta({
             borderRadius: '20px',
             whiteSpace: 'nowrap'
         }}>
-            ⭐ MÁS VENDIDO • RECOMENDADO
+            ⭐ RECOMENDADO PARA TU CASO
         </div>
         <div style={{ marginBottom: 'clamp(14px, 3.5vw, 18px)' }}>
             <h3 style={{ fontSize: 'clamp(1.25rem, 5vw, 1.6rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0' }}>
@@ -641,21 +673,25 @@ export default function PaginaOferta({
                     </span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Módulo «Si ya está con otro» (o te dijo que los quiere a los dos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las señales de que está volviendo (y cómo no arruinarlas) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad privada de hombres en tu misma situación <span style={{ color: '#facc15', fontWeight: '700' }}>· De $67 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo? <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {bonosOrdenados.map(b => (
+                    b.k === casoKey ? (
+                        <div key={b.k} style={{ background: 'rgba(250,204,21,0.1)', border: '1px solid rgba(250,204,21,0.45)', borderRadius: '8px', padding: '8px 10px' }}>
+                            <div style={{ fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.06em', color: '#facc15', marginBottom: '4px' }}>⭐ LO QUE TU CASO NECESITA</div>
+                            <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white', fontWeight: 700 }}>{b.n} <span style={{ color: '#facc15', fontWeight: '700' }}>· De ${b.v} a GRATIS</span></div>
+                        </div>
+                    ) : (
+                        <div key={b.k} style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>{b.n} <span style={{ color: '#facc15', fontWeight: '700' }}>· De ${b.v} a GRATIS</span></div>
+                    )
+                ))}
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                     <svg viewBox="0 0 24 24" width="20" height="20" aria-label="WhatsApp" style={{ flexShrink: 0 }}>
                         <path fill="#25D366" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2z"/>
                         <path fill="#fff" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35z"/>
                     </svg>
-                    Sophia te escribe personalmente para conocer tu caso
+                    <span>Sophia te escribe personalmente para conocer tu caso<br/><span style={{ color: '#facc15', fontWeight: 800 }}>Solo 20 hombres por día: hoy quedan {cuposSophia}</span></span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía doble: 7 + 90 días</div>
+                <div style={{ fontSize: 'clamp(0.85rem, 3.3vw, 0.95rem)', color: 'rgba(255,255,255,0.6)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
             </div>
         </div>
         <button 
@@ -678,6 +714,7 @@ export default function PaginaOferta({
         </button>
     </div>
 </div>
+<p style={{ textAlign: 'center', fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)', color: 'rgba(255,255,255,0.85)', fontWeight: 700, margin: '0 0 14px' }}>👥 Más de 9.000 hombres ya siguieron su plan</p>
 {/* ✅ CTA PRINCIPAL - POSIÇÃO OTIMIZADA (logo após os planos) */}
 <button
     ref={mainCtaRef}
@@ -1059,7 +1096,7 @@ export default function PaginaOferta({
                         gap: 'clamp(10px, 2.5vw, 14px)'
                     }}>
                         {/* Mecanismo v2: FAQ com nomes (Rafael, Silvio, Marcos) */}
-                        <details style={{
+                        <details open={faqPrimero === 'rafael'} style={{ order: faqPrimero === 'rafael' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
                             padding: 'clamp(14px, 3.5vw, 16px)',
@@ -1084,7 +1121,7 @@ export default function PaginaOferta({
                                 <strong style={{ color: '#4ade80' }}>✅ Funciona, Rafael.</strong> El bloqueo es su lado racional defendiéndose. Tu plan no empieza con mensajes: ella nota el cambio por lo que ve de ti. Y te dice cuándo y cómo reaparecer cuando te desbloquee.
                             </p>
                         </details>
-                        <details style={{
+                        <details open={faqPrimero === 'silvio'} style={{ order: faqPrimero === 'silvio' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
                             padding: 'clamp(14px, 3.5vw, 16px)',
@@ -1109,7 +1146,7 @@ export default function PaginaOferta({
                                 <strong style={{ color: '#4ade80' }}>Es el mejor momento, Silvio.</strong> Las primeras semanas son cuando más hombres hunden el Ancla del Dolor: ruegan, mandan textos largos, regalos. Quien empieza ahora, empieza antes de arruinarlo.
                             </p>
                         </details>
-                        <details style={{
+                        <details open={faqPrimero === 'marcos'} style={{ order: faqPrimero === 'marcos' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
                             padding: 'clamp(14px, 3.5vw, 16px)',
@@ -1135,7 +1172,7 @@ export default function PaginaOferta({
                             </p>
                         </details>
                         {/* Pergunta 1 */}
-                        <details style={{
+                        <details open={faqPrimero === 'tiago'} style={{ order: faqPrimero === 'tiago' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
                             padding: 'clamp(14px, 3.5vw, 16px)',
@@ -1158,7 +1195,7 @@ export default function PaginaOferta({
                                 lineHeight: '1.6'
                             }}>
                                 <strong style={{ color: '#4ade80' }}>✅ Sí, Tiago.</strong> La mayoría de las veces esa relación es una anestesia para no sentir lo que dejó contigo. No vas a competir con él: tu disparador es La Pérdida, 
-                                y el módulo «Si ya está con otro» te dice qué hacer y qué no, para no empujarla más hacia él.
+                                y el Protocolo La Pérdida (si ya está con otro) te dice qué hacer y qué no, para no empujarla más hacia él.
                             </p>
                         </details>
 
@@ -1192,7 +1229,7 @@ export default function PaginaOferta({
                         </details>
 
                         {/* Pergunta 3 (NOVA) */}
-                        <details style={{
+                        <details open={faqPrimero === 'jorge'} style={{ order: faqPrimero === 'jorge' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
                             padding: 'clamp(14px, 3.5vw, 16px)',
@@ -1268,6 +1305,56 @@ export default function PaginaOferta({
                                 lineHeight: '1.6'
                             }}>
                                 <strong style={{ color: '#4ade80' }}>Porque todo lo que probaste le habló a su lado racional</strong>: cartas, disculpas, contacto cero. Este plan le habla al lado que decide de quién se enamora. Y no está pensado para chicos de 20 años: parte de tu caso, de lo que respondiste y de en qué punto están hoy.
+                            </p>
+                        </details>
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ¿Cuánto tiempo al día me lleva?
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>Unos 10 minutos.</strong> Tu plan te dice qué hacer hoy y qué no hacer. No tienes que escribirle textos largos ni estudiar horas.
+                            </p>
+                        </details>
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ¿Ella se va a enterar?
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>No.</strong> Tu plan se abre en tu celular, con tu acceso. Ella solo ve el cambio en ti.
                             </p>
                         </details>
                     </div>
