@@ -92,16 +92,19 @@ export default function PaginaOferta({
         'Guía: ¿me voy de la casa o me quedo?',
         'Comunidad privada'
     ];
+    // 19/11: bloqueado E ela com outro → o disparador dele é La Pérdida, então o item do caso é o módulo «Si ya está con otro»
+    const bloqueoConOtro = scenario === 'bloqueo' && ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(quizData.exSituation || '');
+    const casoConOtro = scenario === 'con_otro' || bloqueoConOtro;
     const casoItemFaltante =
-        scenario === 'con_otro' ? 'Módulo «Si ya está con otro»'
+        casoConOtro ? 'Módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'Guía: ¿me voy de la casa o me quedo?'
         : 'Guía: las señales de que está volviendo';
     const casoItemTexto =
-        scenario === 'con_otro' ? 'el módulo «Si ya está con otro»'
+        casoConOtro ? 'el módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'la guía «¿Me voy de la casa o me quedo?»'
         : 'la guía de las señales de que está volviendo';
     const subtituloCompleto =
-        scenario === 'con_otro' ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
+        casoConOtro ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
         : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «¿Me voy de la casa o me quedo?»'
         : 'Armado para tu caso: incluye la guía de las señales de que está volviendo';
 
@@ -475,7 +478,9 @@ export default function PaginaOferta({
             margin: 0,
             fontWeight: '600'
         }}>
-            {scenarioContent.recomendacion_plan[scenario]}
+            {bloqueoConOtro
+                ? 'Para tu caso te recomiendo el Plan Completo: incluye el módulo «Si ya está con otro», y te muestra el primer paso correcto para no cerrar más la puerta mientras te tiene bloqueado.'
+                : scenarioContent.recomendacion_plan[scenario]}
         </p>
     </div>
 </div>
