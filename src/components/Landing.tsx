@@ -103,7 +103,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                         <rect x="4" y="11" width="16" height="10" rx="2"></rect>
                         <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                     </svg>
-                    <span>6 preguntas · 2 minutos · 100% anónimo</span>
+                    <span>Test gratuito · 6 preguntas · 2 minutos · 100% anónimo</span>
                 </p>
 
                 {/* 6. BENEFÍCIOS */}
