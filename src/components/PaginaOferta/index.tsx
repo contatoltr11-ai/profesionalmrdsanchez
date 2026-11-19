@@ -194,7 +194,7 @@ export default function PaginaOferta({
             {/* Transição pré-oferta */}
             <div 
                 ref={preOfferRef}
-                className="pre-offer-transition-section fade-in"
+                className="pre-offer-transition-section fade-in of4-root"
                 style={{
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 179, 8, 0.15))',
@@ -202,69 +202,38 @@ export default function PaginaOferta({
                     borderRadius: '16px',
                     padding: 'clamp(24px, 5vw, 32px)',
                     boxShadow: '0 8px 32px rgba(249, 115, 22, 0.4)',
-                    textAlign: 'center'
+                    textAlign: 'left'
                 }}
             >
-                <div style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', marginBottom: '16px' }}>
-                    🎯
-                </div>
-                
-                <h3 style={{
-                    fontSize: 'clamp(1.5rem, 6vw, 2rem)',
-                    color: '#f97316',
-                    fontWeight: '900',
-                    marginBottom: 'clamp(16px, 4vw, 20px)',
-                    lineHeight: '1.3'
-                }}>
-                    LLEGASTE AL ÚLTIMO PASO
-                </h3>
+                <p className="of4-kicker">🎯 Paso 4 de 4</p>
+                <h3 className="of4-title">Llegaste al <span>último paso</span></h3>
 
-                <p style={{
-                    fontSize: 'clamp(1rem, 4vw, 1.2rem)',
-                    color: '#facc15',
-                    lineHeight: '1.6',
-                    marginBottom: 'clamp(16px, 4vw, 20px)',
-                    fontWeight: '700'
-                }}>
-                    {scenario === 'mismo_techo' && vivenJuntos
-                        ? 'Tu diagnóstico apuntó a un escenario concreto: viven bajo el mismo techo, pero distantes.'
-                        : scenarioContent.escenario_diagnostico[scenario]}
-                </p>
-
-                {miedoEco && (
-                    <p style={{
-                        fontSize: 'clamp(1rem, 4vw, 1.15rem)',
-                        color: 'rgba(255,255,255,0.9)',
-                        lineHeight: '1.6',
-                        marginBottom: 'clamp(16px, 4vw, 20px)',
-                        fontStyle: 'italic'
-                    }}>
-                        {miedoEco}
+                <div className="of4-escenario">
+                    <p className="of4-label">📍 Tu escenario</p>
+                    <p className="of4-p">
+                        {(scenario === 'mismo_techo' && vivenJuntos
+                            ? 'Tu diagnóstico apuntó a un escenario concreto: viven bajo el mismo techo, pero distantes.'
+                            : scenarioContent.escenario_diagnostico[scenario]
+                        ).replace('Tu diagnóstico apuntó a un escenario concreto: ', '').replace(/^./, c => c.toUpperCase())}
                     </p>
-                )}
+                </div>
 
-                <p style={{
-                    fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
-                    color: 'rgba(255,255,255,0.95)',
-                    lineHeight: '1.6',
-                    marginBottom: '0',
-                    fontWeight: '600'
-                }}>
-                    Ya sabes por qué te dice "te quiero, pero…": el cariño sigue ahí, las ganas se apagaron.<br/>
-                    Ya sabes cuál es tu disparador clave: <strong style={{ color: '#facc15' }}>{disparadorClave.nombre}</strong>.<br/>
-                    Ya viste cómo cambia su cerebro en la Ventana de 72 horas.<br/><br/>
-                    
-                    Ahora falta lo más importante:<br/>
-                    <strong style={{ color: '#4ade80', fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)' }}>
-                        saber exactamente qué hacer en cada fase para volver a encender sus ganas, en tu caso.
-                    </strong>
-                </p>
+                {miedoEco && <p className="of4-quote">{miedoEco}</p>}
+
+                <div className="of4-rows">
+                    <div className="of4-row"><span>✅</span><span>Ya sabes por qué se alejó: <b>el cariño sigue ahí, las ganas se apagaron.</b></span></div>
+                    <div className="of4-row"><span>✅</span><span>Ya sabes tu disparador clave: <b className="of4-yellow">{disparadorClave.nombre}</b></span></div>
+                    <div className="of4-row"><span>✅</span><span>Ya viste cómo cambia su cerebro en la Ventana de 72 horas.</span></div>
+                </div>
+
+                <p className="of4-p" style={{ marginBottom: 4 }}>Ahora falta lo más importante:</p>
+                <p className="of4-green-lead">saber exactamente qué hacer en cada fase para volver a encender sus ganas, en tu caso.</p>
             </div>
 
             {/* ========================================== */}
             {/* FASE 4: OFERTA - COM TODAS AS 11 MELHORIAS */}
             {/* ========================================== */}
-            <div ref={offerRef} className="revelation fade-in offer-section-custom">
+            <div ref={offerRef} className="revelation fade-in offer-section-custom of4-root">
                 
                 {/* ✅ MELHORIA #2: Timer de 10 minutos no topo da oferta */}
                 <div className="offer-urgency-timer" style={{
@@ -363,10 +332,10 @@ export default function PaginaOferta({
             { t: '72h', d: 'La Pérdida: se encienden las ganas (dopamina)', n: 'La Pérdida' }
         ].map(step => (
             <div key={step.t} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
-                <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
+                <p style={{ fontSize: 'clamp(1.6rem, 6vw, 2rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0, minWidth: '64px' }}>
                     {step.t}
                 </p>
-                <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
+                <p style={{ fontSize: 'clamp(0.95rem, 4vw, 1.05rem)', color: 'rgba(255,255,255,0.88)', fontWeight: '600', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
                     {step.d}
                     {step.n === disparadorClave.nombre && (
                         <span style={{ display: 'block', color: '#facc15', fontWeight: '800', marginTop: '2px' }}>⭐ tu disparador clave</span>
@@ -376,10 +345,10 @@ export default function PaginaOferta({
         ))}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
-            <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
+            <p style={{ fontSize: 'clamp(1.6rem, 6vw, 2rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0, minWidth: '64px' }}>
                 7-21
             </p>
-            <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.85)', fontWeight: '600', margin: 0, lineHeight: '1.35', textAlign: 'left' }}>
+            <p style={{ fontSize: 'clamp(0.95rem, 4vw, 1.05rem)', color: 'rgba(255,255,255,0.88)', fontWeight: '600', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
                 Días · las primeras señales: te escribe, te busca, te mira distinto
             </p>
         </div>
@@ -979,10 +948,9 @@ export default function PaginaOferta({
                         fontSize: 'clamp(1.2rem, 5vw, 1.6rem)',
                         color: '#4ade80',
                         marginBottom: 'clamp(12px, 3vw, 16px)',
-                        fontWeight: '900',
-                        textTransform: 'uppercase'
+                        fontWeight: '900'
                     }}>
-                        GARANTÍA DOBLE: EL RIESGO ES TODO MÍO
+                        Garantía doble: el riesgo es todo mío
                     </h3>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
@@ -1027,7 +995,7 @@ export default function PaginaOferta({
                             ✅ Reembolso en 24-48 horas
                         </p>
                         <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: '#facc15', margin: 0, fontWeight: '700' }}>
-                            ✅ RIESGO CERO PARA TI
+                            ✅ Riesgo cero para ti
                         </p>
                     </div>
                 </div>
@@ -1047,7 +1015,7 @@ export default function PaginaOferta({
                         textAlign: 'center',
                         marginBottom: 'clamp(14px, 3vw, 18px)'
                     }}>
-                        ❓ PREGUNTAS FRECUENTES
+                        Preguntas frecuentes
                     </h3>
 
                     <div style={{
@@ -1070,7 +1038,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ Rafael: "Me bloqueó en todo. ¿Funciona igual?"
+                                Rafael: "Me bloqueó en todo. ¿Funciona igual?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1095,7 +1063,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ Silvio: "Terminamos hace una semana. ¿Es muy pronto?"
+                                Silvio: "Terminamos hace una semana. ¿Es muy pronto?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1120,7 +1088,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ Marcos: "Pasaron 8 meses. ¿Ya es tarde?"
+                                Marcos: "Pasaron 8 meses. ¿Ya es tarde?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1146,7 +1114,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ Tiago: "Ya está con otro. ¿Funciona igual?"
+                                Tiago: "Ya está con otro. ¿Funciona igual?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1174,7 +1142,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Cuánto tiempo lleva ver resultados?
+                                ¿Cuánto tiempo lleva ver resultados?
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1203,7 +1171,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ Jorge: "Todavía vivimos juntos y tenemos hijos. ¿Sirve?"
+                                Jorge: "Todavía vivimos juntos y tenemos hijos. ¿Sirve?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1230,7 +1198,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Tengo que hacer contacto cero?
+                                ¿Tengo que hacer contacto cero?
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1257,7 +1225,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ André: "Ya probé de todo y otros cursos. ¿Por qué esto sería distinto?"
+                                André: "Ya probé de todo y otros cursos. ¿Por qué esto sería distinto?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1379,6 +1347,24 @@ export default function PaginaOferta({
                 }}>
                     🔒 Compra 100% segura • Acceso instantáneo • Garantía doble 7 + 90 días
                 </p>
+
+                <style>{`
+                    .of4-root, .of4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+                    .of4-kicker { text-align: center; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #fb923c; margin: 0 0 6px; }
+                    .of4-title { text-align: center; font-size: clamp(1.6rem, 7vw, 2.1rem); font-weight: 900; color: #fff; line-height: 1.15; margin: 0 0 20px !important; }
+                    .of4-title span { color: #f97316; }
+                    .of4-p { font-size: clamp(1rem, 4.3vw, 1.12rem); line-height: 1.6; color: rgba(255,255,255,0.92); margin: 0 0 14px; }
+                    .of4-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #facc15; margin: 0 0 6px; }
+                    .of4-escenario { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; padding: 14px 16px; margin: 0 0 16px; }
+                    .of4-escenario .of4-p { margin: 0; color: #fff; font-weight: 600; }
+                    .of4-quote { font-size: clamp(0.95rem, 4vw, 1.05rem); line-height: 1.55; font-style: italic; color: rgba(255,255,255,0.78); border-left: 3px solid rgba(255,255,255,0.3); padding: 2px 0 2px 14px; margin: 0 0 16px; }
+                    .of4-rows { display: flex; flex-direction: column; gap: 8px; margin: 0 0 18px; }
+                    .of4-row { display: flex; align-items: flex-start; gap: 10px; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; font-size: clamp(0.95rem, 4vw, 1.05rem); line-height: 1.45; color: rgba(255,255,255,0.92); }
+                    .of4-row b { color: #fff; }
+                    .of4-root .of4-yellow { color: #facc15; }
+                    .of4-root details > summary { line-height: 1.4; }
+                    .of4-green-lead { font-size: clamp(1.15rem, 4.8vw, 1.3rem); line-height: 1.45; font-weight: 800; color: #4ade80; margin: 0; }
+                `}</style>
 
             </div>
         </>

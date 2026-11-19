@@ -28,11 +28,12 @@ export default function VideoEspecialista({
     return (
         <div 
             ref={sectionRef} 
-            className={`revelation fade-in vsl-revelation ${fadeOutPhase === 2 ? 'fade-out' : ''}`}
+            className={`revelation fade-in vsl-revelation vsl4-root ${fadeOutPhase === 2 ? 'fade-out' : ''}`}
         >
-            <div className="revelation-header">
-                <h2>Antes de mostrarte tu Ventana de 72 horas, Sophia tiene algo que decirte.</h2>
-            </div>
+            {/* Lab 19/11 (v4 visual): continua a promessa do diagnóstico ("video corto con lo que está pasando en su cerebro ahora mismo").
+                Antes: "Antes de mostrarte tu Ventana de 72 horas, Sophia tiene algo que decirte." */}
+            <p className="vsl4-kicker">🎥 Video corto de Sophia</p>
+            <h2 className="vsl4-title">Lo que está pasando en su cerebro <span>ahora mismo</span></h2>
             <div className="vsl-container">
                 <div className="vsl-placeholder"></div> 
             </div>
@@ -46,7 +47,7 @@ export default function VideoEspecialista({
                     {!isVideoButtonEnabled ? (
                         <>
                             <p className="delay-text">
-                                {getDelayEmoji(videoButtonDelayLeft)} Próxima sección en {videoButtonDelayLeft} segundos...
+                                {getDelayEmoji(videoButtonDelayLeft)} Tu Ventana de 72 horas se libera en {videoButtonDelayLeft} s
                             </p>
                             <div className="delay-progress-bar-container">
                                 <div 
@@ -58,7 +59,7 @@ export default function VideoEspecialista({
                                 className="cta-button btn-yellow btn-size-2 btn-animation-bounce disabled" 
                                 disabled
                             >
-                                Revelar VENTANA DE 72 HORAS
+                                Revelar mi Ventana de 72 horas
                             </button>
                         </>
                     ) : (
@@ -66,11 +67,21 @@ export default function VideoEspecialista({
                             className="cta-button btn-yellow btn-size-2 btn-animation-bounce" 
                             onClick={onButtonClick}
                         >
-                            ⏳ Revelar VENTANA DE 72 HORAS
+                            ⚡ Revelar mi Ventana de 72 horas
                         </button>
                     )}
                 </div>
             )}
+            <style>{`
+                .vsl4-root, .vsl4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+                .vsl4-kicker { margin: 0 0 6px; text-align: center; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #facc15; }
+                .vsl4-title { margin: 0; text-align: center; font-size: clamp(1.35rem, 6vw, 1.7rem) !important; line-height: 1.25; font-weight: 800; color: #fff; }
+                .vsl4-title span { color: #facc15; }
+                .vsl4-root .vsl-container { margin: 16px 0 0; }
+                .vsl4-root .vsl-placeholder { background: none !important; border: none !important; padding: 0 !important; min-height: 0 !important; display: block !important; max-width: 420px; }
+                .vsl4-root .video-delay-indicator { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 14px 16px; margin-top: 16px; }
+                .vsl4-root .delay-text { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.9); margin: 0 0 10px; }
+            `}</style>
         </div>
     );
 }

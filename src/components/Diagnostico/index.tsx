@@ -1,6 +1,6 @@
 import { RefObject, CSSProperties, useRef, useState } from 'react';
 import { storage } from '../../utils/storage';
-import { getTitle, getCopy, getProbabilidad } from '../../utils/contentByGender';
+import { getTitle, getProbabilidad, getDiagnosticoBlocos } from '../../utils/contentByGender';
 import { ga4Tracking } from '../../utils/ga4Tracking';
 
 interface DiagnosticoProps {
@@ -14,6 +14,11 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     const quizData = storage.getQuizData();
     const gender = quizData.gender || 'HOMBRE';
     const probabilidad = getProbabilidad(quizData);
+    const d = getDiagnosticoBlocos(quizData);
+    // destaca "Ancla del Dolor" em vermelho dentro da abertura
+    const [abA, abB] = d.abertura.split('Ancla del Dolor');
+    // respostas do quiz vêm em CAIXA ALTA; no resumo, só a primeira letra maiúscula
+    const fmt = (v?: string) => v ? v.charAt(0) + v.slice(1).toLowerCase() : 'No especificado';
 
 
     // Lab: título acima dos botões, conforme a situação
@@ -69,7 +74,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     return (
         <div 
             ref={sectionRef} 
-            className={`revelation fade-in ${fadeOutPhase === 1 ? 'fade-out' : ''}`}
+            className={`revelation fade-in diag4-root ${fadeOutPhase === 1 ? 'fade-out' : ''}`}
         >
             {/* Mecanismo v2 (18/11/2026): alerta + medidor de probabilidade */}
             <div style={{ background: '#dc2626', color: 'white', borderRadius: '12px', padding: '12px 14px', textAlign: 'center', margin: '0 0 16px' }}>
@@ -88,44 +93,97 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
             </div>
 
             <div className="revelation-header">
-                <div className="revelation-icon">💔</div>
                 <h2>{quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES' ? 'Por Qué Ella Se Alejó' : getTitle(gender)}</h2>
             </div>
 
             <div className="quiz-summary-box">
                 <p className="summary-title">📋 TU SITUACIÓN ESPECÍFICA</p>
                 <div className="summary-grid">
-                    <div><span>✓</span> <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Lo que hiciste:</strong> {quizData.impulso || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Lo que más te duele:</strong> {quizData.mainPain || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>Tiempo:</strong> {fmt(quizData.timeSeparation)}</div>
+                    <div><span>✓</span> <strong>Lo que hiciste:</strong> {fmt(quizData.impulso)}</div>
+                    <div><span>✓</span> <strong>Contacto:</strong> {fmt(quizData.currentSituation)}</div>
+                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {fmt(quizData.exSituation)}</div>
+                    <div><span>✓</span> <strong>Lo que más te duele:</strong> {fmt(quizData.mainPain)}</div>
                 </div>
             </div>
 
             {/* TESTE 4 (lab): bloco antigo getEmotionalValidation removido (duplicava o getCopy) */}
-            {/* Mecanismo v2: foto da Sophia em Harvard logo após o parágrafo do estudo (marcador [[FOTO_HARVARD]] no getCopy).
-                Foto provisória (cabelo ondulado; o usuário vai trocar por uma com cabelo liso). */}
-            {getCopy(quizData).split('[[FOTO_HARVARD]]').map((trecho, i, arr) => (
-                <div key={i}>
-                    <p className="revelation-text" style={{ whiteSpace: 'pre-line' }}>{trecho.trim()}</p>
-                    {i < arr.length - 1 && (
-                        <figure style={{ margin: '4px 0 22px' }}>
-                            <img
-                                src="/img/sophia-harvard.webp"
-                                alt="Sophia Sanchez en Harvard"
-                                width={720}
-                                height={720}
-                                loading="lazy"
-                                style={{ width: '100%', height: 'auto', borderRadius: '14px', display: 'block' }}
-                            />
-                            <figcaption style={{ fontSize: 'clamp(0.85rem, 3.4vw, 0.95rem)', color: 'rgba(255,255,255,0.75)', textAlign: 'center', marginTop: '8px', lineHeight: 1.4 }}>
-                                Sophia Sanchez en Harvard, donde estudió cómo el cerebro femenino decide a quién elegir.
-                            </figcaption>
-                        </figure>
-                    )}
+            {/* Diagnóstico v4 (19/11/2026): blocos visuais, fonte de leitura (não monoespaçada) */}
+            <div className="diag4">
+                <p className="diag4-lead">No fue por falta de amor.</p>
+                <p className="diag4-p">
+                    {abA}{d.abertura.includes('Ancla del Dolor') && <strong className="diag4-red">Ancla del Dolor</strong>}{abB}
+                </p>
+
+                {d.verguenza && <p className="diag4-quote">{d.verguenza}</p>}
+
+                <div className="diag4-card">
+                    <p className="diag4-label">🧠 Lo que nadie te explicó</p>
+                    <p className="diag4-p">{d.harvard}</p>
+                    <img src="/img/sophia-harvard.webp" alt="Sophia Sanchez en Harvard" width={720} height={720} loading="lazy" className="diag4-img" />
                 </div>
-            ))}
+
+                <p className="diag4-p diag4-strong">{d.dorFrase}</p>
+                <div className="diag4-chem">
+                    <div className="diag4-chem-row">
+                        <span className="diag4-chem-ico">🧡</span>
+                        <span className="diag4-chem-name"><b>Oxitocina</b><br/>el cariño</span>
+                        <span className="diag4-chem-ok">✅ sigue ahí</span>
+                    </div>
+                    <div className="diag4-chem-row">
+                        <span className="diag4-chem-ico">⚡</span>
+                        <span className="diag4-chem-name"><b>Dopamina</b><br/>las ganas</span>
+                        <span className="diag4-chem-off">❌ se apagó</span>
+                    </div>
+                </div>
+                <p className="diag4-p diag4-green">Y las ganas se vuelven a encender.</p>
+
+                {d.enTuCaso && (
+                    <div className="diag4-card">
+                        <p className="diag4-label">📍 En tu caso</p>
+                        <p className="diag4-p">{d.enTuCaso}</p>
+                    </div>
+                )}
+
+                <div className="diag4-key">
+                    <p className="diag4-key-label">⭐ Tu disparador clave</p>
+                    <p className="diag4-key-name">{d.disparadorNombre}</p>
+                    <p className="diag4-p">{d.disparadorTexto}</p>
+                </div>
+
+                <p className="diag4-p">Eso es la <strong>Obsesión Inversa</strong>: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte.</p>
+                <p className="diag4-warn">⚠️ Pero cuidado: mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.</p>
+            </div>
+            <style>{`
+                .diag4-root, .diag4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+                .diag4-root .revelation-header { justify-content: center; text-align: center; }
+                .diag4-root .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+                .diag4-root .summary-grid div { font-size: 1rem; line-height: 1.4; }
+                .diag4-root .summary-title { letter-spacing: 0.04em; }
+                .diag4 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: rgba(255,255,255,0.92); }
+                .diag4-lead { font-size: clamp(1.25rem, 5.4vw, 1.5rem); font-weight: 800; color: #fff; margin: 4px 0 10px; }
+                .diag4-p { font-size: clamp(1rem, 4.3vw, 1.12rem); line-height: 1.6; margin: 0 0 14px; }
+                .diag4-strong { font-weight: 700; color: #fff; margin-top: 22px; }
+                .diag4-red { color: #f87171; }
+                .diag4-green { color: #4ade80; font-weight: 800; }
+                .diag4-quote { font-size: clamp(0.95rem, 4vw, 1.05rem); line-height: 1.55; font-style: italic; color: rgba(255,255,255,0.72); border-left: 3px solid rgba(255,255,255,0.3); padding: 2px 0 2px 14px; margin: 0 0 22px; }
+                .diag4-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; margin: 0 0 18px; }
+                .diag4-card .diag4-p:last-child { margin-bottom: 0; }
+                .diag4-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #facc15; margin: 0 0 8px; }
+                .diag4-img { width: 100%; height: auto; border-radius: 12px; display: block; margin-top: 4px; }
+                .diag4-chem { display: flex; flex-direction: column; gap: 8px; margin: 0 0 12px; }
+                .diag4-chem-row { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; }
+                .diag4-chem-ico { font-size: 1.6rem; }
+                .diag4-chem-name { flex: 1; font-size: 0.95rem; line-height: 1.3; color: rgba(255,255,255,0.8); }
+                .diag4-chem-name b { color: #fff; font-size: 1.05rem; }
+                .diag4-chem-ok { font-weight: 800; color: #4ade80; white-space: nowrap; }
+                .diag4-chem-off { font-weight: 800; color: #f87171; white-space: nowrap; }
+                .diag4-key { border: 2px solid #facc15; background: rgba(250,204,21,0.08); border-radius: 14px; padding: 16px; margin: 0 0 18px; }
+                .diag4-key-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #facc15; margin: 0 0 4px; }
+                .diag4-key-name { font-size: clamp(1.4rem, 6vw, 1.7rem); font-weight: 900; color: #fff; margin: 0 0 8px; }
+                .diag4-key .diag4-p { margin-bottom: 0; }
+                .diag4-warn { font-size: clamp(0.95rem, 4vw, 1.05rem); line-height: 1.55; color: #fca5a5; font-weight: 600; margin: 0; }
+            `}</style>
 
             {/* Lab: prova (2 prints) em carrossel com a ponta do 2º aparecendo + compromisso sí/sí */}
             <div style={{ margin: 'clamp(24px, 6vw, 32px) 0 0' }}>

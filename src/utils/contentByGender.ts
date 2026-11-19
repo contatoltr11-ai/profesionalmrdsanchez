@@ -50,8 +50,8 @@ export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: 
     const { nombre } = getDisparadorClave(quizData);
     const fase = nombre === 'La Pérdida' ? 3 : nombre === 'La Nostalgia' ? 2 : 1;
     const claveTexto = fase === 1
-        ? 'Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Más abajo te la marqué.'
-        : `Las 3 fases van siempre en este orden, porque cada una prepara la siguiente. Pero en tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Más abajo te la marqué.`;
+        ? 'En tu caso, la Fase 1 es la que decide: si aquí te equivocas, las otras dos no llegan. Te la marqué abajo.'
+        : `En tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Te la marqué abajo.`;
 
     const porSituacion: Record<string, string> = {
         'CONTACTO CERO': 'Sin contacto, la Ventana empieza sin que le escribas: ella nota el cambio por lo que ve de ti, no por lo que le dices.',
@@ -100,99 +100,65 @@ export function getProbabilidad(quizData: QuizData): number {
  * Texto renderizado com pre-line (sem markdown).
  */
 export function getCopy(quizData: QuizData): string {
-    const timeSeparation = quizData.timeSeparation || '';
+    // Diagnóstico enxuto v3 (19/11/2026): 7 blocos, sem repetição. Proposta: expert-lucas/copies/diagnostico-enxuto-v3.md
     const currentSituation = quizData.currentSituation || '';
     const exSituation = quizData.exSituation || '';
-
-    // 1. Mecanismo v2 (19/11): o que ele fez por impulso → Ancla del Dolor (substitui "o que a afastou")
     const impulso = quizData.impulso || '';
-    const introByImpulso: Record<string, string> = {
-        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Me contaste que le mandaste un mensaje larguísimo. Lo escribiste por amor. Pero para su cerebro no fue amor: fue presión. Así se empieza a hundir el Ancla del Dolor.',
-        'LA LLAMÉ VARIAS VECES': 'Me contaste que la llamaste varias veces. Cada llamada sin respuesta le confirmó a su cerebro que tenía razón en alejarse. Así se hunde el Ancla del Dolor.',
-        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Me contaste que le pediste perdón y otra oportunidad. Lo hiciste de corazón. Pero rogar le habla a su lado racional, el que compara y juzga. Así se hunde el Ancla del Dolor.',
-        'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Me contaste que la vigilaste en redes. No eres el único: casi todos lo hacen y casi nadie lo admite. El problema es que esa ansiedad se nota en todo lo demás que haces con ella.',
-        'NO HICE NADA, ME QUEDÉ CALLADO': 'Me contaste que no hiciste nada. Eso evitó lo peor: no hundiste el Ancla del Dolor. Pero quedarte quieto tampoco enciende nada en ella.'
-    };
-    const intro = introByImpulso[impulso] || 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y lo que se apagó por desgaste se puede volver a encender.';
-
-    // 1b. A dor dele, devolvida com as palavras dele
     const mainPain = quizData.mainPain || '';
-    const painByOption: Record<string, string> = {
-        'QUE ME DEJE EN VISTO': 'Me dijiste que lo que más te duele es que te deje en visto. Por eso tu plan empieza por lo que NO debes hacer cuando eso pasa.',
-        'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Me dijiste que lo que más te duele es vivir con ella como dos desconocidos. Tu plan tiene en cuenta que la ves todos los días.',
-        'IMAGINARLA CON OTRO': 'Me dijiste que lo que más te duele es imaginarla con otro. Tu plan te dice cómo actuar sin competir y sin rogar.',
-        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Me dijiste que lo que más te duele es que te quiera, pero no lo suficiente. Ahora vas a entender exactamente por qué te lo dice.',
-        'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Me dijiste que lo que más te duele es no sentir el calor de hogar. Tu plan está pensado para relaciones largas como la tuya.'
+
+    // Bloco 3 · abertura: confissão + Ancla del Dolor
+    const aberturaByImpulso: Record<string, string> = {
+        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'No fue por falta de amor. Me contaste que le mandaste un mensaje larguísimo. Lo escribiste por amor, pero su cerebro lo registró como presión. Cada mensaje así le graba una sola idea: este hombre trae dolor. Eso es el ANCLA DEL DOLOR, y mientras más insistes, más se hunde.',
+        'LA LLAMÉ VARIAS VECES': 'No fue por falta de amor. Me contaste que la llamaste varias veces. Cada llamada sin respuesta le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR, y mientras más insistes, más se hunde.',
+        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'No fue por falta de amor. Me contaste que le pediste perdón y otra oportunidad. Lo hiciste de corazón, pero rogar le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR, y mientras más insistes, más se hunde.',
+        'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'No fue por falta de amor. Me contaste que la vigilaste en redes. Casi todos lo hacen y casi nadie lo admite: revisar su última conexión, mirar sus historias desde otra cuenta, analizar cada foto. Esa ansiedad se nota en todo lo que haces con ella, y le graba una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR.',
+        'NO HICE NADA, ME QUEDÉ CALLADO': 'No fue por falta de amor. Me contaste que no hiciste nada. Eso evitó lo peor: no le grabaste a su cerebro la idea de que traes presión, lo que yo llamo el ANCLA DEL DOLOR. Pero quedarte quieto tampoco enciende nada en ella.'
     };
-    const painEcho = painByOption[mainPain] || '';
+    const abertura = aberturaByImpulso[impulso] || 'No fue por falta de amor. Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR, y mientras más insistes, más se hunde.';
 
-    // TESTE 4 (lab): quem mora junto não "vive sem ele"
-    const vivenJuntos = currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+    // Bloco 4 · vergonha (quem marcou "vigilé en redes" já leu isso na abertura)
+    const verguenza = impulso.startsWith('LA VIGILÉ')
+        ? ''
+        : 'Y sé lo que casi ningún hombre admite: revisar su última conexión a cada rato, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.';
 
-    // 2. Tempo de separação
-    let urgency = '';
-    if (timeSeparation.includes('MENOS DE 1 SEMANA') || timeSeparation.includes('1-4 SEMANAS')) {
-        urgency = 'Todavía estás a tiempo de hacerlo bien. Ella sigue pensando en ti, pero lo que hagas en los próximos días puede acercarla o alejarla.';
-    } else if (timeSeparation.includes('1-6 MESES')) {
-        urgency = vivenJuntos
-            ? 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a tenerte cerca sin sentirte cerca. Por eso ahora importa más el cuándo que el qué.'
-            : 'Ya pasó un tiempo, y eso no la cerró. Lo que sí pasa es que se está acostumbrando a vivir sin ti. Por eso ahora importa más el cuándo que el qué.';
-    } else if (timeSeparation.includes('MÁS DE 6 MESES')) {
-        urgency = 'Pasaron meses, y aun así no está cerrado. Una mujer no olvida años en meses. Solo necesita un motivo nuevo para mirarte distinto.';
-    }
+    // Bloco 5 · Harvard (a foto entra no marcador [[FOTO_HARVARD]])
+    const harvard = 'LO QUE NADIE TE EXPLICÓ: Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. Todo lo que hiciste hasta ahora le habló al lado racional. Con ese lado nadie se enamora.';
 
-    // 3. Situação de contato
-    const sinContacto =
-        currentSituation.includes('CONTACTO CERO') ||
-        currentSituation.includes('ME IGNORA') ||
-        currentSituation.includes('BLOQUEADO');
-    const insight = vivenJuntos
-        ? 'Que vivan bajo el mismo techo es una ventaja: no tienes que buscarla, ya está ahí. El problema es cómo te ve dentro de la casa. Si todo sigue igual que antes, nada cambia.'
-        : sinContacto
-        ? (timeSeparation.includes('1-6 MESES')
-            // Lab 18/11: 1-6 meses já ouviu "se está acostumbrando" no bloco do tempo; aqui não repete
-            ? 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: esperar sin un plan es dejar que el tiempo decida por ti. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.'
-            : 'El silencio no es el final. Pero el silencio solo no la trae de vuelta: mientras tú esperas, ella se acostumbra. Lo que la hace volver es reaparecer en el momento exacto y de la forma correcta.')
-        : 'Que todavía hablen es una puerta abierta. El problema no es llegar a ella, es cómo te ve cuando le hablas. Si cada conversación se siente igual que antes, nada cambia.';
+    // Bloco 6 · a química respondendo à dor dele
+    const quimicaByPain: Record<string, string> = {
+        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Por eso te dice "te quiero, pero no lo suficiente". La oxitocina, el cariño, sigue ahí. La dopamina, las ganas de estar contigo, se apagó. Y las ganas se vuelven a encender.',
+        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto. La oxitocina, el cariño, todavía está. Pero la dopamina, las ganas de saber de ti, se apagó: ya no siente nada cuando le llega tu mensaje. Y las ganas se vuelven a encender.',
+        'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Por eso viven como dos desconocidos. La oxitocina, el cariño, sigue ahí: por eso no se fue del todo. Lo que se apagó es la dopamina, las ganas de estar contigo. Y las ganas se vuelven a encender.',
+        'IMAGINARLA CON OTRO': 'Por eso duele tanto imaginarla con otro: él le da algo nuevo, dopamina. Pero el cariño de años, la oxitocina, sigue contigo. Eso él no lo tiene. Y las ganas por ti se vuelven a encender.',
+        'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Por eso la casa se siente fría. La oxitocina, el cariño de años, sigue ahí. Lo que se apagó es la dopamina, las ganas. Y las ganas se vuelven a encender.'
+    };
+    const quimica = quimicaByPain[mainPain] || 'La oxitocina es el cariño: por eso todavía te dice "te quiero". La dopamina son las ganas: esa se apagó, y por eso hoy no te busca. Y las ganas se vuelven a encender.';
 
-    // 4. Ela está com outro?
-    const conOtro =
-        exSituation.includes('RELACIÓN SERIA') ||
-        exSituation.includes('SALIENDO CASUAL') ||
-        exSituation.includes('VARIAS PERSONAS');
-    const otroInsight = conOtro
-        ? 'Y que esté con otro no cierra la puerta. Muchas veces es su forma de no pensar en ti.'
+    // Bloco 7 · en tu caso + disparador + Obsesión Inversa
+    const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation);
+    const laVe = ['VIVIMOS JUNTOS PERO DISTANTES', 'SÓLO TEMAS NECESARIOS'].includes(currentSituation);
+    const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(exSituation);
+    let enTuCaso = sinContacto
+        ? 'EN TU CASO: Hoy no hay contacto, y mientras esperas, ella se acostumbra. Por eso importa más el cuándo que el qué.'
+        : laVe
+        ? 'EN TU CASO: Todavía la ves, y eso es una ventaja. Lo que cambia todo es cómo te ve cuando están juntos.'
+        : currentSituation
+        ? 'EN TU CASO: Todavía hablan, y eso es una puerta abierta. Lo que cambia todo es cómo te ve cuando le hablas.'
         : '';
+    if (conOtro) enTuCaso = (enTuCaso ? enTuCaso + ' ' : 'EN TU CASO: ') + 'Y que esté con otro no cierra la puerta.';
 
-    // 5. Disparador clave (mesma regra usada na página de oferta)
     const clave = getDisparadorClave(quizData);
     const disparador = `Tu disparador clave: ${clave.nombre}\n${clave.texto}`;
 
-    // Mecanismo v2 (18/11/2026): Ancla del Dolor + Harvard + oxitocina/dopamina + lado racional
-    // 19/11 (modelo Vabo): a vergonha que ninguém admite, antes do mecanismo
-    const verguenza = 'Y sé lo que casi ningún hombre admite en voz alta: revisar su última conexión a cada rato. Mirar sus historias desde otra cuenta. Pasar horas analizando una foto, buscando si hay alguien más. No comer bien, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química, y ahora te explico cuál.';
-
-    const mecanismo = [
-        'LO QUE NADIE TE EXPLICÓ:',
-        'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR. Y mientras más insistes, más la hundes.',
-        'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina.',
-        '[[FOTO_HARVARD]]',
-        'La oxitocina es el cariño. Por eso todavía te dice "te quiero". La dopamina son las ganas. Esa se apagó, y por eso hoy no te busca.',
-        'Todo lo que hiciste hasta ahora le habló a su lado racional. Con ese lado nadie se enamora.'
-    ].join('\n\n');
-
     return [
-        'No fue por falta de amor.',
-        intro,
-        painEcho,
+        abertura,
         verguenza,
-        mecanismo,
-        urgency,
-        insight,
-        otroInsight,
+        harvard,
+        '[[FOTO_HARVARD]]',
+        quimica,
+        enTuCaso,
         disparador,
-        'Eso es la OBSESIÓN INVERSA: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte.',
-        'Pero cuidado: este disparador, mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.'
+        'Eso es la OBSESIÓN INVERSA: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte. Pero cuidado: mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.'
     ].filter(Boolean).join('\n\n');
 }
 
@@ -266,61 +232,114 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
 
 // ✅ REFATORADO: Agora retorna objeto estruturado (Instruções #2, #3, #8)
 export function getFaseText(_gender: string, fase: number): {
-    title: string; 
+    title: string;
     timeRange: string;
-    summary: string; 
+    cerebro: string;
+    summary: string;
     bullets: string[];
     warning: string;
 } {
-    const fases: Record<number, { title: string; timeRange: string; summary: string; bullets: string[]; warning: string }> = {
+    // Ventana v4 (19/11/2026): 1 linha "no cérebro" + resumo curto + 3 sinais (antes 5 bullets que repetiam o resumo)
+    const fases: Record<number, { title: string; timeRange: string; cerebro: string; summary: string; bullets: string[]; warning: string }> = {
         1: {
-            title: 'Disparador 1 · La Curiosidad',
-            timeRange: '0-24 HORAS',
-            summary: 'El Ancla del Dolor se suelta: ya no la presionas, y empieza a preguntarse qué pasa contigo.',
+            title: 'La Curiosidad',
+            timeRange: '0 a 24 horas',
+            cerebro: '⚓ Se suelta el Ancla del Dolor',
+            summary: 'Ya no la presionas, y empieza a preguntarse qué pasa contigo.',
             bullets: [
-                '🧠 En su cerebro: su lado racional deja de defenderse de ti',
-                '✓ Sale del "alivio" de después de la ruptura',
-                '✓ Nota que ya no la persigues',
-                '✓ Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
-                '✓ Empieza a buscar señales de ti'
+                'Nota que ya no la persigues',
+                'Se pregunta: "¿Qué le pasa? ¿Ya me olvidó?"',
+                'Empieza a buscar señales de ti'
             ],
-            warning: '⚠️ Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
+            warning: 'Si aquí le escribes un mensaje largo o le pides volver, le confirmas que hizo bien en irse.'
         },
 
         2: {
-            title: 'Disparador 2 · La Nostalgia',
-            timeRange: '24-48 HORAS',
-            summary: 'Vuelve la oxitocina: el cariño de los buenos momentos empieza a pesar más que las peleas.',
+            title: 'La Nostalgia',
+            timeRange: '24 a 48 horas',
+            cerebro: '🧡 Oxitocina: vuelve el cariño',
+            summary: 'Los buenos momentos empiezan a pesar más que las peleas.',
             bullets: [
-                '🧠 En su cerebro: se reactiva la oxitocina. El cariño vuelve primero',
-                '✓ Vuelven los buenos momentos que había guardado',
-                '✓ Deja de verte como el hombre de las últimas peleas',
-                '✓ Su defensa empieza a bajar',
-                '✓ Siente ganas de saber de ti'
+                'Deja de verte como el hombre de las últimas peleas',
+                'Su defensa empieza a bajar',
+                'Siente ganas de saber de ti'
             ],
-            warning: '⚠️ Si presionas en este momento, se asusta y te cierra la puerta. Y una puerta que se cierra dos veces es mucho más difícil de abrir.'
+            warning: 'Si presionas aquí, se asusta y te cierra la puerta. Y una puerta que se cierra dos veces cuesta mucho más abrirla.'
         },
 
         3: {
-            title: 'Disparador 3 · La Pérdida',
-            timeRange: '48-72 HORAS',
-            summary: 'Se enciende la dopamina: siente que te puede perder de verdad, y da el paso.',
+            title: 'La Pérdida',
+            timeRange: '48 a 72 horas',
+            cerebro: '⚡ Dopamina: vuelven las ganas',
+            summary: 'Siente que te puede perder de verdad, y da el paso.',
             bullets: [
-                '🧠 En su cerebro: se dispara la dopamina. Vuelven las ganas de ti',
-                '✓ Siente que ya no estás disponible como antes',
-                '✓ Le da miedo que otra ocupe su lugar',
-                '✓ Busca una excusa para escribirte o verte',
-                '✓ Aquí reapareces, en el momento y de la forma correcta'
+                'Siente que ya no estás disponible como antes',
+                'Le da miedo que otra ocupe su lugar',
+                'Busca una excusa para escribirte o verte'
             ],
-            warning: '⚠️ Aquí se pierde la mayoría. Reaparecen tarde o con el mensaje equivocado, y ella lo toma como la prueba de que nada cambió.'
+            warning: 'Aquí se pierde la mayoría: reaparecen tarde o con el mensaje equivocado, y ella lo toma como prueba de que nada cambió.'
         }
     };
 
     return fases[fase] || {
         title: '',
         timeRange: '',
+        cerebro: '',
         summary: '',
         bullets: [],
         warning: ''
     };
+}
+
+/**
+ * Diagnóstico v4 (19/11/2026): mesmo conteúdo do enxuto v3, em blocos para o componente desenhar
+ * (cards, química em 2 linhas visuais). getCopy fica como referência/fallback.
+ */
+export function getDiagnosticoBlocos(quizData: QuizData): {
+    abertura: string; verguenza: string; harvard: string; dorFrase: string; enTuCaso: string;
+    disparadorNombre: string; disparadorTexto: string;
+} {
+    const currentSituation = quizData.currentSituation || '';
+    const exSituation = quizData.exSituation || '';
+    const impulso = quizData.impulso || '';
+    const mainPain = quizData.mainPain || '';
+
+    const aberturaByImpulso: Record<string, string> = {
+        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Me contaste que le mandaste un mensaje larguísimo. Lo escribiste por amor, pero su cerebro lo registró como presión. Cada mensaje así le graba una sola idea: este hombre trae dolor. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LA LLAMÉ VARIAS VECES': 'Me contaste que la llamaste varias veces. Cada llamada sin respuesta le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Me contaste que le pediste perdón y otra oportunidad. Lo hiciste de corazón, pero rogar le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.',
+        'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Me contaste que la vigilaste en redes. Casi todos lo hacen y casi nadie lo admite: revisar su última conexión, mirar sus historias desde otra cuenta, analizar cada foto. Esa ansiedad se nota en todo lo que haces con ella, y le graba una sola idea: este hombre trae presión. Eso es el Ancla del Dolor.',
+        'NO HICE NADA, ME QUEDÉ CALLADO': 'Me contaste que no hiciste nada. Eso evitó lo peor: no le grabaste a su cerebro la idea de que traes presión, lo que yo llamo el Ancla del Dolor. Pero quedarte quieto tampoco enciende nada en ella.'
+    };
+    const abertura = aberturaByImpulso[impulso] || 'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.';
+
+    const verguenza = impulso.startsWith('LA VIGILÉ')
+        ? ''
+        : 'Y sé lo que casi ningún hombre admite: revisar su última conexión a cada rato, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.';
+
+    const harvard = 'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. Todo lo que hiciste hasta ahora le habló al lado racional. Con ese lado nadie se enamora.';
+
+    const dorByPain: Record<string, string> = {
+        'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Por eso te dice "te quiero, pero no lo suficiente":',
+        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto y ya no siente nada cuando le llega tu mensaje:',
+        'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Por eso viven como dos desconocidos bajo el mismo techo:',
+        'IMAGINARLA CON OTRO': 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño de años sigue contigo, y eso él no lo tiene:',
+        'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Por eso la casa se siente fría:'
+    };
+    const dorFrase = dorByPain[mainPain] || 'Por eso hoy no te busca:';
+
+    const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation);
+    const laVe = ['VIVIMOS JUNTOS PERO DISTANTES', 'SÓLO TEMAS NECESARIOS'].includes(currentSituation);
+    const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(exSituation);
+    let enTuCaso = sinContacto
+        ? 'Hoy no hay contacto, y mientras esperas, ella se acostumbra. Por eso importa más el cuándo que el qué.'
+        : laVe
+        ? 'Todavía la ves, y eso es una ventaja. Lo que cambia todo es cómo te ve cuando están juntos.'
+        : currentSituation
+        ? 'Todavía hablan, y eso es una puerta abierta. Lo que cambia todo es cómo te ve cuando le hablas.'
+        : '';
+    if (conOtro) enTuCaso = (enTuCaso ? enTuCaso + ' ' : '') + 'Y que esté con otro no cierra la puerta.';
+
+    const clave = getDisparadorClave(quizData);
+    return { abertura, verguenza, harvard, dorFrase, enTuCaso, disparadorNombre: clave.nombre, disparadorTexto: clave.texto };
 }
