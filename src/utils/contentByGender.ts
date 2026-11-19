@@ -328,6 +328,8 @@ export function getDiagnosticoBlocos(quizData: QuizData): {
         ? ''
         : vivenJuntos
         ? 'Y sé lo que casi ningún hombre admite: acostarte a su lado y sentirla lejos, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.'
+        : currentSituation === 'BLOQUEADO'
+        ? 'Y sé lo que casi ningún hombre admite: revisar a cada rato si ya te desbloqueó, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.'
         : 'Y sé lo que casi ningún hombre admite: revisar su última conexión a cada rato, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.';
 
     const harvard = 'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. '
@@ -337,17 +339,21 @@ export function getDiagnosticoBlocos(quizData: QuizData): {
 
     const dorByPain: Record<string, string> = {
         'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Por eso te dice "te quiero, pero no lo suficiente":',
-        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto: tu mensaje ya no le despierta nada, aunque el cariño siga ahí:',
+        'QUE ME DEJE EN VISTO': (noHizoNada || ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation))
+            ? 'Por eso te deja en visto: hoy su cerebro no espera nada nuevo de ti, aunque el cariño siga ahí:'
+            : 'Por eso te deja en visto: tu mensaje ya no le despierta nada, aunque el cariño siga ahí:',
         'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Por eso viven como dos desconocidos bajo el mismo techo:',
         'IMAGINARLA CON OTRO': conOtro
-            ? 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño de años sigue contigo, y eso él no lo tiene:'
-            : 'Por eso duele imaginarla con otro. Pero el cariño de años sigue contigo, y eso nadie lo reemplaza en semanas:',
+            ? 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño que construyeron sigue contigo, y eso él no lo tiene:'
+            : 'Por eso duele imaginarla con otro. Pero el cariño que construyeron sigue contigo, y eso no se reemplaza tan fácil:',
         'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Por eso la casa se siente fría:'
     };
     const dorFrase = dorByPain[mainPain] || 'Por eso hoy no te busca:';
 
     const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation);
-    let enTuCaso = sinContacto
+    let enTuCaso = currentSituation === 'ME IGNORA'
+        ? 'Hoy ella no te responde, y cada intento de más la cierra un poco. Por eso importa más el cuándo que el qué.'
+        : sinContacto
         ? 'Hoy no hay contacto, y mientras esperas, ella se acostumbra. Por eso importa más el cuándo que el qué.'
         : vivenJuntos
         ? 'Todavía la ves, y eso es una ventaja. Lo que cambia todo es cómo te ve cuando están juntos.'
@@ -362,7 +368,7 @@ export function getDiagnosticoBlocos(quizData: QuizData): {
         'MENOS DE 1 SEMANA': 'Estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
         '1-4 SEMANAS': 'Estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
         '1-6 MESES': 'Ya pasó un tiempo, y eso no la cerró.',
-        'MÁS DE 6 MESES': 'Pasaron meses, y no está cerrado: una mujer no olvida años en meses.'
+        'MÁS DE 6 MESES': 'Pasaron meses, y no está cerrado: lo que vivieron no se borra en unos meses.'
     };
     const tiempo = porTiempo[quizData.timeSeparation || ''] || '';
     if (tiempo) enTuCaso = tiempo + (enTuCaso ? ' ' + enTuCaso : '');

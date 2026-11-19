@@ -34,7 +34,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
             <p className="vent4-p">
                 Empieza el día en que <b className="vent4-red">{noHizoNada ? 'dejas de esperar sin un plan' : 'dejas de hundir el Ancla del Dolor'}</b>. Lo vi en más de 9.000 hombres: desde ese día, su cerebro pasa por 3 cambios, siempre en el mismo orden.
             </p>
-            <p className="vent4-p">{vivenJuntos ? 'Por eso no importa si llevan 3 días o 3 meses así.' : 'Por eso no importa si se separaron hace 3 días o hace 3 meses.'}</p>
+            <p className="vent4-p">{vivenJuntos ? 'Por eso no importa si llevan 3 días o 3 meses así.' : 'Por eso no importa si se separaron hace 3 días o hace un año.'}</p>
 
             {/* Lab 18/11: foto da Sophia com homens (sem legenda) */}
             <img

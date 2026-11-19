@@ -255,7 +255,7 @@ export default function PaginaOferta({
     const faqPrimero =
         scenario === 'bloqueo' && !casoConOtro ? 'rafael'
         : casoConOtro ? 'tiago'
-        : scenario === 'mismo_techo' ? 'jorge'
+        : scenario === 'mismo_techo' ? (quizData.currentSituation === 'SÓLO TEMAS NECESARIOS' ? 'daniel' : 'jorge')
         : quizData.timeSeparation === 'MÁS DE 6 MESES' ? 'marcos'
         : scenario === 'ruptura_reciente' ? 'silvio'
         : '';
@@ -277,6 +277,8 @@ export default function PaginaOferta({
         : scenarioContent.cta_final[scenario];
     const camino1 = vivenJuntos
         ? 'Otra noche bajo el mismo techo sin mirarse. Otra conversación solo de cuentas y horarios. Y ver cómo se acostumbra a tenerte cerca sin sentirte cerca.'
+        : soloTemas
+        ? 'Otra conversación solo de lo necesario, fría y corta. Otra vez que ella se despide sin sentir nada. Y mirar desde afuera cómo se aleja, tal vez hacia otro.'
         : scenario === 'bloqueo'
         ? 'Revisar a cada rato si ya te desbloqueó. Buscar sus historias desde otra cuenta. Y mirar desde afuera cómo se aleja, tal vez hacia otro.'
         : 'Un mensaje más que va a quedar en visto. Otro intento de contacto cero que la acostumbra a vivir sin ti. Y mirar desde afuera cómo se aleja, tal vez hacia otro.';
@@ -406,7 +408,7 @@ export default function PaginaOferta({
                 7-21
             </p>
             <p style={{ fontSize: 'clamp(0.95rem, 4vw, 1.05rem)', color: 'rgba(255,255,255,0.88)', fontWeight: '600', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
-                Días · las primeras señales: te escribe, te busca, te mira distinto
+                Días · ella te escribe, te llama o busca una excusa para verte
             </p>
         </div>
     </div>
@@ -421,7 +423,7 @@ export default function PaginaOferta({
                     lineHeight: '1.2',
                     marginBottom: 'clamp(12px, 3vw, 16px)'
                 }}>
-                    Tu plan de 72 horas para que {gender === 'HOMBRE' ? 'ella vuelva a buscarte' : 'él vuelva a buscarte'}, sin rogar ni perseguirla
+                    Tu plan de 72 horas para que {gender === 'HOMBRE' ? 'ella empiece a buscarte' : 'él empiece a buscarte'}, sin rogar ni perseguirla
                 </h2>
 
                 <p style={{
@@ -453,7 +455,7 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     fontStyle: 'italic'
                 }}>
-                    Con el Protocolo de la Obsesión Inversa. Unos 10 minutos al día, desde tu celular. Garantía doble: 7 días sin preguntas + 90 días si ella no vuelve a buscarte.
+                    Con el Protocolo de la Obsesión Inversa. Unos 10 minutos al día, desde tu celular. Garantía doble: 7 días sin preguntas + 90 días si ella no te busca ni cambia contigo.
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
@@ -1168,7 +1170,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>No, Marcos.</strong> Una mujer no olvida años en meses. Lo que cambia es el primer paso, y tu plan te dice exactamente cuál es en tu caso.
+                                <strong style={{ color: '#4ade80' }}>No, Marcos.</strong> Lo que vivieron no se borra en unos meses. Lo que cambia es el primer paso, y tu plan te dice exactamente cuál es en tu caso.
                             </p>
                         </details>
                         {/* Pergunta 1 */}
@@ -1228,6 +1230,35 @@ export default function PaginaOferta({
                             </p>
                         </details>
 
+                        {/* 19/11: FAQ própria para SÓLO TEMAS NECESARIOS (só aparece para eles, aberta e primeiro) */}
+                        {faqPrimero === 'daniel' && (
+                        <details open style={{ order: -1,
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                Daniel: "Solo hablamos de lo necesario (hijos, cuentas, trabajo). ¿Sirve?"
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>✅ Sí, Daniel.</strong> Es una de las mejores puertas: ya tienen un canal y ella no lo cerró. El Plan Completo incluye el Protocolo Mismo Techo: cómo comportarte en cada intercambio para que ella note el cambio sin que se lo digas.
+                            </p>
+                        </details>
+                        )}
+
                         {/* Pergunta 3 (NOVA) */}
                         <details open={faqPrimero === 'jorge'} style={{ order: faqPrimero === 'jorge' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
@@ -1251,7 +1282,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí, Jorge.</strong> Es de los casos más comunes. El Plan Completo incluye una guía solo para cuando la ves todos los días y no puedes desaparecer.
+                                <strong style={{ color: '#4ade80' }}>✅ Sí, Jorge.</strong> Es de los casos más comunes. El Plan Completo incluye el Protocolo Mismo Techo, solo para cuando la ves todos los días y no puedes desaparecer.
                             </p>
                         </details>
 

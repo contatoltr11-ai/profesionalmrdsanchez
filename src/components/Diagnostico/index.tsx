@@ -139,10 +139,10 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     <div className="diag4-chem-row">
                         <span className="diag4-chem-ico">⚡</span>
                         <span className="diag4-chem-name"><b>Dopamina</b><br/>las ganas</span>
-                        <span className="diag4-chem-off">❌ se apagó</span>
+                        <span className="diag4-chem-off">{quizData.currentSituation === 'ENCUENTROS ÍNTIMOS' ? '⚠️ van y vienen' : '❌ se apagó'}</span>
                     </div>
                 </div>
-                <p className="diag4-p diag4-green">Y las ganas se vuelven a encender.</p>
+                <p className="diag4-p diag4-green">{quizData.currentSituation === 'ENCUENTROS ÍNTIMOS' ? 'Y las ganas pueden volver a quedarse.' : 'Y las ganas se vuelven a encender.'}</p>
 
                 {d.enTuCaso && (
                     <div className="diag4-card">
@@ -157,7 +157,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     <p className="diag4-p">{d.disparadorTexto}</p>
                 </div>
 
-                <p className="diag4-p">Eso es la <strong>Obsesión Inversa</strong>: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte.</p>
+                <p className="diag4-p">Eso es la <strong>Obsesión Inversa</strong>: {(quizData.impulso || '').startsWith('NO HICE') ? 'dejas de esperarla en silencio' : 'dejas de perseguirla tú'}, y es su cerebro el que empieza a buscarte.</p>
                 <p className="diag4-warn">⚠️ Pero cuidado: mal usado, la aleja para siempre. Por eso, antes de tu Ventana, escucha a Sophia.</p>
             </div>
             <style>{`

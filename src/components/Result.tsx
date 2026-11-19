@@ -169,7 +169,7 @@ export default function Result({ onNavigate }: ResultProps) {
                     if (prev <= 1) {
                         clearInterval(delayInterval);
                         setIsVideoButtonEnabled(true);
-                        ga4Tracking.videoButtonUnlocked({ unlock_time_seconds: 50, video_name: 'VSL Plan Personalizado' });
+                        ga4Tracking.videoButtonUnlocked({ unlock_time_seconds: 10, video_name: 'VSL Plan Personalizado' });
                         return 0;
                     }
                     return prev - 1;

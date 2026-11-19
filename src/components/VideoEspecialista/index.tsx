@@ -18,7 +18,7 @@ export default function VideoEspecialista({
     onButtonClick
 }: VideoEspecialistaProps) {
     const getDelayEmoji = (secondsLeft: number) => {
-        const progress = (50 - secondsLeft) / 50;
+        const progress = (10 - secondsLeft) / 10;
         if (progress < 0.2) return '😴';
         if (progress < 0.4) return '⏳';
         if (progress < 0.7) return '🔥';
@@ -53,7 +53,7 @@ export default function VideoEspecialista({
                             <div className="delay-progress-bar-container">
                                 <div 
                                     className="delay-progress-bar" 
-                                    style={{ width: `${((50 - videoButtonDelayLeft) / 50) * 100}%` }}
+                                    style={{ width: `${((10 - videoButtonDelayLeft) / 10) * 100}%` }}
                                 ></div>
                             </div>
                             <button 

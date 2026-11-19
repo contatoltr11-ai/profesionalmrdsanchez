@@ -83,7 +83,7 @@ const QUESTIONS: Question[] = [
     options: ['QUE ME DEJE EN VISTO', 'VIVIR CON ELLA COMO DOS DESCONOCIDOS', 'IMAGINARLA CON OTRO', 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE', 'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR'],
     response: 'Te entiendo.',
     responseByOption: {
-      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia, y es normal revisarlo a cada rato. Pero cada mensaje de más le graba a su cerebro una sola idea: este hombre trae presión. Yo lo llamo el Ancla del Dolor. Desde hoy dejas de hundirla.',
+      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia, y es normal revisarlo a cada rato. Pero si le escribes de más, cada mensaje le graba a su cerebro una sola idea: este hombre trae presión. Yo lo llamo el Ancla del Dolor. Desde hoy no la hundes más.',
       'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Y tiene arreglo: muchas veces empieza por que ella vuelva a verte distinto.',
       'IMAGINARLA CON OTRO': 'Esa imagen no te deja dormir, lo sé. Lo que imaginas casi siempre es peor que lo que pasa de verdad. Y aunque hubiera alguien, eso no cierra la puerta.',
       'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase es la clave de tu caso. El "te quiero" es real: el cariño sigue encendido en su cerebro. Lo que se apagó son las ganas de estar contigo. Y eso tiene arreglo.',
@@ -93,7 +93,7 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 5,
-    text: 'Gracias por contarme. ¿Cómo está hoy el contacto entre ustedes?',
+    text: 'Ahora cuéntame: ¿cómo está hoy el contacto entre ustedes?',
     options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'VIVIMOS JUNTOS PERO DISTANTES', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
     response: 'Entiendo.',
     responseByOption: {
