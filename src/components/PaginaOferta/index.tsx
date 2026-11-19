@@ -7,6 +7,7 @@ interface PaginaOfertaProps {
     preOfferRef: RefObject<HTMLDivElement>;
     offerRef: RefObject<HTMLDivElement>;
     offerTimeLeft: number;
+    offerTimerStage: number;
     spotsLeft: number;
     peopleBuying: number;
     selectedPlan: number | null;
@@ -19,6 +20,7 @@ export default function PaginaOferta({
     preOfferRef,
     offerRef,
     offerTimeLeft,
+    offerTimerStage,
     spotsLeft,
     peopleBuying,
     selectedPlan,
@@ -347,11 +349,17 @@ export default function PaginaOferta({
                     <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>⏰</span>
                     <div>
                         <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.8)', margin: '0 0 4px 0' }}>
-                            Tu precio y tu lugar con Sophia están reservados por:
+                            {offerTimerStage === 2
+                                ? <><strong style={{ color: '#facc15' }}>⚠️ Tu tiempo terminó</strong>, pero tu precio se mantiene mientras no cierres esta página.</>
+                                : offerTimerStage === 1
+                                ? <><strong style={{ color: '#facc15' }}>⏳ Sophia te dio 5 minutos más.</strong> Tu precio y tu lugar siguen reservados por:</>
+                                : 'Tu precio y tu lugar con Sophia están reservados por:'}
                         </p>
+                        {offerTimerStage < 2 && (
                         <p style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
                             {formatTime(offerTimeLeft)}
                         </p>
+                        )}
                         <p style={{ fontSize: 'clamp(0.8rem, 3.2vw, 0.9rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
                             Este precio es solo para quienes terminan el diagnóstico hoy. Si sales de esta página, no se guarda.
                         </p>
@@ -1445,10 +1453,10 @@ export default function PaginaOferta({
                         border: '2px solid rgba(234, 179, 8, 0.3)'
                     }}>
                         <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 6px 0' }}>
-                            ⏰ Expira en:
+                            {offerTimerStage === 2 ? '⚠️ Tu tiempo terminó' : offerTimerStage === 1 ? '⏳ 5 minutos más:' : '⏰ Expira en:'}
                         </p>
-                        <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
-                            {formatTime(offerTimeLeft)}
+                        <p style={{ fontSize: offerTimerStage === 2 ? 'clamp(0.85rem, 3.4vw, 1rem)' : 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
+                            {offerTimerStage === 2 ? 'Precio activo mientras no cierres' : formatTime(offerTimeLeft)}
                         </p>
                     </div>
 

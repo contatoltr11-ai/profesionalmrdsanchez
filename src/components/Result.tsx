@@ -39,6 +39,8 @@ export default function Result({ onNavigate }: ResultProps) {
 
     // ✅ MELHORIA #2: Timer de 10 minutos APENAS para a oferta
     const [offerTimeLeft, setOfferTimeLeft] = useState(10 * 60); // 600 segundos
+    // 19/11: ao zerar, +5 min uma vez (etapa 1); ao zerar de novo, mensagem sem relógio (etapa 2)
+    const [offerTimerStage, setOfferTimerStage] = useState(0);
 
     // ✅ MELHORIA #5: State para seleção de plano (Plan Total $27 pré-selecionado)
     const [selectedPlan, setSelectedPlan] = useState<number | null>(27);
@@ -56,10 +58,34 @@ export default function Result({ onNavigate }: ResultProps) {
     const offerSectionRef = useRef<HTMLDivElement>(null);
 
 
+    // 19/11: carregamento personalizado — as respostas dele aparecem uma por uma (~5 s)
+    const tiempoTxt: Record<string, string> = {
+        'MENOS DE 1 SEMANA': 'Hace menos de 1 semana', '1-4 SEMANAS': 'Hace 1 a 4 semanas',
+        '1-6 MESES': 'Hace 1 a 6 meses', 'MÁS DE 6 MESES': 'Hace más de 6 meses'
+    };
+    const contactoTxt: Record<string, string> = {
+        'CONTACTO CERO': 'sin contacto', 'ME IGNORA': 'te ignora', 'BLOQUEADO': 'te bloqueó',
+        'SÓLO TEMAS NECESARIOS': 'solo hablan de lo necesario', 'VIVIMOS JUNTOS PERO DISTANTES': 'viven juntos, pero distantes',
+        'HABLAMOS A VECES': 'hablan a veces', 'SOMOS AMIGOS': 'son amigos', 'ENCUENTROS ÍNTIMOS': 'todavía se ven a solas'
+    };
+    const impulsoTxt: Record<string, string> = {
+        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Le mandaste un mensaje larguísimo', 'LA LLAMÉ VARIAS VECES': 'La llamaste varias veces',
+        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Le pediste perdón', 'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'La vigilaste en redes',
+        'NO HICE NADA, ME QUEDÉ CALLADO': 'No hiciste nada'
+    };
+    const ellaTxt: Record<string, string> = {
+        'ESTÁ SOLTERA': 'Ella está sola', 'NO ESTOY SEGURO': 'No sabes si está con alguien',
+        'SALIENDO CASUAL': 'Ella está saliendo con alguien', 'RELACIÓN SERIA': 'Ella está con otra persona',
+        'VARIAS PERSONAS': 'Ella está conociendo a varias personas'
+    };
+    const linhaCaso = [tiempoTxt[quizData.timeSeparation], contactoTxt[quizData.currentSituation]].filter(Boolean).join(' · ');
     const loadingSteps = [
-        { icon: '📊', text: 'Respuestas procesadas', duration: 0 },
-        { icon: '🧠', text: 'Armando tu diagnóstico...', duration: 1800 }
-    ];
+        ...(linhaCaso ? [{ icon: '📍', text: linhaCaso }] : []),
+        ...(impulsoTxt[quizData.impulso || ''] ? [{ icon: '💬', text: impulsoTxt[quizData.impulso || ''] }] : []),
+        ...(ellaTxt[quizData.exSituation] ? [{ icon: '👤', text: ellaTxt[quizData.exSituation] }] : []),
+        { icon: '🧠', text: 'Comparando con más de 9.000 casos como el tuyo…' },
+        { icon: '⭐', text: 'Buscando tu disparador clave…' }
+    ].map((s, i, arr) => ({ ...s, duration: Math.round(i * 4400 / arr.length) }));
 
     // TESTE 4 (lab): fotos de casais trocando durante o "Analizando tu caso"
     const loadingImages = ['/img/carga-1.webp', '/img/carga-2.jpg', '/img/carga-3.jpg'];
@@ -96,7 +122,7 @@ export default function Result({ onNavigate }: ResultProps) {
                     clearInterval(progressInterval);
                     return 100;
                 }
-                return prev + 2.5;
+                return prev + 2;
             });
         }, 100);
 
@@ -114,7 +140,7 @@ export default function Result({ onNavigate }: ResultProps) {
             setCurrentPhase(1);
             playKeySound();
             ga4Tracking.revelationViewed('Por qué te dejó', 1);
-        }, 4200);
+        }, 5200);
 
         const spotsInterval = setInterval(() => {
             setSpotsLeft(prev => {
@@ -157,6 +183,12 @@ export default function Result({ onNavigate }: ResultProps) {
             return () => clearInterval(offerTimer);
         }
     }, [currentPhase]);
+
+    useEffect(() => {
+        if (currentPhase < 4 || offerTimeLeft > 0) return;
+        if (offerTimerStage === 0) { setOfferTimerStage(1); setOfferTimeLeft(5 * 60); }
+        else if (offerTimerStage === 1) setOfferTimerStage(2);
+    }, [offerTimeLeft, offerTimerStage, currentPhase]);
 
     useEffect(() => {
         let delayInterval: NodeJS.Timeout;
@@ -327,7 +359,7 @@ export default function Result({ onNavigate }: ResultProps) {
                                 style={{
                                     display: 'block',
                                     width: '100%',
-                                    maxWidth: '230px',
+                                    maxWidth: 'min(230px, 27vh)', // 19/11: menor em tela baixa (iPhone SE) p/ caber as 5 linhas
                                     aspectRatio: '4 / 5',
                                     objectFit: 'cover',
                                     borderRadius: '16px',
@@ -338,11 +370,11 @@ export default function Result({ onNavigate }: ResultProps) {
                             <h2>ANALIZANDO TU CASO</h2>
                             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
-                                <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 25)}s...</span></div>
+                                <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 20)}s...</span></div>
                             </div>
                             <div className="loading-steps-list">
                                 {loadingSteps.map((step, i) => (
-                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active' : ''}`}>
+                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active fade-in' : ''}`} style={{ visibility: i <= loadingStep ? 'visible' : 'hidden' }}>
                                         {i < loadingStep ? '✅' : step.icon} {step.text}
                                     </div>
                                 ))}
@@ -389,6 +421,7 @@ export default function Result({ onNavigate }: ResultProps) {
                         preOfferRef={preOfferVideoSectionRef}
                         offerRef={offerSectionRef}
                         offerTimeLeft={offerTimeLeft}
+                        offerTimerStage={offerTimerStage}
                         spotsLeft={spotsLeft}
                         peopleBuying={peopleBuying}
                         selectedPlan={selectedPlan}
