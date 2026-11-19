@@ -3,7 +3,9 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 
 // Cartão de notícia da primeira dobra (17/11/2026) — mesmo jornal "Relaciones Hoy" da imagem da Ventana 72h.
 // Substituiu a conversa estilo WhatsApp ("Andrea", foto 01-wpp-foto.webp).
-const NEWS_CARD_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp';
+// v3 (18/11/2026): Harvard / lado racional x región primitiva (mecanismo v2). Fonte: expert-lucas/criativo-15-ventana-noticia/landing-card-v3.html
+// Anterior: 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp'
+const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -63,10 +65,10 @@ export default function Landing({ onNavigate }: LandingProps) {
                 </div>
 
                 {/* 2. IMAGEM — cartão de notícia no topo (17/11/2026, v2: notícia antes da pergunta, como o concorrente). Antes: conversa estilo WhatsApp com "Andrea" */}
-                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre cuál de los 3 disparadores aplica a tu caso">
+                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre qué disparador vuelve a encender sus ganas por ti">
                     <img
                         src={NEWS_CARD_URL}
-                        alt="Relaciones Hoy: Por qué algunas mujeres vuelven a buscar a su ex semanas después de terminar (y otras nunca)"
+                        alt="Relaciones Hoy: Harvard: el cerebro de una mujer apaga su lado racional cuando ve al hombre que la marcó"
                         className="lp-news"
                         width={720}
                         height={594}
@@ -77,14 +79,15 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 {/* 3. HEADLINE — TESTE 1 (14/11/2026): continua a promessa do criativo (3 disparadores)
                     Versão anterior: "¿Qué la está alejando de ti? Descubre el próximo paso para que vuelva a escribirte." */}
+                {/* 18/11/2026 (mecanismo v2): "¿Qué disparador vuelve a encender sus ganas por ti?" */}
                 <h1 className="lp-headline">
-                    ¿Cuál de los 3 disparadores{' '}
-                    <span className="lp-highlight">la hace volver a buscarte</span> en tu caso?
+                    ¿Qué disparador{' '}
+                    <span className="lp-highlight">vuelve a encender sus ganas</span> por ti?
                 </h1>
                 {/* 17/11/2026: removida a linha "Responde 6 preguntas y te digo qué hacer (y qué no) esta semana." (já repetida no microtexto do botão) para o botão subir */}
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
-                <p className="lp-objection">Aunque te haya bloqueado, te ignore, ya esté con otro o sigan viviendo bajo el mismo techo.</p>
+                <p className="lp-objection">Aunque te haya bloqueado, te deje en visto, ya esté con otro o vivan bajo el mismo techo.</p>
 
                 {/* 5. CTA — mesmo handleCTAClick de antes (GA4 + navegação para o chat) */}
                 <button className="lp-cta" onClick={handleCTAClick}>
@@ -103,15 +106,15 @@ export default function Landing({ onNavigate }: LandingProps) {
                 <ul className="lp-benefits">
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Por qué el contacto cero te está alejando más de ella</span>
+                        <span>Qué es el Ancla del Dolor y cómo la estás hundiendo</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Cuál de los 3 disparadores aplica a tu caso</span>
+                        <span>Qué parte de su cerebro decide si vuelve</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Qué hacer y qué no hacer en las próximas 72 horas</span>
+                        <span>El disparador exacto para tu caso</span>
                     </li>
                 </ul>
             </main>

@@ -31,7 +31,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
 
             <div className="ventana-scientific-intro">
                 <p>
-                    Después de acompañar a más de 9.000 hombres, vi algo que se repite: las 72 horas no empiezan el día en que terminaron. <strong>Empiezan el día en que tú cambias.</strong> Y lo que haces en esas 72 horas decide si ella se acerca o se cierra.
+                    Después de acompañar a más de 9.000 hombres, vi algo que se repite: las 72 horas no empiezan el día en que terminaron. <strong>Empiezan el día en que dejas de hundir el Ancla del Dolor.</strong> En esas 72 horas, su cerebro pasa por tres cambios químicos, siempre en el mismo orden.
                 </p>
                 <p style={{ marginTop: 12 }}>
                     Por eso no importa si se separaron hace 3 días o hace 3 meses.

@@ -247,12 +247,13 @@ export default function PaginaOferta({
                     marginBottom: '0',
                     fontWeight: '600'
                 }}>
+                    Ya sabes por qué te dice "te quiero, pero…": el cariño sigue ahí, las ganas se apagaron.<br/>
                     Ya sabes cuál es tu disparador clave: <strong style={{ color: '#facc15' }}>{disparadorClave.nombre}</strong>.<br/>
-                    Ya viste cómo funciona la Ventana de 72 horas.<br/><br/>
+                    Ya viste cómo cambia su cerebro en la Ventana de 72 horas.<br/><br/>
                     
                     Ahora falta lo más importante:<br/>
                     <strong style={{ color: '#4ade80', fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)' }}>
-                        saber exactamente qué hacer en cada fase, en tu caso.
+                        saber exactamente qué hacer en cada fase para volver a encender sus ganas, en tu caso.
                     </strong>
                 </p>
             </div>
@@ -282,6 +283,9 @@ export default function PaginaOferta({
                         </p>
                         <p style={{ fontSize: 'clamp(1.5rem, 6vw, 2rem)', color: '#facc15', fontWeight: '900', margin: 0 }}>
                             {formatTime(offerTimeLeft)}
+                        </p>
+                        <p style={{ fontSize: 'clamp(0.8rem, 3.2vw, 0.9rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
+                            Este precio es solo para quienes terminan el diagnóstico hoy. Si sales de esta página, no se guarda y vuelve a USD 147 / USD 379.
                         </p>
                     </div>
                 </div>
@@ -351,9 +355,9 @@ export default function PaginaOferta({
     }}>
         {[
             { t: 'HOY', d: 'Empiezas hoy · tú estás aquí', n: '' },
-            { t: '24h', d: 'La Curiosidad: ella nota que algo cambió en ti', n: 'La Curiosidad' },
-            { t: '48h', d: 'La Nostalgia: vuelve a recordar lo bueno', n: 'La Nostalgia' },
-            { t: '72h', d: 'La Pérdida: siente que te puede perder', n: 'La Pérdida' }
+            { t: '24h', d: 'La Curiosidad: el Ancla del Dolor se suelta', n: 'La Curiosidad' },
+            { t: '48h', d: 'La Nostalgia: vuelve el cariño (oxitocina)', n: 'La Nostalgia' },
+            { t: '72h', d: 'La Pérdida: se encienden las ganas (dopamina)', n: 'La Pérdida' }
         ].map(step => (
             <div key={step.t} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
                 <p style={{ fontSize: 'clamp(1.9rem, 6vw, 2.4rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0 }}>
@@ -420,7 +424,7 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     fontStyle: 'italic'
                 }}>
-                    Con el Protocolo de la Obsesión Inversa. Si en 60 días no ves cambios, te devolvemos el 100% de tu dinero.
+                    Con el Protocolo de la Obsesión Inversa. Garantía doble: 7 días sin preguntas + 90 días si ella no vuelve a buscarte.
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
@@ -476,6 +480,22 @@ export default function PaginaOferta({
     </div>
 </div>
 
+{/* Mecanismo v2 (19/11/2026): âncora "¿Cuánto ya gastaste?" (modelo Mariana Vabo) */}
+<div style={{ background: 'rgba(0,0,0,0.35)', border: '2px solid rgba(255,255,255,0.12)', borderRadius: '16px', padding: 'clamp(16px, 4vw, 22px)', marginBottom: 'clamp(20px, 4vw, 28px)' }}>
+    <h3 style={{ fontSize: 'clamp(1.15rem, 4.8vw, 1.45rem)', color: 'white', fontWeight: 900, textAlign: 'center', margin: '0 0 12px' }}>
+        ¿Cuánto ya gastaste tratando de recuperarla?
+    </h3>
+    <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.6, margin: '0 0 12px' }}>
+        Las flores que ni contestó. La cena que pagaste pensando que lo arreglaba. El regalo que te devolvió. Las noches sin dormir, las horas mirando el celular.
+    </p>
+    <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.88)', lineHeight: 1.6, margin: '0 0 12px' }}>
+        Una consulta privada con Sophia cuesta <strong style={{ color: 'white' }}>USD 297</strong>, y tiene lista de espera.
+    </p>
+    <p style={{ fontSize: 'clamp(1.05rem, 4.2vw, 1.2rem)', color: '#4ade80', fontWeight: 800, lineHeight: 1.5, margin: 0, textAlign: 'center' }}>
+        Hoy tienes el plan completo de tu caso por $27. Menos que una cena para dos.
+    </p>
+</div>
+
 {/* ✅ MELHORIA #5: 2 Planos lado a lado ($14 / $27) */}
 <div style={{
     display: 'grid',
@@ -524,7 +544,7 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 3 · La Pérdida: cuándo y cómo reaparecer</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Qué NO hacer en cada fase (los errores que la alejan)</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 60 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía doble: 7 + 90 días</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
                     ❌ Lo que tu caso necesita: {casoItemTexto} (solo en el Plan Completo)
                 </div>
@@ -630,7 +650,7 @@ export default function PaginaOferta({
                     </svg>
                     Sophia te escribe personalmente para conocer tu caso
                 </div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía de 60 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía doble: 7 + 90 días</div>
             </div>
         </div>
         <button 
@@ -690,7 +710,7 @@ export default function PaginaOferta({
         color: 'rgba(255,255,255,0.95)',
         fontWeight: '600'
     }}>
-        🛡️ Garantía de 60 días · Riesgo cero
+        🛡️ Garantía doble 7 + 90 días · Riesgo cero
     </span>
 </button>
 
@@ -908,7 +928,7 @@ export default function PaginaOferta({
                                 lineHeight: '1.5',
                                 margin: 0
                             }}>
-                                <strong style={{ color: '#4ade80' }}>Que la obsesión pase de ti a ella</strong>: los 3 disparadores en el orden correcto, sin rogar ni perseguirla.
+                                <strong style={{ color: '#4ade80' }}>Que la obsesión pase de ti a ella</strong>: volver a encender sus ganas (su dopamina) con los 3 disparadores en el orden correcto, sin rogar ni perseguirla.
                             </p>
                         </div>
 
@@ -957,17 +977,34 @@ export default function PaginaOferta({
                         fontWeight: '900',
                         textTransform: 'uppercase'
                     }}>
-                        GARANTÍA BLINDADA DE 60 DÍAS
+                        GARANTÍA DOBLE: EL RIESGO ES TODO MÍO
                     </h3>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                         lineHeight: '1.6',
                         color: 'white',
+                        marginBottom: 'clamp(10px, 2.5vw, 12px)',
+                        textAlign: 'left'
+                    }}>
+                        <strong style={{ color: '#4ade80' }}>Garantía 1 · 7 días incondicional.</strong> Entra, mira tu plan, empieza a aplicarlo. Si en 7 días no te gusta por cualquier motivo, te devolvemos todo. Sin preguntas.
+                    </p>
+                    <p style={{
+                        fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
+                        lineHeight: '1.6',
+                        color: 'white',
+                        marginBottom: 'clamp(10px, 2.5vw, 12px)',
+                        textAlign: 'left'
+                    }}>
+                        <strong style={{ color: '#4ade80' }}>Garantía 2 · 90 días.</strong> Aplica tu plan. Si en 90 días ella no te escribe, no te busca y no cambia contigo, te devolvemos cada centavo.
+                    </p>
+                    <p style={{
+                        fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
+                        lineHeight: '1.6',
+                        color: '#facc15',
+                        fontWeight: 700,
                         marginBottom: 'clamp(12px, 3vw, 16px)'
                     }}>
-                        Si en 60 días no ves <strong style={{ color: '#4ade80' }}>resultados concretos</strong> en tu reconquista 
-                        (mensajes de {gender === 'HOMBRE' ? 'ella' : 'él'}, cambio de actitud, reaproximación), 
-                        <strong style={{ color: '#4ade80' }}> devolvemos el 100% de tu dinero</strong>.
+                        Solo hay dos caminos: o ella vuelve a buscarte, o recuperas tu dinero. En los dos, ganas tú.
                     </p>
                     <div style={{
                         display: 'grid',
@@ -1013,6 +1050,82 @@ export default function PaginaOferta({
                         flexDirection: 'column',
                         gap: 'clamp(10px, 2.5vw, 14px)'
                     }}>
+                        {/* Mecanismo v2: FAQ com nomes (Rafael, Silvio, Marcos) */}
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ❓ Rafael: "Me bloqueó en todo. ¿Funciona igual?"
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>✅ Funciona, Rafael.</strong> El bloqueo es su lado racional defendiéndose. Tu plan empieza sin mensajes: ella nota el cambio por lo que ve de ti, no por lo que le escribes.
+                            </p>
+                        </details>
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ❓ Silvio: "Terminamos hace una semana. ¿Es muy pronto?"
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>Es el mejor momento, Silvio.</strong> Las primeras semanas son cuando más hombres hunden el Ancla del Dolor: ruegan, mandan textos largos, regalos. Quien empieza ahora, empieza antes de arruinarlo.
+                            </p>
+                        </details>
+                        <details style={{
+                            background: 'rgba(234, 179, 8, 0.1)',
+                            borderLeft: '4px solid #eab308',
+                            padding: 'clamp(14px, 3.5vw, 16px)',
+                            borderRadius: '8px',
+                            cursor: 'pointer'
+                        }}>
+                            <summary style={{
+                                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                                color: '#facc15',
+                                fontWeight: '700',
+                                cursor: 'pointer',
+                                listStyle: 'none'
+                            }}>
+                                ❓ Marcos: "Pasaron 8 meses. ¿Ya es tarde?"
+                            </summary>
+                            <p style={{
+                                fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
+                                color: 'rgba(255,255,255,0.9)',
+                                marginTop: 'clamp(12px, 3vw, 16px)',
+                                lineHeight: '1.6'
+                            }}>
+                                <strong style={{ color: '#4ade80' }}>No, Marcos.</strong> Una mujer no olvida años en meses. Lo que cambia es el primer paso, y tu plan te dice exactamente cuál es en tu caso.
+                            </p>
+                        </details>
                         {/* Pergunta 1 */}
                         <details style={{
                             background: 'rgba(234, 179, 8, 0.1)',
@@ -1028,7 +1141,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Funciona si {gender === 'HOMBRE' ? 'ella ya está con otro' : 'él ya está con otra'}?
+                                ❓ Tiago: "Ya está con otro. ¿Funciona igual?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1036,7 +1149,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Es uno de los casos más comunes. Ahí tu disparador clave es La Pérdida, 
+                                <strong style={{ color: '#4ade80' }}>✅ Sí, Tiago.</strong> La mayoría de las veces esa relación es una anestesia para no sentir lo que dejó contigo. No vas a competir con él: tu disparador es La Pérdida, 
                                 y el módulo «Si ya está con otro» te dice qué hacer y qué no, para no empujarla más hacia él.
                             </p>
                         </details>
@@ -1085,7 +1198,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Sirve si todavía vivimos juntos o tenemos hijos?
+                                ❓ Jorge: "Todavía vivimos juntos y tenemos hijos. ¿Sirve?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1093,7 +1206,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Es de los casos más comunes. El Plan Completo incluye una guía solo para cuando la ves todos los días y no puedes desaparecer.
+                                <strong style={{ color: '#4ade80' }}>✅ Sí, Jorge.</strong> Es de los casos más comunes. El Plan Completo incluye una guía solo para cuando la ves todos los días y no puedes desaparecer.
                             </p>
                         </details>
 
@@ -1139,7 +1252,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                ❓ ¿Sirve si ya probé otros cursos o ya no tengo 20 años?
+                                ❓ André: "Ya probé de todo y otros cursos. ¿Por qué esto sería distinto?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1147,10 +1260,24 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí.</strong> Casi todos esos cursos están pensados para gente joven y relaciones cortas: no escribir, ir al gimnasio, subir fotos. Este plan parte de tu caso: lo que respondiste, cuánto tiempo estuvieron juntos y en qué punto están hoy.
+                                <strong style={{ color: '#4ade80' }}>Porque todo lo que probaste le habló a su lado racional</strong>: cartas, disculpas, contacto cero. Este plan le habla al lado que decide de quién se enamora. Y no está pensado para chicos de 20 años: parte de tu caso, de lo que respondiste y de en qué punto están hoy.
                             </p>
                         </details>
                     </div>
+                </div>
+
+                {/* Mecanismo v2: fechamento "Tienes dos caminos" (modelo Julio/Vabo) */}
+                <div style={{ background: 'rgba(0,0,0,0.35)', border: '2px solid rgba(255,255,255,0.12)', borderRadius: '16px', padding: 'clamp(16px, 4vw, 22px)', marginBottom: 'clamp(16px, 4vw, 22px)' }}>
+                    <h3 style={{ fontSize: 'clamp(1.2rem, 5vw, 1.5rem)', color: 'white', fontWeight: 900, textAlign: 'center', margin: '0 0 14px' }}>Tienes dos caminos</h3>
+                    <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                        <strong style={{ color: '#f87171' }}>Camino 1:</strong> cerrar esta página y seguir igual. Un mensaje más que va a quedar en visto. Otro intento de contacto cero que la acostumbra a vivir sin ti. Y mirar desde afuera cómo se aleja, tal vez hacia otro.
+                    </p>
+                    <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                        <strong style={{ color: '#4ade80' }}>Camino 2:</strong> empezar hoy tu Ventana de 72 horas, con tu disparador, en el orden correcto. Sin rogar. Sin perseguirla. Y con 90 días para comprobarlo.
+                    </p>
+                    <p style={{ fontSize: 'clamp(0.9rem, 3.6vw, 1rem)', color: '#facc15', fontWeight: 700, textAlign: 'center', margin: 0 }}>
+                        Si el botón de abajo todavía está activo, tu precio sigue reservado.
+                    </p>
                 </div>
 
                 {/* CTA final secundário */}
@@ -1210,7 +1337,7 @@ export default function PaginaOferta({
                             🛡️ Garantía:
                         </p>
                         <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#4ade80', fontWeight: '900', margin: 0 }}>
-                            60 días
+                            7 + 90 días
                         </p>
                     </div>
                 </div>
@@ -1245,7 +1372,7 @@ export default function PaginaOferta({
                     fontStyle: 'italic',
                     margin: 0
                 }}>
-                    🔒 Compra 100% segura • Acceso instantáneo • 60 días de garantía blindada
+                    🔒 Compra 100% segura • Acceso instantáneo • Garantía doble 7 + 90 días
                 </p>
 
             </div>

@@ -71,7 +71,7 @@ const QUESTIONS: Question[] = [
       'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Lo escucho mucho: hombres que lo dieron todo trabajando y pensaron que eso bastaba. Ella necesitaba sentirlo de otra forma, y eso todavía se puede mostrar.',
       'PELEAS QUE LA FUERON CANSANDO': 'Las peleas cansan, pero no borran lo que sintieron. Lo que se desgastó de a poco se puede recuperar.',
       'UNA INFIDELIDAD O UNA MENTIRA': 'Es de los casos más difíciles, no te voy a mentir. Pero he visto a muchos hombres volver después de un error así. Lo que va a contar es lo que ella vea en ti desde hoy.',
-      'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Esa frase duele, lo sé. Pero casi nunca significa que el amor se acabó.'
+      'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Esa frase duele, lo sé. Pero casi nunca es que el amor se acabó. Lo primero que se apaga son las ganas. El cariño sigue ahí. Y las ganas se vuelven a encender.'
     },
     dataKey: 'mainCause',
   },
@@ -82,10 +82,10 @@ const QUESTIONS: Question[] = [
     options: ['QUE ME DEJE EN VISTO', 'VIVIR CON ELLA COMO DOS DESCONOCIDOS', 'IMAGINARLA CON OTRO', 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE', 'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR'],
     response: 'Te entiendo.',
     responseByOption: {
-      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia mucho, y es normal que lo revises a cada rato. Te adelanto algo: insistir más no la acerca. Hay otra forma, y te la voy a mostrar.',
+      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia, y es normal revisarlo a cada rato. Pero cada mensaje de más le graba a su cerebro una sola idea: este hombre trae presión. Yo lo llamo el Ancla del Dolor. Desde hoy dejas de hundirla.',
       'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Y tiene arreglo: muchas veces empieza por que ella vuelva a verte distinto.',
       'IMAGINARLA CON OTRO': 'Esa imagen no te deja dormir, lo sé. Lo que imaginas casi siempre es peor que lo que pasa de verdad. Y aunque hubiera alguien, eso no cierra la puerta.',
-      'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase confunde mucho, porque abre y cierra la puerta al mismo tiempo. Si todavía te quiere, hay algo con qué trabajar. Falta que vuelva a elegirte.',
+      'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase es la clave de tu caso. El "te quiero" es real: el cariño sigue encendido en su cerebro. Lo que se apagó son las ganas de estar contigo. Y eso tiene arreglo.',
       'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Extrañar tu casa, tu familia, la rutina con ella… es lo que más pesa en relaciones largas. Y justo por esa historia, hay mucho de dónde reconstruir.'
     },
     dataKey: 'mainPain',
@@ -96,9 +96,9 @@ const QUESTIONS: Question[] = [
     options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'VIVIMOS JUNTOS PERO DISTANTES', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
     response: 'Entiendo.',
     responseByOption: {
-      'CONTACTO CERO': 'El contacto cero se siente como hacer lo correcto, pero mientras tú esperas, ella se acostumbra. Más adelante te explico cuándo romperlo.',
-      'ME IGNORA': 'Cuando ignora, casi siempre es una defensa, no indiferencia. Y las defensas bajan cuando dejas de empujar.',
-      'BLOQUEADO': 'El bloqueo parece el final, pero muchas veces es lo contrario: se bloquea a quien todavía le mueve algo por dentro.',
+      'CONTACTO CERO': 'El contacto cero se siente correcto, pero le habla al lado racional de su cerebro, el que no se enamora. Mientras tú esperas, ella se acostumbra a vivir sin ti. Más adelante te digo cuándo y cómo romperlo.',
+      'ME IGNORA': 'Cuando te ignora, no es indiferencia. Es su lado racional en guardia. Y esa guardia baja cuando dejas de empujar.',
+      'BLOQUEADO': 'El bloqueo parece el final, pero es lo contrario. Nadie bloquea a quien le es indiferente. Se bloquea a quien todavía le mueve algo por dentro.',
       'SÓLO TEMAS NECESARIOS': 'Que todavía hablen, aunque sea de lo necesario, es una puerta abierta. Lo importante es cómo te ve en esas conversaciones.',
       'VIVIMOS JUNTOS PERO DISTANTES': 'Vivir bajo el mismo techo y sentirse lejos duele mucho. Pero verla todos los días es una ventaja enorme si sabes qué hacer y qué no.',
       'HABLAMOS A VECES': 'Que hablen de vez en cuando es muy buena señal. El canal está abierto, falta cambiar lo que ella siente cuando habla contigo.',
@@ -116,7 +116,7 @@ const QUESTIONS: Question[] = [
       'ESTÁ SOLTERA': 'Bien. Si está sola, nadie está ocupando tu lugar. Ese espacio es tuyo, pero no va a esperar para siempre.',
       'NO ESTOY SEGURO': 'Tranquilo, es lo más común. Tu plan va a servir en los dos casos.',
       'SALIENDO CASUAL': 'Si es algo casual, no hay nada firme. No compitas con él: lo que funciona es que ella vuelva a comparar, sin que tú la presiones.',
-      'RELACIÓN SERIA': 'Duele, lo sé. Pero muchas veces una relación nueva es la forma de no pensar en lo que dejó. No vas a competir con él. Vas a hacer que recuerde lo que tenía contigo.',
+      'RELACIÓN SERIA': 'Duele, lo sé. Pero muchas veces una relación nueva es una anestesia para no sentir lo que dejó contigo. Él tiene su presente. Tú tienes su historia, y ahí está lo que la hace volver.',
       'VARIAS PERSONAS': 'Si está con varias personas, está buscando algo que todavía no encuentra. Eso dice mucho de lo que siente.'
     },
     dataKey: 'exSituation',
@@ -205,7 +205,7 @@ export default function Chat({ onNavigate }: ChatProps) {
     };
     const intro2: Message = {
       type: 'bot',
-      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo cuál de los 3 disparadores pesa más en tu caso. Lo que respondas queda entre tú y yo.',
+      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo qué disparador vuelve a encender sus ganas por ti. Lo que respondas queda entre tú y yo.',
       isTyping: true,
     };
     setMessages([intro1]);
@@ -303,7 +303,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           optionsTimeoutRef.current = setTimeout(() => {
             const finalMessage: Message = {
               type: 'bot',
-              text: 'Listo. Ya sé cuál es tu disparador clave. Toca abajo y te lo muestro.',
+              text: 'Listo. Ya sé qué disparador vuelve a encender sus ganas por ti. Toca abajo y te lo muestro.',
               isTyping: true,
             };
             setMessages(prev => [...prev, finalMessage]);
