@@ -135,7 +135,7 @@ export default function PaginaOferta({
     const itensFaltantes = [
         'Guía: las señales de que está volviendo',
         'Módulo «Si ya está con otro»',
-        'Guía: ¿me voy de la casa o me quedo?',
+        'Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo?',
         'Comunidad privada'
     ];
     // 19/11: bloqueado E ela com outro → o disparador dele é La Pérdida, então o item do caso é o módulo «Si ya está con otro»
@@ -143,15 +143,15 @@ export default function PaginaOferta({
     const casoConOtro = scenario === 'con_otro' || bloqueoConOtro;
     const casoItemFaltante =
         casoConOtro ? 'Módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'Guía: ¿me voy de la casa o me quedo?'
+        : scenario === 'mismo_techo' ? 'Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo?'
         : 'Guía: las señales de que está volviendo';
     const casoItemTexto =
         casoConOtro ? 'el módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'la guía «¿Me voy de la casa o me quedo?»'
+        : scenario === 'mismo_techo' ? 'la guía «Si la sigues viendo: ¿me alejo o me quedo?»'
         : 'la guía de las señales de que está volviendo';
     const subtituloCompleto =
         casoConOtro ? 'Armado para tu caso: incluye el módulo «Si ya está con otro»'
-        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «¿Me voy de la casa o me quedo?»'
+        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye la guía «Si la sigues viendo: ¿me alejo o me quedo?»'
         : 'Armado para tu caso: incluye la guía de las señales de que está volviendo';
 
     // 5 variáveis × 4 cenários
@@ -204,7 +204,7 @@ export default function PaginaOferta({
             bloqueo: 'Para tu caso te recomiendo el Plan Completo: te muestra cuál es el primer paso correcto para no cerrar más la puerta, y cómo leer las señales cuando empiece a abrirse.',
             canal_abierto: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber cuándo avanzar sin perder el contacto que ya tienen.',
             ruptura_reciente: 'Para tu caso te recomiendo el Plan Completo: incluye la guía de las señales, para saber si está volviendo y cuándo dar el siguiente paso.',
-            mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «¿Me voy de la casa o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
+            mismo_techo: 'Para tu caso te recomiendo el Plan Completo: incluye la guía «Si la sigues viendo: ¿me alejo o me quedo?», para cuando todavía la ves (por la casa o por los hijos) y no puedes desaparecer.'
         },
         cta_final: {
             contacto_cero: 'Quiero mi plan para romper el silencio',
@@ -234,6 +234,28 @@ export default function PaginaOferta({
         ruptura_reciente: 'https://ssplan.shop/wp-content/uploads/2026/10/carlos-prova.webp',
         mismo_techo:      'https://ssplan.shop/wp-content/uploads/2026/11/avatar-50.webp'
     };
+
+    // Etapa 2 (19/11): textos certos para SÓLO TEMAS (sem morar junto), "no hice nada", quem mora junto e bloqueado
+    const soloTemas = quizData.currentSituation === 'SÓLO TEMAS NECESARIOS';
+    const noHizoNada = (quizData.impulso || '').startsWith('NO HICE');
+    const testimonio: { texto: string; autor: string } =
+        (scenario === 'ruptura_reciente' && noHizoNada)
+            ? { texto: 'No hice nada por semanas, esperando que volviera sola. Cuando empecé el plan, a los pocos días me escribió para saber cómo estaba.', autor: 'Diego F.' }
+        : (scenario === 'mismo_techo' && soloTemas)
+            ? scenarioContent.testimonio_caso.canal_abierto
+        : scenarioContent.testimonio_caso[scenario];
+    const testimonioAvatar = (scenario === 'mismo_techo' && soloTemas)
+        ? testimonialAvatarByScenario.canal_abierto
+        : testimonialAvatarByScenario[scenario];
+    const ctaFinal = (scenario === 'ruptura_reciente' && noHizoNada)
+        ? 'Quiero mi plan antes de dar el primer paso'
+        : scenarioContent.cta_final[scenario];
+    const camino1 = vivenJuntos
+        ? 'Otra noche bajo el mismo techo sin mirarse. Otra conversación solo de cuentas y horarios. Y ver cómo se acostumbra a tenerte cerca sin sentirte cerca.'
+        : scenario === 'bloqueo'
+        ? 'Revisar a cada rato si ya te desbloqueó. Buscar sus historias desde otra cuenta. Y mirar desde afuera cómo se aleja, tal vez hacia otro.'
+        : 'Un mensaje más que va a quedar en visto. Otro intento de contacto cero que la acostumbra a vivir sin ti. Y mirar desde afuera cómo se aleja, tal vez hacia otro.';
+    const mostrarPablo = !['bloqueo', 'contacto_cero', 'con_otro'].includes(scenario);
 
     return (
         <>
@@ -308,44 +330,7 @@ export default function PaginaOferta({
                     </div>
                 </div>
 
-                {/* ✅ MELHORIA #3: 2 Fotos emocionais lado a lado */}
-                {/* INSTRUÇÃO: Insira os links das imagens diretamente no atributo src="" abaixo */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 'clamp(8px, 2vw, 12px)',
-                    marginBottom: 'clamp(16px, 3vw, 24px)'
-                }}>
-                    {/* Foto 1 - COLE O LINK DA PRIMEIRA IMAGEM NO src="" */}
-                    <img 
-                        src="https://ssplan.shop/wp-content/uploads/2026/10/01-triste.png" 
-                        alt="Casal reconciliado - Foto 1" 
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            borderRadius: '16px',
-                            boxShadow: '0 12px 48px rgba(0, 0, 0, 0.4)',
-                            border: '3px solid rgba(249, 115, 22, 0.3)',
-                            objectFit: 'cover',
-                            display: 'block'
-                        }}
-                    />
-                    
-                    {/* Foto 2 - COLE O LINK DA SEGUNDA IMAGEM NO src="" */}
-                    <img 
-                        src="https://ssplan.shop/wp-content/uploads/2026/10/02-feliz.webp" 
-                        alt="Casal reconciliado - Foto 2" 
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            borderRadius: '16px',
-                            boxShadow: '0 12px 48px rgba(0, 0, 0, 0.4)',
-                            border: '3px solid rgba(249, 115, 22, 0.3)',
-                            objectFit: 'cover',
-                            display: 'block'
-                        }}
-                    />
-                </div>
+                {/* Etapa 2 (19/11): fotos triste/feliz removidas (homem ~25 anos, fora do público; encurta a página) */}
 
 {/* ✅ MELHORIA #4: Estatísticas de prova social */}
 <div style={{
@@ -374,7 +359,7 @@ export default function PaginaOferta({
         {[
             { t: 'HOY', d: 'Empiezas hoy · tú estás aquí', n: '' },
             { t: '24h', d: 'La Curiosidad: el Ancla del Dolor se suelta', n: 'La Curiosidad' },
-            { t: '48h', d: 'La Nostalgia: vuelve el cariño (oxitocina)', n: 'La Nostalgia' },
+            { t: '48h', d: 'La Nostalgia: el cariño le gana a las peleas (oxitocina)', n: 'La Nostalgia' },
             { t: '72h', d: 'La Pérdida: se encienden las ganas (dopamina)', n: 'La Pérdida' }
         ].map(step => (
             <div key={step.t} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
@@ -661,7 +646,7 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Comunidad privada de hombres en tu misma situación <span style={{ color: '#facc15', fontWeight: '700' }}>· De $67 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: cómo dejar de rogar y volver a ser el hombre que ella eligió <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: las 12 frases que ella dice y qué significan de verdad <span style={{ color: '#facc15', fontWeight: '700' }}>· De $37 a GRATIS</span></div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: ¿me voy de la casa o me quedo? (si viven juntos o tienen hijos) <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Guía: si la sigues viendo (casa, hijos o trabajo): ¿me alejo o me quedo? <span style={{ color: '#facc15', fontWeight: '700' }}>· De $97 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <svg viewBox="0 0 24 24" width="20" height="20" aria-label="WhatsApp" style={{ flexShrink: 0 }}>
@@ -722,7 +707,7 @@ export default function PaginaOferta({
         lineHeight: '1.3'
     }}>
         {selectedPlan 
-            ? `🚀 ${scenarioContent.cta_final[scenario]} ($${selectedPlan})` 
+            ? `🚀 ${ctaFinal} ($${selectedPlan})` 
             : '👆 ELIGE UN PLAN ARRIBA PRIMERO'
         }
     </span>
@@ -771,8 +756,8 @@ export default function PaginaOferta({
                         }}>
                             {/* Avatar por cenário — vem da lookup testimonialAvatarByScenario */}
                             <img 
-                                src={testimonialAvatarByScenario[scenario]} 
-                                alt={scenarioContent.testimonio_caso[scenario].autor} 
+                                src={testimonioAvatar} 
+                                alt={testimonio.autor} 
                                 style={{
                                     width: 'clamp(55px, 14vw, 70px)',
                                     height: 'clamp(55px, 14vw, 70px)',
@@ -794,7 +779,7 @@ export default function PaginaOferta({
                                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                                         color: '#10b981'
                                     }}>
-                                        {scenarioContent.testimonio_caso[scenario].autor}
+                                        {testimonio.autor}
                                     </strong>
                                     <span style={{
                                         fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
@@ -817,11 +802,13 @@ export default function PaginaOferta({
                                     margin: 0,
                                     fontStyle: 'italic'
                                 }}>
-                                    {`"${scenarioContent.testimonio_caso[scenario].texto}"`}
+                                    {`"${testimonio.texto}"`}
                                 </p>
                             </div>
                         </div>
 
+                        {/* Etapa 2 (19/11): Pablo ("me dice que me quede") só para quem ainda tem contato com ela */}
+                        {mostrarPablo && (<>
                         {/* DEPOIMENTO 2: Pablo S. - España (CURTO) */}
                         <div style={{
                             background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
@@ -888,6 +875,7 @@ export default function PaginaOferta({
                                 </p>
                             </div>
                         </div>
+                        </>)}
                         
                     </div>
                 </div>
@@ -1093,7 +1081,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Funciona, Rafael.</strong> El bloqueo es su lado racional defendiéndose. Tu plan empieza sin mensajes: ella nota el cambio por lo que ve de ti, no por lo que le escribes.
+                                <strong style={{ color: '#4ade80' }}>✅ Funciona, Rafael.</strong> El bloqueo es su lado racional defendiéndose. Tu plan no empieza con mensajes: ella nota el cambio por lo que ve de ti. Y te dice cuándo y cómo reaparecer cuando te desbloquee.
                             </p>
                         </details>
                         <details style={{
@@ -1253,8 +1241,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>No.</strong> El contacto cero sirve para olvidarla, no para recuperarla. Mientras tú esperas, ella se acostumbra. El plan te dice cuándo hablarle, cuándo esperar y qué no hacer nunca.
-                            </p>
+                                <strong style={{ color: '#4ade80' }}>No.</strong> El contacto cero es desaparecer y esperar a que ella decida, y así se acostumbra a vivir sin ti. En tu plan, el silencio tiene un objetivo y una fecha: sabes qué tiene que notar en ti, cuándo reaparecer y qué no hacer nunca.</p>
                         </details>
 
                         {/* Pergunta 5 (TESTE 3) */}
@@ -1290,7 +1277,7 @@ export default function PaginaOferta({
                 <div style={{ background: 'rgba(0,0,0,0.35)', border: '2px solid rgba(255,255,255,0.12)', borderRadius: '16px', padding: 'clamp(16px, 4vw, 22px)', marginBottom: 'clamp(16px, 4vw, 22px)' }}>
                     <h3 style={{ fontSize: 'clamp(1.2rem, 5vw, 1.5rem)', color: 'white', fontWeight: 900, textAlign: 'center', margin: '0 0 14px' }}>Tienes dos caminos</h3>
                     <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: '0 0 12px' }}>
-                        <strong style={{ color: '#f87171' }}>Camino 1:</strong> cerrar esta página y seguir igual. Un mensaje más que va a quedar en visto. Otro intento de contacto cero que la acostumbra a vivir sin ti. Y mirar desde afuera cómo se aleja, tal vez hacia otro.
+                        <strong style={{ color: '#f87171' }}>Camino 1:</strong> cerrar esta página y seguir igual. {camino1}
                     </p>
                     <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.08rem)', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, margin: '0 0 12px' }}>
                         <strong style={{ color: '#4ade80' }}>Camino 2:</strong> empezar hoy tu Ventana de 72 horas, con tu disparador, en el orden correcto. Sin rogar. Sin perseguirla. Y con 90 días para comprobarlo.
@@ -1320,7 +1307,7 @@ export default function PaginaOferta({
                     }}
                 >
                     {selectedPlan 
-                        ? `✅ ${scenarioContent.cta_final[scenario]} ($${selectedPlan}) →` 
+                        ? `✅ ${ctaFinal} ($${selectedPlan}) →` 
                         : '👆 ELIGE UN PLAN ARRIBA PRIMERO'
                     }
                 </button>

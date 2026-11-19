@@ -36,7 +36,7 @@ export function getDisparadorClave(quizData: QuizData): { nombre: string; texto:
         return { nombre: 'La Pérdida', texto: 'Su cerebro libera dopamina cuando siente que puede perderte de verdad. Mientras te sienta disponible, no tiene por qué elegirte.' };
     }
     if (currentSituation && !sinContacto) {
-        return { nombre: 'La Nostalgia', texto: 'Ella ya te ve. Falta que su cerebro vuelva a asociarte con lo que sentía al principio, y no con el hombre de las últimas peleas. Cuando vuelve el cariño, las ganas vienen detrás.' };
+        return { nombre: 'La Nostalgia', texto: 'Ella ya te ve. El cariño sigue ahí, pero tapado por las últimas peleas. Falta que su cerebro vuelva a asociarte con lo que sentía al principio. Cuando lo bueno vuelve a pesar más, las ganas vienen detrás.' };
     }
     return { nombre: 'La Curiosidad', texto: 'El primer paso no es escribirle. Es que note que algo cambió en ti sin que se lo digas. Su cerebro no soporta una pregunta sin respuesta, y tú te conviertes en esa pregunta.' };
 }
@@ -54,7 +54,7 @@ export function getVentanaEnTuCaso(quizData: QuizData): { fase: number; nombre: 
         : `En tu caso, la Fase ${fase} es la que decide: ${fase === 2 ? 'la Fase 1 la prepara' : 'las dos primeras la preparan'}, y ahí ella da el paso. Te la marqué abajo.`;
 
     const porSituacion: Record<string, string> = {
-        'CONTACTO CERO': 'Sin contacto, la Ventana empieza sin que le escribas: ella nota el cambio por lo que ve de ti, no por lo que le dices.',
+        'CONTACTO CERO': 'Sin contacto, tu Ventana no es esperar callado. El contacto cero es desaparecer y rezar; la Fase 1 es que ella note que cambiaste, aunque no le escribas. Y tiene fecha: tu plan te dice cuándo reaparecer.',
         'ME IGNORA': 'Si hoy te ignora, la Ventana empieza el día en que dejas de empujar. Ahí su defensa empieza a bajar.',
         'BLOQUEADO': 'Aunque te tenga bloqueado, la Ventana funciona: el cambio le llega por otros caminos, no por mensajes.',
         'SÓLO TEMAS NECESARIOS': 'Como todavía hablan de lo necesario, la Ventana empieza en esas conversaciones: en cómo le respondes, no en lo que le pides.',
@@ -231,7 +231,7 @@ export function getCompletionBadge(gender: string): { title: string; subtitle: s
 }
 
 // ✅ REFATORADO: Agora retorna objeto estruturado (Instruções #2, #3, #8)
-export function getFaseText(_gender: string, fase: number): {
+export function getFaseText(_gender: string, fase: number, vivenJuntos: boolean = false): {
     title: string;
     timeRange: string;
     cerebro: string;
@@ -257,7 +257,7 @@ export function getFaseText(_gender: string, fase: number): {
         2: {
             title: 'La Nostalgia',
             timeRange: '24 a 48 horas',
-            cerebro: '🧡 Oxitocina: vuelve el cariño',
+            cerebro: '🧡 Oxitocina: el cariño vuelve a pesar más',
             summary: 'Los buenos momentos empiezan a pesar más que las peleas.',
             bullets: [
                 'Deja de verte como el hombre de las últimas peleas',
@@ -280,6 +280,12 @@ export function getFaseText(_gender: string, fase: number): {
             warning: 'Aquí se pierde la mayoría: reaparecen tarde o con el mensaje equivocado, y ella lo toma como prueba de que nada cambió.'
         }
     };
+
+    // Etapa 2 (19/11): quem mora junto não "foi esquecido" nem precisa de "excusa para verte"
+    if (vivenJuntos) {
+        fases[1].bullets[1] = 'Se pregunta: "¿Qué le pasa? ¿Ya no le importo?"';
+        fases[3].bullets[2] = 'Busca una excusa para estar cerca de ti o hablarte';
+    }
 
     return fases[fase] || {
         title: '',
@@ -313,36 +319,48 @@ export function getDiagnosticoBlocos(quizData: QuizData): {
     };
     const abertura = aberturaByImpulso[impulso] || 'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el Ancla del Dolor, y mientras más insistes, más se hunde.';
 
+    // Etapa 2 (19/11): textos que só servem para quem mora junto / quem não fez nada / quem ela não está com outro
+    const vivenJuntos = currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+    const noHizoNada = impulso.startsWith('NO HICE');
+    const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(exSituation);
+
     const verguenza = impulso.startsWith('LA VIGILÉ')
         ? ''
+        : vivenJuntos
+        ? 'Y sé lo que casi ningún hombre admite: acostarte a su lado y sentirla lejos, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.'
         : 'Y sé lo que casi ningún hombre admite: revisar su última conexión a cada rato, mirar sus historias desde otra cuenta, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química.';
 
-    const harvard = 'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. Todo lo que hiciste hasta ahora le habló al lado racional. Con ese lado nadie se enamora.';
+    const harvard = 'Investigadores de Harvard escanearon el cerebro de más de 2.500 mujeres mientras miraban la foto de un hombre que las marcó. El lado racional, el que compara y juzga, se apagaba. Se encendía una región primitiva, la del placer, donde se fabrican la oxitocina y la dopamina. '
+        + (noHizoNada
+            ? 'Y quedarte callado también le habla al lado racional: no le duele, pero tampoco le despierta nada. Con ese lado nadie se enamora.'
+            : 'Todo lo que hiciste hasta ahora le habló al lado racional. Con ese lado nadie se enamora.');
 
     const dorByPain: Record<string, string> = {
         'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Por eso te dice "te quiero, pero no lo suficiente":',
-        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto y ya no siente nada cuando le llega tu mensaje:',
+        'QUE ME DEJE EN VISTO': 'Por eso te deja en visto: tu mensaje ya no le despierta nada, aunque el cariño siga ahí:',
         'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Por eso viven como dos desconocidos bajo el mismo techo:',
-        'IMAGINARLA CON OTRO': 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño de años sigue contigo, y eso él no lo tiene:',
+        'IMAGINARLA CON OTRO': conOtro
+            ? 'Por eso duele imaginarla con otro: él le da algo nuevo. Pero el cariño de años sigue contigo, y eso él no lo tiene:'
+            : 'Por eso duele imaginarla con otro. Pero el cariño de años sigue contigo, y eso nadie lo reemplaza en semanas:',
         'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Por eso la casa se siente fría:'
     };
     const dorFrase = dorByPain[mainPain] || 'Por eso hoy no te busca:';
 
     const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(currentSituation);
-    const laVe = ['VIVIMOS JUNTOS PERO DISTANTES', 'SÓLO TEMAS NECESARIOS'].includes(currentSituation);
-    const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(exSituation);
     let enTuCaso = sinContacto
         ? 'Hoy no hay contacto, y mientras esperas, ella se acostumbra. Por eso importa más el cuándo que el qué.'
-        : laVe
+        : vivenJuntos
         ? 'Todavía la ves, y eso es una ventaja. Lo que cambia todo es cómo te ve cuando están juntos.'
+        : currentSituation === 'SÓLO TEMAS NECESARIOS'
+        ? 'Todavía tienen contacto, aunque sea por lo necesario. Esa es tu ventaja: lo que cambia todo es lo que ella siente después de cada intercambio.'
         : currentSituation
         ? 'Todavía hablan, y eso es una puerta abierta. Lo que cambia todo es cómo te ve cuando le hablas.'
         : '';
     if (conOtro) enTuCaso = (enTuCaso ? enTuCaso + ' ' : '') + 'Y que esté con otro no cierra la puerta.';
     // 19/11 (noite): volta a frase pelo tempo de separação (tinha saído no enxuto v3)
     const porTiempo: Record<string, string> = {
-        'MENOS DE 1 SEMANA': 'Todavía estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
-        '1-4 SEMANAS': 'Todavía estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
+        'MENOS DE 1 SEMANA': 'Estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
+        '1-4 SEMANAS': 'Estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
         '1-6 MESES': 'Ya pasó un tiempo, y eso no la cerró.',
         'MÁS DE 6 MESES': 'Pasaron meses, y no está cerrado: una mujer no olvida años en meses.'
     };

@@ -18,6 +18,9 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
     const quizData = storage.getQuizData();
     const gender = quizData.gender || 'HOMBRE';
     const enTuCaso = getVentanaEnTuCaso(quizData);
+    // Etapa 2 (19/11): abertura certa para quem mora junto e para quem não fez nada
+    const vivenJuntos = quizData.currentSituation === 'VIVIMOS JUNTOS PERO DISTANTES';
+    const noHizoNada = (quizData.impulso || '').startsWith('NO HICE');
 
     return (
         <div
@@ -27,11 +30,11 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
             <p className="vent4-kicker">⚡ Paso 3 de 4</p>
             <h2 className="vent4-title">La Ventana de <span>72 horas</span></h2>
 
-            <p className="vent4-lead">No empieza el día en que terminaron.</p>
+            <p className="vent4-lead">{vivenJuntos ? 'No empieza el día en que se alejaron.' : 'No empieza el día en que terminaron.'}</p>
             <p className="vent4-p">
-                Empieza el día en que <b className="vent4-red">dejas de hundir el Ancla del Dolor</b>. Lo vi en más de 9.000 hombres: desde ese día, su cerebro pasa por 3 cambios, siempre en el mismo orden.
+                Empieza el día en que <b className="vent4-red">{noHizoNada ? 'dejas de esperar sin un plan' : 'dejas de hundir el Ancla del Dolor'}</b>. Lo vi en más de 9.000 hombres: desde ese día, su cerebro pasa por 3 cambios, siempre en el mismo orden.
             </p>
-            <p className="vent4-p">Por eso no importa si se separaron hace 3 días o hace 3 meses.</p>
+            <p className="vent4-p">{vivenJuntos ? 'Por eso no importa si llevan 3 días o 3 meses así.' : 'Por eso no importa si se separaron hace 3 días o hace 3 meses.'}</p>
 
             {/* Lab 18/11: foto da Sophia com homens (sem legenda) */}
             <img
@@ -67,7 +70,7 @@ export default function Janela72Horas({ sectionRef, fadeOutPhase, buttonChecked,
             <p className="vent4-sec">Las 3 fases, en orden</p>
             <div className="vent4-fases">
                 {[1, 2, 3].map(f => {
-                    const faseData = getFaseText(gender, f);
+                    const faseData = getFaseText(gender, f, vivenJuntos);
                     const esClave = f === enTuCaso.fase;
                     return (
                         <div key={f} className={`vent4-fase ${esClave ? 'vent4-fase-clave' : ''}`}>

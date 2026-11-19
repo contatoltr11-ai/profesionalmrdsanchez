@@ -103,7 +103,7 @@ const QUESTIONS: Question[] = [
       'SÓLO TEMAS NECESARIOS': 'Que todavía hablen, aunque sea de lo necesario, es una puerta abierta. Lo importante es cómo te ve en esas conversaciones.',
       'VIVIMOS JUNTOS PERO DISTANTES': 'Vivir bajo el mismo techo y sentirse lejos duele mucho. Pero verla todos los días es una ventaja enorme si sabes qué hacer y qué no.',
       'HABLAMOS A VECES': 'Que hablen de vez en cuando es muy buena señal. El canal está abierto, falta cambiar lo que ella siente cuando habla contigo.',
-      'SOMOS AMIGOS': 'La amistad puede ser una trampa o un puente. Depende de lo que hagas en las próximas semanas.',
+      'SOMOS AMIGOS': 'La amistad puede ser una trampa o un puente. Depende de lo que hagas en los próximos días.',
       'ENCUENTROS ÍNTIMOS': 'Si todavía hay intimidad, la atracción sigue viva. Falta que vuelva a verte como su pareja.'
     },
     dataKey: 'currentSituation',

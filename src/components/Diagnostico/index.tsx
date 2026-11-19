@@ -39,16 +39,22 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     const PRINT_C = { src: '/img/print-c.jpg', alt: 'Ella ya estaba con otro' };
     const sit = quizData.currentSituation || '';
     const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(quizData.exSituation || '');
-    const vivenJuntos = sit === 'VIVIMOS JUNTOS PERO DISTANTES' || sit === 'SÓLO TEMAS NECESARIOS';
+    // Etapa 2 (19/11): Andrea (casal que mora junto) primeiro só para quem mora junto; sem contato nunca vê a Andrea
+    const vivenJuntos = sit === 'VIVIMOS JUNTOS PERO DISTANTES';
+    const sinContacto = ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO'].includes(sit);
     // 19/11: sem a pergunta do motivo, o print "ya no sentía nada" vai primeiro para quem marcou "me quiere pero no lo suficiente"
     const dejoDeSentir = quizData.mainPain === 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE';
     const prints = conOtro ? [PRINT_C, PRINT_B]
         : vivenJuntos ? [PRINT_A, PRINT_B]
-        : dejoDeSentir ? [PRINT_B, PRINT_A]
+        : sinContacto ? [PRINT_B, PRINT_C]
+        : (sit === 'SÓLO TEMAS NECESARIOS' || dejoDeSentir) ? [PRINT_B, PRINT_A]
         : [PRINT_B, PRINT_C];
 
     // carrossel: legenda acompanha o print visível
-    const legendas = ['Así le pasó a un hombre en tu misma situación', 'Y a otro que pensaba que ya era tarde'];
+    const legendas = [
+        sit === 'BLOQUEADO' ? 'Así le pasó a un hombre que también estaba bloqueado' : 'Así le pasó a un hombre en tu misma situación',
+        'Y a otro que pensaba que ya era tarde'
+    ];
     const carrosselRef = useRef<HTMLDivElement>(null);
     const [slide, setSlide] = useState(0);
     const onCarrosselScroll = () => {
@@ -102,7 +108,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     <div><span>✓</span> <strong>Tiempo:</strong> {fmt(quizData.timeSeparation)}</div>
                     <div><span>✓</span> <strong>Lo que hiciste:</strong> {fmt(quizData.impulso)}</div>
                     <div><span>✓</span> <strong>Contacto:</strong> {fmt(quizData.currentSituation)}</div>
-                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {fmt(quizData.exSituation)}</div>
+                    <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation === 'NO ESTOY SEGURO' ? 'No sé si está con alguien' : fmt(quizData.exSituation)}</div>
                     <div><span>✓</span> <strong>Lo que más te duele:</strong> {fmt(quizData.mainPain)}</div>
                 </div>
             </div>
