@@ -224,8 +224,16 @@ export default function Result({ onNavigate }: ResultProps) {
         }
 
         if (targetRef && targetRef.current) {
+            // Bloco 1 (19/11): rolagem instantânea descontando a barra fixa de etapas.
+            // O scrollIntoView suave não terminava quando a página encolhia (vídeo cortado no 375×667)
+            // e o título da etapa ficava escondido atrás da barra.
             setTimeout(() => {
-                targetRef!.current!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const el = targetRef!.current;
+                if (!el) return;
+                const bar = document.querySelector('.progress-bar-container') as HTMLElement | null;
+                const offset = (bar ? bar.offsetHeight : 0) + 12;
+                const top = el.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
             }, 100);
         }
     }, [currentPhase]);

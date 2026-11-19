@@ -227,9 +227,10 @@ export default function Chat({ onNavigate }: ChatProps) {
     };
   }, []);
 
+  // Bloco 1 (19/11): rola também quando as opções/botão final aparecem (antes nasciam abaixo da dobra)
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, showOptions]);
 
   const askQuestion = (questionIndex: number) => {
     const question = QUESTIONS[questionIndex];
