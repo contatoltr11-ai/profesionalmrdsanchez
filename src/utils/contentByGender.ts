@@ -104,16 +104,16 @@ export function getCopy(quizData: QuizData): string {
     const currentSituation = quizData.currentSituation || '';
     const exSituation = quizData.exSituation || '';
 
-    // 1. TESTE 4 (lab): o que a afastou (culpa) no lugar de "quem terminou"
-    const mainCause = quizData.mainCause || '';
-    const introByCause: Record<string, string> = {
-        'MIS CELOS O MI CARÁCTER': 'Ella se fue cansando de los celos y las discusiones, no de ti. Eso no define quién eres, define cómo actuabas. Y eso se cambia.',
-        'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Ella se sintió sola mientras tú dabas todo por la casa. Lo que necesita es volver a sentir que es importante para ti.',
-        'PELEAS QUE LA FUERON CANSANDO': 'Ella no se alejó de un día para otro. Se fue cansando. Y lo que se apagó por desgaste se puede volver a encender, si dejas de hacer lo que la cansó.',
-        'UNA INFIDELIDAD O UNA MENTIRA': 'Lo que pasó le dolió, y su desconfianza es real. Pero si todavía algo se mueve en ella, hay camino. No va a ser con palabras, va a ser con lo que vea en ti.',
-        'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Cuando una mujer dice que dejó de sentir, lo que se apagó son las ganas, no el cariño. Y las ganas se vuelven a encender.'
+    // 1. Mecanismo v2 (19/11): o que ele fez por impulso → Ancla del Dolor (substitui "o que a afastou")
+    const impulso = quizData.impulso || '';
+    const introByImpulso: Record<string, string> = {
+        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Me contaste que le mandaste un mensaje larguísimo. Lo escribiste por amor. Pero para su cerebro no fue amor: fue presión. Así se empieza a hundir el Ancla del Dolor.',
+        'LA LLAMÉ VARIAS VECES': 'Me contaste que la llamaste varias veces. Cada llamada sin respuesta le confirmó a su cerebro que tenía razón en alejarse. Así se hunde el Ancla del Dolor.',
+        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Me contaste que le pediste perdón y otra oportunidad. Lo hiciste de corazón. Pero rogar le habla a su lado racional, el que compara y juzga. Así se hunde el Ancla del Dolor.',
+        'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Me contaste que la vigilaste en redes. No eres el único: casi todos lo hacen y casi nadie lo admite. El problema es que esa ansiedad se nota en todo lo demás que haces con ella.',
+        'NO HICE NADA, ME QUEDÉ CALLADO': 'Me contaste que no hiciste nada. Eso evitó lo peor: no hundiste el Ancla del Dolor. Pero quedarte quieto tampoco enciende nada en ella.'
     };
-    const intro = introByCause[mainCause] || 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y lo que se apagó por desgaste se puede volver a encender.';
+    const intro = introByImpulso[impulso] || 'Ella no se fue de un día para otro. Se fue cansando, poco a poco, de algo que veía en la relación. Y lo que se apagó por desgaste se puede volver a encender.';
 
     // 1b. A dor dele, devolvida com as palavras dele
     const mainPain = quizData.mainPain || '';
@@ -169,6 +169,9 @@ export function getCopy(quizData: QuizData): string {
     const disparador = `Tu disparador clave: ${clave.nombre}\n${clave.texto}`;
 
     // Mecanismo v2 (18/11/2026): Ancla del Dolor + Harvard + oxitocina/dopamina + lado racional
+    // 19/11 (modelo Vabo): a vergonha que ninguém admite, antes do mecanismo
+    const verguenza = 'Y sé lo que casi ningún hombre admite en voz alta: revisar su última conexión a cada rato. Mirar sus historias desde otra cuenta. Pasar horas analizando una foto, buscando si hay alguien más. No comer bien, no dormir, no poder concentrarte en el trabajo. No es debilidad. Es química, y ahora te explico cuál.';
+
     const mecanismo = [
         'LO QUE NADIE TE EXPLICÓ:',
         'Cada súplica, cada "perdóname", cada intento de convencerla le grabó a su cerebro una sola idea: este hombre trae presión. Eso es el ANCLA DEL DOLOR. Y mientras más insistes, más la hundes.',
@@ -182,6 +185,7 @@ export function getCopy(quizData: QuizData): string {
         'No fue por falta de amor.',
         intro,
         painEcho,
+        verguenza,
         mecanismo,
         urgency,
         insight,

@@ -14,6 +14,8 @@ export interface QuizData {
   commitmentLevel: string;
   // TESTE 4 (lab): culpa, dor e medo
   mainCause?: string;
+  // 19/11 (mecanismo v2): "¿qué hiciste sin pensar?" substitui mainCause no chat
+  impulso?: string;
   mainPain?: string;
   mainFear?: string;
   answers: QuizAnswer[];

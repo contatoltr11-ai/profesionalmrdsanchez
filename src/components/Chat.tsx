@@ -23,7 +23,7 @@ interface Question {
   responseByOption?: {
     [option: string]: string;
   };
-  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel' | 'mainCause' | 'mainPain' | 'mainFear';
+  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel' | 'mainCause' | 'impulso' | 'mainPain' | 'mainFear';
 }
 
 // ========================================
@@ -61,19 +61,20 @@ const QUESTIONS: Question[] = [
     dataKey: 'timeSeparation',
   },
   {
-    // TESTE 4 (lab planreconquista): culpa no lugar de "quién terminó"
-    id: 8,
-    text: 'Y dime algo con sinceridad: ¿qué crees que la fue alejando?',
-    options: ['MIS CELOS O MI CARÁCTER', 'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ', 'PELEAS QUE LA FUERON CANSANDO', 'UNA INFIDELIDAD O UNA MENTIRA', 'DEJÓ DE SENTIR Y NO SÉ POR QUÉ'],
+    // 19/11 (mecanismo v2, modelo Mariana Vabo): o que ele fez por impulso, no lugar de "¿qué crees que la fue alejando?"
+    // Alimenta a Ancla del Dolor no diagnóstico. GA4 id novo (11) para não misturar com as respostas antigas (id 8).
+    id: 11,
+    text: 'Y dime algo con sinceridad: cuando ella se alejó, ¿qué hiciste sin pensar mucho?',
+    options: ['LE MANDÉ UN MENSAJE LARGUÍSIMO', 'LA LLAMÉ VARIAS VECES', 'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD', 'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)', 'NO HICE NADA, ME QUEDÉ CALLADO'],
     response: 'Gracias por contármelo.',
     responseByOption: {
-      'MIS CELOS O MI CARÁCTER': 'Gracias por decírmelo. Que lo reconozcas ya te pone por delante de la mayoría. Eso se corrige, y ella lo va a notar.',
-      'ME ENFOQUÉ EN TRABAJAR Y LA DESCUIDÉ': 'Lo escucho mucho: hombres que lo dieron todo trabajando y pensaron que eso bastaba. Ella necesitaba sentirlo de otra forma, y eso todavía se puede mostrar.',
-      'PELEAS QUE LA FUERON CANSANDO': 'Las peleas cansan, pero no borran lo que sintieron. Lo que se desgastó de a poco se puede recuperar.',
-      'UNA INFIDELIDAD O UNA MENTIRA': 'Es de los casos más difíciles, no te voy a mentir. Pero he visto a muchos hombres volver después de un error así. Lo que va a contar es lo que ella vea en ti desde hoy.',
-      'DEJÓ DE SENTIR Y NO SÉ POR QUÉ': 'Esa frase duele, lo sé. Pero casi nunca es que el amor se acabó. Lo primero que se apaga son las ganas. El cariño sigue ahí. Y las ganas se vuelven a encender.'
+      'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Casi todos lo hacen. Lo escribiste con el corazón, pero ella lo leyó con el lado racional. Más adelante te explico qué le grabó en el cerebro.',
+      'LA LLAMÉ VARIAS VECES': 'Es el impulso de casi todos, no eres el único. Pero cada llamada sin respuesta le dejó una marca que hay que borrar. Ya vas a ver cuál.',
+      'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Pedir perdón no está mal. El problema es pedirlo así, en este momento. Más adelante te explico por qué la alejó y cómo se corrige.',
+      'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Gracias por la honestidad. Casi ningún hombre lo admite, y casi todos lo hacen. Eso me dice cuánto te importa. Ahora vamos a usar esa energía bien.',
+      'NO HICE NADA, ME QUEDÉ CALLADO': 'Quedarte quieto no la presionó, y eso es bueno. Pero el silencio solo tampoco la trae de vuelta. Ya te digo qué falta.'
     },
-    dataKey: 'mainCause',
+    dataKey: 'impulso',
   },
   {
     // TESTE 4: dor no lugar de "cuánto tiempo estuvieron juntos"

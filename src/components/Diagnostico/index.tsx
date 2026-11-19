@@ -35,7 +35,8 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
     const sit = quizData.currentSituation || '';
     const conOtro = ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(quizData.exSituation || '');
     const vivenJuntos = sit === 'VIVIMOS JUNTOS PERO DISTANTES' || sit === 'SÓLO TEMAS NECESARIOS';
-    const dejoDeSentir = quizData.mainCause === 'DEJÓ DE SENTIR Y NO SÉ POR QUÉ';
+    // 19/11: sem a pergunta do motivo, o print "ya no sentía nada" vai primeiro para quem marcou "me quiere pero no lo suficiente"
+    const dejoDeSentir = quizData.mainPain === 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE';
     const prints = conOtro ? [PRINT_C, PRINT_B]
         : vivenJuntos ? [PRINT_A, PRINT_B]
         : dejoDeSentir ? [PRINT_B, PRINT_A]
@@ -95,7 +96,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                 <p className="summary-title">📋 TU SITUACIÓN ESPECÍFICA</p>
                 <div className="summary-grid">
                     <div><span>✓</span> <strong>Tiempo:</strong> {quizData.timeSeparation || 'No especificado'}</div>
-                    <div><span>✓</span> <strong>Lo que la alejó:</strong> {quizData.mainCause || 'No especificado'}</div>
+                    <div><span>✓</span> <strong>Lo que hiciste:</strong> {quizData.impulso || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Contacto:</strong> {quizData.currentSituation || 'No especificado'}</div>
                     <div><span>✓</span> <strong>{gender === 'HOMBRE' ? 'Ella' : 'Él'} ahora:</strong> {quizData.exSituation || 'No especificado'}</div>
                     <div><span>✓</span> <strong>Lo que más te duele:</strong> {quizData.mainPain || 'No especificado'}</div>
