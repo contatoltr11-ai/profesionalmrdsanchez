@@ -23,14 +23,14 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
 
     // Lab: título acima dos botões, conforme a situação
     const tituloBySituation: Record<string, string> = {
-        'CONTACTO CERO':          'Ahora: por qué el silencio no es el final',
-        'ME IGNORA':              'Ahora: qué hacer cuando ella no responde',
-        'BLOQUEADO':              'Ahora: el camino que no requiere mensaje',
-        'SÓLO TEMAS NECESARIOS':  'Ahora: cómo romper el contacto funcional',
-        'VIVIMOS JUNTOS PERO DISTANTES': 'Ahora: cómo dejar de ser invisible en casa',
-        'HABLAMOS A VECES':       'Ahora: cómo convertir chats en encuentros',
-        'SOMOS AMIGOS':           'Ahora: cómo salir de la friendzone',
-        'ENCUENTROS ÍNTIMOS':     'Ahora: cómo convertir encuentros en relación',
+        'CONTACTO CERO':          'El silencio no es el final',
+        'ME IGNORA':              'Que no te responda no es el final',
+        'BLOQUEADO':              'Que te haya bloqueado no es el final',
+        'SÓLO TEMAS NECESARIOS':  'Que solo hablen de lo necesario no es el final',
+        'VIVIMOS JUNTOS PERO DISTANTES': 'Que se sientan lejos en casa no es el final',
+        'HABLAMOS A VECES':       'Que todavía hablen es tu ventaja',
+        'SOMOS AMIGOS':           'Ser su amigo no es el final',
+        'ENCUENTROS ÍNTIMOS':     'Que todavía se vean es tu ventaja',
     };
 
     // Lab: 2 prints de WhatsApp — o 1º é o do caso dele
