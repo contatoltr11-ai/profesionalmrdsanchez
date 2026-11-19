@@ -120,7 +120,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                 <div className="diag4-card">
                     <p className="diag4-label">🧠 Lo que nadie te explicó</p>
                     <p className="diag4-p">{d.harvard}</p>
-                    <img src="/img/sophia-harvard.webp" alt="Sophia Sanchez en Harvard" width={720} height={720} loading="lazy" className="diag4-img" />
+                    <img src="/img/sophia-harvard.webp" alt="Sophia Sanchez en Harvard" width={1000} height={800} loading="lazy" className="diag4-img" />
                 </div>
 
                 <p className="diag4-p diag4-strong">{d.dorFrase}</p>
