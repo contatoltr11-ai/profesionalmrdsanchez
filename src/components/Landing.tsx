@@ -7,7 +7,9 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 // Anterior: 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp'
 // const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp'; // versão no ar nos domínios
 // PRÉVIA 19/11: cérebro com a região acesa (fonte expert-lucas/criativo-15-ventana-noticia/cerebro-card.html)
-const BRAIN_CARD_URL = '/img/landing-cerebro.webp';
+// PRÉVIA 19/11: mulher latina com o cérebro transparente (imagem gerada pelo usuário; fonte expert-lucas/criativo-15-ventana-noticia/cerebro-mulher-card.html)
+// Versão no ar nos domínios: '/img/landing-cerebro.webp' (ilustração)
+const BRAIN_CARD_URL = '/img/landing-cerebro-mulher.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -80,11 +82,11 @@ export default function Landing({ onNavigate }: LandingProps) {
                             alt="Cerebro con la región primitiva encendida: la que decide por quién se obsesiona"
                             className="lp-news"
                             width={720}
-                            height={512}
+                            height={571}
                             {...{ fetchpriority: 'high' }}
                             decoding="async"
                         />
-                        {/* brilho pulsando + pontilhado girando sobre o ponto vermelho (centro em 53,33% / 50,78% da imagem) */}
+                        {/* brilho pulsando + pontilhado girando sobre o ponto aceso (centro em 43,21% / 38,98% da imagem) */}
                         <span className="lp-brain-glow" aria-hidden="true"></span>
                         <span className="lp-brain-ring" aria-hidden="true"></span>
                     </span>
@@ -103,7 +105,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                         <rect x="4" y="11" width="16" height="10" rx="2"></rect>
                         <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                     </svg>
-                    <span>Test gratuito · 6 preguntas · 2 minutos · 100% anónimo</span>
+                    <span>Test gratuito · 6 preguntas · 2 min · 100% anónimo</span>
                 </p>
 
                 {/* 6. BENEFÍCIOS */}
@@ -126,9 +128,9 @@ export default function Landing({ onNavigate }: LandingProps) {
             {/* Classes com prefixo lp- para não colidir com o CSS global (ex.: .progress-bar do chat) */}
             <style>{`
                 .lp-brain-wrap { position: relative; display: block; }
-                .lp-brain-glow, .lp-brain-ring { position: absolute; left: 53.33%; top: 50.78%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
-                .lp-brain-glow { width: 30%; aspect-ratio: 1; background: radial-gradient(circle, rgba(255,59,92,0.55) 0%, rgba(255,59,92,0.18) 45%, rgba(255,59,92,0) 70%); animation: lp-brain-pulse 1.6s ease-in-out infinite; }
-                .lp-brain-ring { width: 12.9%; aspect-ratio: 1; border: 2px dashed #e0244d; animation: lp-brain-spin 6s linear infinite; }
+                .lp-brain-glow, .lp-brain-ring { position: absolute; left: 43.21%; top: 38.98%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
+                .lp-brain-glow { width: 24%; aspect-ratio: 1; background: radial-gradient(circle, rgba(255,170,40,0.75) 0%, rgba(255,120,0,0.25) 40%, rgba(255,120,0,0) 70%); animation: lp-brain-pulse 1.6s ease-in-out infinite; }
+                .lp-brain-ring { width: 11%; aspect-ratio: 1; border: 3px dashed #ffffff; box-shadow: 0 0 10px rgba(255,140,0,0.9); animation: lp-brain-spin 6s linear infinite; }
                 @keyframes lp-brain-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } }
                 @keyframes lp-brain-spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
                 @media (prefers-reduced-motion: reduce) { .lp-brain-glow, .lp-brain-ring { animation: none; } }
@@ -321,6 +323,7 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 .lp-micro {
                     margin: 0;
+                    white-space: nowrap;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -361,6 +364,7 @@ export default function Landing({ onNavigate }: LandingProps) {
                     .lp-headline { font-size: 23px; }
                     .lp-bubble { font-size: 14px; }
                     .lp-cta { font-size: 17px; }
+                    .lp-micro { font-size: 12px; }
                 }
             `}</style>
         </div>
