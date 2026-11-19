@@ -253,7 +253,7 @@ export default function Chat({ onNavigate }: ChatProps) {
   const handleAnswer = (option: string) => {
     playKeySound();
     const question = QUESTIONS[currentQuestion];
-    setMessages(prev => [...prev, { type: 'user', text: option }]);
+    setMessages(prev => [...prev, { type: 'user', text: fmtOpcao(option) }]);
     setShowOptions(false);
     setIsProcessing(true);
 
@@ -337,7 +337,7 @@ export default function Chat({ onNavigate }: ChatProps) {
   const quizData = storage.getQuizData();
 
   return (
-    <div className="chat-container">
+    <div className="chat-container chat4">
       <div className="chat-header">
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${progress}%` }}></div>
@@ -387,7 +387,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           <div className="options-container">
             {getQuestionOptions(QUESTIONS[currentQuestion]).map((option, idx) => (
               <button key={idx} className="option-button" onClick={() => handleAnswer(option)}>
-                {option}
+                {fmtOpcao(option)}
               </button>
             ))}
           </div>
@@ -436,8 +436,27 @@ export default function Chat({ onNavigate }: ChatProps) {
 
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Chat v4 (19/11/2026): fonte de leitura, balões claros, opções sem caixa alta (valores salvos continuam iguais) */}
+      <style>{`
+        .chat4, .chat4 * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+        .chat4 .progress-text { font-size: 0.85rem; letter-spacing: 0.06em; color: #86efac; }
+        .chat4 .processing-text { font-size: 0.8rem; letter-spacing: 0.06em; color: #4ade80; }
+        .chat4 .message { margin-bottom: 1.1rem; }
+        .chat4 .message-bubble { font-size: clamp(1rem, 4.3vw, 1.1rem); line-height: 1.5; max-width: 82%; padding: 0.85rem 1.05rem; border-radius: 16px; }
+        .chat4 .message.bot .message-bubble { background: #1a1d1b; border: 1px solid rgba(74, 222, 128, 0.25); color: #f3f4f3; border-top-left-radius: 4px; }
+        .chat4 .message.user .message-bubble { background: #15803d; border: 1px solid #22c55e; color: #fff; font-weight: 600; border-top-right-radius: 4px; }
+        .chat4 .option-button { text-transform: none; letter-spacing: 0; font-size: clamp(1rem, 4.2vw, 1.08rem); line-height: 1.35; font-weight: 700; padding: 0.95rem 1.15rem; border-radius: 12px; }
+        .chat4 .option-button.cta-final { text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+      `}</style>
     </div>
   );
+}
+
+// Mostra as opções em frase normal ("Le mandé un mensaje larguísimo"); o valor salvo continua em caixa alta
+function fmtOpcao(t: string): string {
+  const low = t.toLocaleLowerCase('es');
+  return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
 }
 
 function TypewriterText({ text }: { text: string }) {
