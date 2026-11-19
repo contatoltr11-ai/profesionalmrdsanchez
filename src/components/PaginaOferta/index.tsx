@@ -303,7 +303,7 @@ export default function PaginaOferta({
                             {formatTime(offerTimeLeft)}
                         </p>
                         <p style={{ fontSize: 'clamp(0.8rem, 3.2vw, 0.9rem)', color: 'rgba(255,255,255,0.8)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
-                            Este precio es solo para quienes terminan el diagnóstico hoy. Si sales de esta página, no se guarda y vuelve a USD 147 / USD 379.
+                            Este precio es solo para quienes terminan el diagnóstico hoy. Si sales de esta página, no se guarda.
                         </p>
                     </div>
                 </div>
@@ -551,7 +551,7 @@ export default function PaginaOferta({
                 $14
             </p>
             <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
-                Menos que un café
+                Acceso inmediato en tu celular
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#60a5fa', fontWeight: '700', margin: '6px 0 0 0' }}>
                 ✅ Pago único, sin mensualidades
@@ -652,7 +652,7 @@ export default function PaginaOferta({
                     marginBottom: '4px'
                 }}>
                     <span style={{ fontSize: 'clamp(0.9rem, 3.4vw, 1.05rem)', color: '#facc15', fontWeight: '800' }}>
-                        🎁 +7 bonos incluidos · valor total <span style={{ textDecoration: 'line-through' }}>$379</span>
+                        🎁 +7 bonos incluidos de regalo
                     </span>
                 </div>
                 <div style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'white', fontWeight: '700' }}>✅ Todo del Plan Esencial +</div>
@@ -1296,7 +1296,7 @@ export default function PaginaOferta({
                         <strong style={{ color: '#4ade80' }}>Camino 2:</strong> empezar hoy tu Ventana de 72 horas, con tu disparador, en el orden correcto. Sin rogar. Sin perseguirla. Y con 90 días para comprobarlo.
                     </p>
                     <p style={{ fontSize: 'clamp(0.9rem, 3.6vw, 1rem)', color: '#facc15', fontWeight: 700, textAlign: 'center', margin: 0 }}>
-                        Si el botón de abajo todavía está activo, tu precio sigue reservado.
+                        Tu precio especial es solo para hoy, mientras estés en esta página.
                     </p>
                 </div>
 
@@ -1380,7 +1380,7 @@ export default function PaginaOferta({
                     }}>
                         Más de 9.000 hombres acompañados<br/>
                         <span style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', opacity: 0.8 }}>
-                            ✨ {peopleBuying} personas comprando ahora
+                            ✨ {peopleBuying} {peopleBuying === 1 ? 'persona' : 'personas'} comprando ahora
                         </span>
                     </p>
                 </div>

@@ -152,7 +152,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                 </div>
 
                 <p className="diag4-p">Eso es la <strong>Obsesión Inversa</strong>: dejas de perseguirla tú, y es su cerebro el que empieza a buscarte.</p>
-                <p className="diag4-warn">⚠️ Pero cuidado: mal usado, la aleja para siempre. En el siguiente paso te muestro cómo funciona en tu caso.</p>
+                <p className="diag4-warn">⚠️ Pero cuidado: mal usado, la aleja para siempre. Por eso, antes de tu Ventana, escucha a Sophia.</p>
             </div>
             <style>{`
                 .diag4-root, .diag4-root * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
@@ -225,7 +225,8 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                     </p>
                 )}
                 <p style={{ fontSize: 'clamp(0.95rem, 3.8vw, 1.1rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5, margin: '0 0 16px' }}>
-                    Sophia grabó un video corto con lo que está pasando en su cerebro ahora mismo, y lo que pocos hombres se atreven a hacer. ¿Te comprometes a verlo hasta el final?
+                    {/* Etapa 1 (19/11): promete só o que a VSL atual entrega (antes: "lo que está pasando en su cerebro ahora mismo") */}
+                    Sophia grabó un video corto para los hombres que están justo donde estás tú. ¿Te comprometes a verlo hasta el final?
                 </p>
             </div>
 
@@ -245,7 +246,7 @@ export default function Diagnostico({ sectionRef, fadeOutPhase, buttonChecked, o
                         onClick={() => handleSi('diag_si_entender')}
                         style={{ background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.45)', borderRadius: '12px', padding: '14px 16px', fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)', fontWeight: 700, cursor: 'pointer', width: '100%' }}
                     >
-                        Sí, quiero entender qué pasa en su cerebro
+                        Sí, pero primero quiero escucharla
                     </button>
                 </div>
             )}

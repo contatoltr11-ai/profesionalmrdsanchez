@@ -33,7 +33,8 @@ export default function VideoEspecialista({
             {/* Lab 19/11 (v4 visual): continua a promessa do diagnóstico ("video corto con lo que está pasando en su cerebro ahora mismo").
                 Antes: "Antes de mostrarte tu Ventana de 72 horas, Sophia tiene algo que decirte." */}
             <p className="vsl4-kicker">🎥 Video corto de Sophia</p>
-            <h2 className="vsl4-title">Lo que está pasando en su cerebro <span>ahora mismo</span></h2>
+            {/* Etapa 1 (19/11): título que a VSL atual cumpre (antes: "Lo que está pasando en su cerebro ahora mismo") */}
+            <h2 className="vsl4-title">Antes de tu Ventana, <span>escucha esto</span></h2>
             <div className="vsl-container">
                 <div className="vsl-placeholder"></div> 
             </div>
