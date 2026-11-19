@@ -339,6 +339,15 @@ export function getDiagnosticoBlocos(quizData: QuizData): {
         ? 'Todavía hablan, y eso es una puerta abierta. Lo que cambia todo es cómo te ve cuando le hablas.'
         : '';
     if (conOtro) enTuCaso = (enTuCaso ? enTuCaso + ' ' : '') + 'Y que esté con otro no cierra la puerta.';
+    // 19/11 (noite): volta a frase pelo tempo de separação (tinha saído no enxuto v3)
+    const porTiempo: Record<string, string> = {
+        'MENOS DE 1 SEMANA': 'Todavía estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
+        '1-4 SEMANAS': 'Todavía estás a tiempo de hacerlo bien: lo que hagas en los próximos días puede acercarla o alejarla.',
+        '1-6 MESES': 'Ya pasó un tiempo, y eso no la cerró.',
+        'MÁS DE 6 MESES': 'Pasaron meses, y no está cerrado: una mujer no olvida años en meses.'
+    };
+    const tiempo = porTiempo[quizData.timeSeparation || ''] || '';
+    if (tiempo) enTuCaso = tiempo + (enTuCaso ? ' ' + enTuCaso : '');
 
     const clave = getDisparadorClave(quizData);
     return { abertura, verguenza, harvard, dorFrase, enTuCaso, disparadorNombre: clave.nombre, disparadorTexto: clave.texto };
