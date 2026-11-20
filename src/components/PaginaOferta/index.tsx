@@ -463,7 +463,7 @@ export default function PaginaOferta({
                     marginBottom: 'clamp(24px, 5vw, 32px)',
                     fontStyle: 'italic'
                 }}>
-                    Con el Protocolo de la Obsesión Inversa. Unos 10 minutos al día, desde tu celular. Garantía doble: 7 días sin preguntas + 90 días si ella no te busca ni cambia contigo.
+                    Con el Protocolo de la Obsesión Inversa. Unos 10 minutos al día, desde tu celular. Garantía de 90 días: si ella no te busca ni cambia contigo, te devuelvo tu dinero.
                 </p>
 
                 {/* Justificativa da pré-seleção do plano por cenário */}
@@ -591,7 +591,7 @@ export default function PaginaOferta({
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 3 · La Pérdida: cuándo y cómo reaparecer</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Qué NO hacer en cada fase (los errores que la alejan)</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía doble: 7 + 90 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 90 días</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
                     ❌ Lo que tu caso necesita: {casoItemTexto} (solo en el Plan Completo)
                 </div>
@@ -700,7 +700,7 @@ export default function PaginaOferta({
                     </svg>
                     <span>Sophia te escribe personalmente para conocer tu caso<br/><span style={{ color: '#facc15', fontWeight: 800 }}>Solo 20 hombres por día: hoy quedan {cuposSophia}</span></span>
                 </div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía doble: 7 + 90 días</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.7)' }}>Garantía de 90 días</div>
                 <div style={{ fontSize: 'clamp(0.85rem, 3.3vw, 0.95rem)', color: 'rgba(255,255,255,0.6)' }}>Actualizaciones de por vida <span style={{ color: '#facc15', fontWeight: '700' }}>· De $47 a GRATIS</span></div>
             </div>
         </div>
@@ -763,7 +763,7 @@ export default function PaginaOferta({
         color: 'rgba(255,255,255,0.95)',
         fontWeight: '600'
     }}>
-        🛡️ Garantía doble 7 + 90 días · Riesgo cero
+        🛡️ Garantía de 90 días · Riesgo cero
     </span>
 </button>
 
@@ -1032,7 +1032,7 @@ export default function PaginaOferta({
                         marginBottom: 'clamp(12px, 3vw, 16px)',
                         fontWeight: '900'
                     }}>
-                        Garantía doble: el riesgo es todo mío
+                        Garantía de 90 días: el riesgo es todo mío
                     </h3>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
@@ -1041,7 +1041,7 @@ export default function PaginaOferta({
                         marginBottom: 'clamp(10px, 2.5vw, 12px)',
                         textAlign: 'left'
                     }}>
-                        <strong style={{ color: '#4ade80' }}>Garantía 1 · 7 días incondicional.</strong> Entra, mira tu plan, empieza a aplicarlo. Si en 7 días no te gusta por cualquier motivo, te devolvemos todo. Sin preguntas.
+                        Las 3 fases empiezan en 72 horas, pero el cerebro de ella no cambia de un día para otro: primero vuelve la curiosidad, después el cariño y al final las ganas. Por eso no te doy 7 días. Te doy 90.
                     </p>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
@@ -1050,7 +1050,7 @@ export default function PaginaOferta({
                         marginBottom: 'clamp(10px, 2.5vw, 12px)',
                         textAlign: 'left'
                     }}>
-                        <strong style={{ color: '#4ade80' }}>Garantía 2 · 90 días.</strong> Aplica tu plan. Si en 90 días ella no te escribe, no te busca y no cambia contigo, te devolvemos cada centavo.
+                        Aplica tu plan. Si en 90 días ella no te escribe, no te busca y no cambia contigo, <strong style={{ color: '#4ade80' }}>te devuelvo cada centavo.</strong>
                     </p>
                     <p style={{
                         fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
@@ -1471,7 +1471,7 @@ export default function PaginaOferta({
                             🛡️ Garantía:
                         </p>
                         <p style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.4rem)', color: '#4ade80', fontWeight: '900', margin: 0 }}>
-                            7 + 90 días
+                            90 días
                         </p>
                     </div>
                 </div>
@@ -1506,7 +1506,7 @@ export default function PaginaOferta({
                     fontStyle: 'italic',
                     margin: 0
                 }}>
-                    🔒 Compra 100% segura • Acceso instantáneo • Garantía doble 7 + 90 días
+                    🔒 Compra 100% segura • Acceso instantáneo • Garantía de 90 días
                 </p>
 
                 <style>{`
@@ -1555,7 +1555,7 @@ export default function PaginaOferta({
                 >
                     👆 Volver a mi Plan Completo · USD 27
                     <span style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, opacity: 0.95, marginTop: '2px' }}>
-                        Recomendado para tu caso · Garantía 7 + 90 días
+                        Recomendado para tu caso · Garantía de 90 días
                     </span>
                 </button>
             </div>
