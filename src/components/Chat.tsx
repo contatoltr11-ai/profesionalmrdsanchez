@@ -49,7 +49,7 @@ const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-cha
 const QUESTIONS: Question[] = [
   {
     id: 2,
-    text: 'Empecemos. ¿Cuánto tiempo ha pasado desde que se separaron?',
+    text: '¿Cuánto tiempo ha pasado desde que se separaron?',
     options: ['MENOS DE 1 SEMANA', '1-4 SEMANAS', '1-6 MESES', 'MÁS DE 6 MESES'],
     response: 'Entiendo.',
     responseByOption: {
@@ -198,28 +198,21 @@ export default function Chat({ onNavigate }: ChatProps) {
     ga4Tracking.chatPageView();
     ga4Tracking.chatStarted();
 
-    // ✅ APRESENTAÇÃO DA SOPHIA (TESTE 4): duas mensagens curtas, estilo WhatsApp
-    const intro1: Message = {
+    // ✅ ABERTURA v5 (20/11): 1 balão que continua a landing (região do cérebro) e já vai para a P1.
+    // Antes: 2 balões (9.000 hombres + 6 preguntas) → opções em ~6,8 s; agora ~3,9 s. Ver expert-lucas/copies/chat-abertura-v5.md
+    const intro: Message = {
       type: 'bot',
-      text: 'Hola, soy Sophia. Ya acompañé a más de 9.000 hombres que estaban justo donde estás tú ahora.',
+      text: 'Hola, soy Sophia. Esa región de su cerebro se puede volver a encender. Con 6 respuestas te digo cómo hacerlo en tu caso.',
       isTyping: true,
     };
-    const intro2: Message = {
-      type: 'bot',
-      text: 'Te voy a hacer 6 preguntas rápidas. Con tus respuestas te digo qué disparador vuelve a encender sus ganas por ti. Lo que respondas queda entre tú y yo.',
-      isTyping: true,
-    };
-    setMessages([intro1]);
+    setMessages([intro]);
 
     typewriterTimeoutRef.current = setTimeout(() => {
-      setMessages([{ ...intro1, isTyping: false }, intro2]);
-      typewriterTimeoutRef.current = setTimeout(() => {
-        setMessages([{ ...intro1, isTyping: false }, { ...intro2, isTyping: false }]);
-        optionsTimeoutRef.current = setTimeout(() => {
-          askQuestion(0);
-        }, DELAY_SHOW_OPTIONS);
-      }, intro2.text.length * TYPE_SPEED);
-    }, intro1.text.length * TYPE_SPEED);
+      setMessages([{ ...intro, isTyping: false }]);
+      optionsTimeoutRef.current = setTimeout(() => {
+        askQuestion(0);
+      }, DELAY_SHOW_OPTIONS);
+    }, intro.text.length * TYPE_SPEED);
 
     return () => {
       if (typewriterTimeoutRef.current) clearTimeout(typewriterTimeoutRef.current);
