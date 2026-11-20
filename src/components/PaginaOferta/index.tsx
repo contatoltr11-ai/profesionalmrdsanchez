@@ -1105,7 +1105,7 @@ export default function PaginaOferta({
                         flexDirection: 'column',
                         gap: 'clamp(10px, 2.5vw, 14px)'
                     }}>
-                        {/* Mecanismo v2: FAQ com nomes (Rafael, Silvio, Marcos) */}
+                        {/* Mecanismo v2: FAQ com nomes (Martín, Esteban, Marcos; ids internos rafael/silvio/tiago mantidos) */}
                         <details open={faqPrimero === 'rafael'} style={{ order: faqPrimero === 'rafael' ? -1 : 0,
                             background: 'rgba(234, 179, 8, 0.1)',
                             borderLeft: '4px solid #eab308',
@@ -1120,7 +1120,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                Rafael: "Me bloqueó en todo. ¿Funciona igual?"
+                                Martín: "Me bloqueó en todo. ¿Funciona igual?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1128,7 +1128,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Funciona, Rafael.</strong> El bloqueo es su lado racional defendiéndose. Tu plan no empieza con mensajes: ella nota el cambio por lo que ve de ti. Y te dice cuándo y cómo reaparecer cuando te desbloquee.
+                                <strong style={{ color: '#4ade80' }}>✅ Funciona, Martín.</strong> El bloqueo es su lado racional defendiéndose. Tu plan no empieza con mensajes: ella nota el cambio por lo que ve de ti. Y te dice cuándo y cómo reaparecer cuando te desbloquee.
                             </p>
                         </details>
                         <details open={faqPrimero === 'silvio'} style={{ order: faqPrimero === 'silvio' ? -1 : 0,
@@ -1145,7 +1145,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                Silvio: "Terminamos hace una semana. ¿Es muy pronto?"
+                                Esteban: "Terminamos hace una semana. ¿Es muy pronto?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1153,7 +1153,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>Es el mejor momento, Silvio.</strong> Las primeras semanas son cuando más hombres hunden el Ancla del Dolor: ruegan, mandan textos largos, regalos. Quien empieza ahora, empieza antes de arruinarlo.
+                                <strong style={{ color: '#4ade80' }}>Es el mejor momento, Esteban.</strong> Las primeras semanas son cuando más hombres hunden el Ancla del Dolor: ruegan, mandan textos largos, regalos. Quien empieza ahora, empieza antes de arruinarlo.
                             </p>
                         </details>
                         <details open={faqPrimero === 'marcos'} style={{ order: faqPrimero === 'marcos' ? -1 : 0,
@@ -1196,7 +1196,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                Tiago: "Ya está con otro. ¿Funciona igual?"
+                                Santiago: "Ya está con otro. ¿Funciona igual?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
@@ -1204,7 +1204,7 @@ export default function PaginaOferta({
                                 marginTop: 'clamp(12px, 3vw, 16px)',
                                 lineHeight: '1.6'
                             }}>
-                                <strong style={{ color: '#4ade80' }}>✅ Sí, Tiago.</strong> La mayoría de las veces esa relación es una anestesia para no sentir lo que dejó contigo. No vas a competir con él: tu disparador es La Pérdida, 
+                                <strong style={{ color: '#4ade80' }}>✅ Sí, Santiago.</strong> La mayoría de las veces esa relación es una anestesia para no sentir lo que dejó contigo. No vas a competir con él: tu disparador es La Pérdida, 
                                 y el Protocolo La Pérdida (si ya está con otro) te dice qué hacer y qué no, para no empujarla más hacia él.
                             </p>
                         </details>
@@ -1335,7 +1335,7 @@ export default function PaginaOferta({
                                 cursor: 'pointer',
                                 listStyle: 'none'
                             }}>
-                                André: "Ya probé de todo y otros cursos. ¿Por qué esto sería distinto?"
+                                Andrés: "Ya probé de todo y otros cursos. ¿Por qué esto sería distinto?"
                             </summary>
                             <p style={{
                                 fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)',
