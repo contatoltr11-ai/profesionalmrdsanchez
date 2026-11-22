@@ -31,12 +31,11 @@ export default function PaginaOferta({
     const quizData = storage.getQuizData();
     const gender = quizData.gender || 'HOMBRE';
 
-    // Bloco 1 (19/11, v2): botão fixo "Volver a mi Plan Completo" — só aparece DEPOIS que o lead
+    // Bloco 1 (19/11, v2): botão fixo — só aparece DEPOIS que o lead
     // passou pelos planos (ele lê tudo até o preço sem distração; decisão do usuário).
-    // Leva ao card do $27 (não compra direto e não troca o plano que ele escolheu).
+    // Oferta v4 (22/11): "Volver a mi plan · desde USD 14" leva ao início dos 2 planos (antes: card do $27).
     // Some quando os planos, o CTA principal ou o CTA final estão na tela.
     const plansRef = useRef<HTMLDivElement>(null);
-    const completoRef = useRef<HTMLDivElement>(null);
     const mainCtaRef = useRef<HTMLButtonElement>(null);
     const finalCtaRef = useRef<HTMLButtonElement>(null);
     const [visibleTargets, setVisibleTargets] = useState<Record<string, boolean>>({});
@@ -67,9 +66,9 @@ export default function PaginaOferta({
         return () => { obs.disconnect(); window.removeEventListener('scroll', onScroll); };
     }, []);
     const showSticky = passedPlans && !Object.values(visibleTargets).some(Boolean);
-    const goToCompleto = () => {
+    const goToPlanes = () => {
         ga4Tracking.offerStickyClick();
-        const el = completoRef.current;
+        const el = plansRef.current;
         if (!el) return;
         const bar = document.querySelector('.progress-bar-container') as HTMLElement | null;
         const top = el.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 12;
@@ -134,29 +133,22 @@ export default function PaginaOferta({
     };
     const miedoEco = miedoByOption[quizData.mainFear || ''] || '';
 
-    // Lab 18/11 (J): no Plan Esencial, o ❌ do que o caso dele precisa aparece primeiro e destacado
-    // Etapa 3A (19/11): bônus com nome de curiosidade ligado ao mecanismo
+    // Oferta v4 (22/11, copies/oferta-v4.md): o Esencial é o "plan de tu caso" (sem o ❌ vermelho "sin lo de tu caso");
+    // os ❌ ficam cinza. O Completo vira "para casos críticos" + execução (mensagens, emergência, Sophia).
     const itensFaltantes = [
-        'Mapa de señales (cómo saber que está volviendo)',
-        'Protocolo La Pérdida (si ya está con otro)',
-        'Protocolo Mismo Techo (si la sigues viendo)',
+        'Protocolo de Emergencia de tu caso',
+        'Mensajes listos de tu disparador',
+        'Sophia te escribe personalmente',
         'Círculo privado'
     ];
     // 19/11: bloqueado E ela com outro → o disparador dele é La Pérdida, então o item do caso é o módulo «Si ya está con otro»
     const bloqueoConOtro = scenario === 'bloqueo' && ['RELACIÓN SERIA', 'SALIENDO CASUAL', 'VARIAS PERSONAS'].includes(quizData.exSituation || '');
     const casoConOtro = scenario === 'con_otro' || bloqueoConOtro;
-    const casoItemFaltante =
-        casoConOtro ? 'Protocolo La Pérdida (si ya está con otro)'
-        : scenario === 'mismo_techo' ? 'Protocolo Mismo Techo (si la sigues viendo)'
-        : 'Mapa de señales (cómo saber que está volviendo)';
-    const casoItemTexto =
-        casoConOtro ? 'el Protocolo La Pérdida (si ya está con otro)'
-        : scenario === 'mismo_techo' ? 'el Protocolo Mismo Techo (si la sigues viendo)'
-        : 'el Mapa de señales (cómo saber que está volviendo)';
     const subtituloCompleto =
-        casoConOtro ? 'Armado para tu caso: incluye el Protocolo La Pérdida (si ya está con otro)'
-        : scenario === 'mismo_techo' ? 'Armado para tu caso: incluye el Protocolo Mismo Techo (si la sigues viendo)'
-        : 'Armado para tu caso: incluye el Mapa de señales (cómo saber que está volviendo)';
+        casoConOtro ? 'Para casos críticos: si ya está con otro'
+        : scenario === 'bloqueo' ? 'Para casos críticos: si te bloqueó'
+        : scenario === 'mismo_techo' ? 'Para casos críticos: si la sigues viendo (casa, hijos o trabajo)'
+        : 'Para no perder tu Ventana: con todo lo que tu caso necesita';
 
     // 5 variáveis × 4 cenários
     const scenarioContent = {
@@ -242,16 +234,22 @@ export default function PaginaOferta({
     // Etapa 3A (19/11): escassez, bônus do caso primeiro, prova perto do preço, FAQ do caso primeiro
     const probabilidad = getProbabilidad(quizData);
     const cuposSophia = Math.max(3, Math.round((spotsLeft || 50) / 4));
-    const bonos = [
+    // Oferta v4 (22/11): Reset del Ancla voltou para o Esencial; entram 3 mensajes listos e Regalo sorpresa.
+    // Ordem: protocolo do caso (= Protocolo de Emergencia) → mensajes → decodificador → outros protocolos → círculo → regalo
+    const protocolos = [
         { k: 'otro', n: 'Protocolo La Pérdida: si ya está con otro (o te dijo que los quiere a los dos)', v: 47 },
         { k: 'senales', n: 'Mapa de señales: cómo saber que está volviendo (y no arruinarlo)', v: 47 },
-        { k: 'circulo', n: 'Círculo privado de hombres en tu misma situación', v: 67 },
-        { k: 'reset', n: 'Reset del Ancla: cómo dejar de rogar y volver a ser el hombre que ella eligió', v: 37 },
-        { k: 'deco', n: 'Decodificador: las 12 frases que ella dice y lo que de verdad significan', v: 37 },
         { k: 'techo', n: 'Protocolo Mismo Techo: si la sigues viendo (casa, hijos o trabajo)', v: 97 },
     ];
     const casoKey = casoConOtro ? 'otro' : scenario === 'mismo_techo' ? 'techo' : 'senales';
-    const bonosOrdenados = [...bonos.filter(b => b.k === casoKey), ...bonos.filter(b => b.k !== casoKey)];
+    const bonosOrdenados = [
+        ...protocolos.filter(b => b.k === casoKey),
+        { k: 'msgs', n: '3 mensajes listos de tu disparador para la Fase 1 (qué mandarle y en qué momento)', v: 37 },
+        { k: 'deco', n: 'Decodificador: las 12 frases que ella dice y lo que de verdad significan', v: 37 },
+        ...protocolos.filter(b => b.k !== casoKey),
+        { k: 'circulo', n: 'Círculo privado de hombres en tu misma situación', v: 67 },
+        { k: 'regalo', n: 'Regalo sorpresa (lo abres al entrar)', v: 97 },
+    ];
     // Prints da oferta = WhatsApp escuro, diferentes dos do diagnóstico (Carolina / Mónica / Verónica)
     const printPrecio = casoConOtro ? '/img/oferta-otro.jpg' : scenario === 'mismo_techo' ? '/img/oferta-casa.jpg' : '/img/oferta-senales.jpg';
     const faqPrimero =
@@ -393,10 +391,10 @@ export default function PaginaOferta({
         gap: 'clamp(10px, 2.5vw, 16px)'
     }}>
         {[
-            { t: 'HOY', d: 'Empiezas hoy · tú estás aquí', n: '' },
-            { t: '24h', d: 'La Curiosidad: el Ancla del Dolor se suelta', n: 'La Curiosidad' },
-            { t: '48h', d: 'La Nostalgia: el cariño le gana a las peleas (oxitocina)', n: 'La Nostalgia' },
-            { t: '72h', d: 'La Pérdida: se encienden las ganas (dopamina)', n: 'La Pérdida' }
+            { t: 'HOY', d: `${probabilidad}% · Tú estás aquí: tu plan ya está listo`, n: '' },
+            { t: '24h', d: 'La Curiosidad: ella nota que algo cambió en ti', n: 'La Curiosidad' },
+            { t: '48h', d: 'La Nostalgia: ella vuelve a pensar en ti', n: 'La Nostalgia' },
+            { t: '72h', d: 'Hasta 87% · La Pérdida: siente que te puede perder', n: 'La Pérdida' }
         ].map(step => (
             <div key={step.t} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
                 <p style={{ fontSize: 'clamp(1.6rem, 6vw, 2rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0, minWidth: '64px' }}>
@@ -413,13 +411,16 @@ export default function PaginaOferta({
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 2.5vw, 14px)' }}>
             <p style={{ fontSize: 'clamp(1.6rem, 6vw, 2rem)', color: '#10b981', fontWeight: '900', margin: 0, lineHeight: '1', flexShrink: 0, minWidth: '64px' }}>
-                7-21
+                7d
             </p>
-            <p style={{ fontSize: 'clamp(0.95rem, 4vw, 1.05rem)', color: 'rgba(255,255,255,0.88)', fontWeight: '600', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
-                Días · ella te escribe, te llama o busca una excusa para verte
+            <p style={{ fontSize: 'clamp(0.95rem, 4vw, 1.05rem)', color: 'white', fontWeight: '800', margin: 0, lineHeight: '1.4', textAlign: 'left' }}>
+                7 días · 100% · Ella da el paso y te escribe
             </p>
         </div>
     </div>
+    <p style={{ fontSize: 'clamp(0.9rem, 3.6vw, 1rem)', color: '#4ade80', fontWeight: '700', textAlign: 'center', margin: 'clamp(14px, 3vw, 18px) 0 0' }}>
+        (o te devuelvo el 100% de tu dinero)
+    </p>
 </div>
 
                 {/* Título principal */}
@@ -517,6 +518,7 @@ export default function PaginaOferta({
             {bloqueoConOtro
                 ? 'Para tu caso te recomiendo el Plan Completo: incluye el Protocolo La Pérdida (si ya está con otro), y te muestra el primer paso correcto para no cerrar más la puerta mientras te tiene bloqueado.'
                 : scenarioContent.recomendacion_plan[scenario]}
+            {' '}<span style={{ color: '#facc15' }}>El 73% de los hombres en tu caso elige el Plan Completo.</span>
         </p>
     </div>
 </div>
@@ -533,7 +535,7 @@ export default function PaginaOferta({
         Una consulta privada con Sophia cuesta <strong style={{ color: 'white' }}>USD 297</strong>, y tiene lista de espera.
     </p>
     <p style={{ fontSize: 'clamp(1.05rem, 4.2vw, 1.2rem)', color: '#4ade80', fontWeight: 800, lineHeight: 1.5, margin: 0, textAlign: 'center' }}>
-        Hoy tienes el plan completo de tu caso por $27. Menos que una cena para dos.
+        Hoy tienes el plan de tu caso desde $14. Menos que esa cena.
     </p>
 </div>
 
@@ -567,7 +569,7 @@ export default function PaginaOferta({
                 Plan Esencial
             </h3>
             <p style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
-                El método general, sin lo de tu caso
+                Tu plan de 72 horas, armado para tu caso
             </p>
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)' }}>
@@ -578,7 +580,7 @@ export default function PaginaOferta({
                 $14
             </p>
             <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
-                Acceso inmediato en tu celular
+                USD 0.47 por día (30 días) · Acceso inmediato en tu celular
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#60a5fa', fontWeight: '700', margin: '6px 0 0 0' }}>
                 ✅ Pago único, sin mensualidades
@@ -586,16 +588,15 @@ export default function PaginaOferta({
         </div>
         <div style={{ marginBottom: 'clamp(20px, 4vw, 24px)', flex: 1 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white', fontWeight: '700' }}>✅ Tu Plan de 72 Horas para tu caso · disparador clave: <span style={{ color: '#facc15' }}>{disparadorClave.nombre}</span></div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 1 · La Curiosidad: lo que ella tiene que notar en ti en las primeras 24 horas</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 2 · La Nostalgia: cómo hacer que recuerde lo bueno, sin presionarla</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Fase 3 · La Pérdida: cuándo y cómo reaparecer</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Qué NO hacer en cada fase (los errores que la alejan)</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Los errores que en tu situación cierran la puerta (y qué hacer en su lugar)</div>
+                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Guía Reset del Ancla: cómo dejar de rogar y volver a ser el hombre que ella eligió</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Soporte por email</div>
                 <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white' }}>✅ Garantía de 90 días</div>
-                <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: '#fca5a5', fontWeight: '700', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.35)', borderRadius: '8px', padding: '8px 10px' }}>
-                    ❌ Lo que tu caso necesita: {casoItemTexto} (solo en el Plan Completo)
-                </div>
-                {itensFaltantes.filter(item => item !== casoItemFaltante).map(item => (
+                {itensFaltantes.map(item => (
                     <div key={item} style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'rgba(255,255,255,0.4)' }}>❌ {item}</div>
                 ))}
             </div>
@@ -619,7 +620,7 @@ export default function PaginaOferta({
         </button>
     </div>
     {/* PLANO 2: TOTAL (RECOMENDADO) - $27 */}
-    <div ref={completoRef} style={{
+    <div style={{
         background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(74, 222, 128, 0.1))',
         border: selectedPlan === 27 ? '4px solid #10b981' : '3px solid rgba(16, 185, 129, 0.5)',
         borderRadius: '16px',
@@ -644,7 +645,7 @@ export default function PaginaOferta({
             borderRadius: '20px',
             whiteSpace: 'nowrap'
         }}>
-            ⭐ RECOMENDADO PARA TU CASO
+            ⭐ MÁS ELEGIDO EN TU CASO
         </div>
         <div style={{ marginBottom: 'clamp(14px, 3.5vw, 18px)' }}>
             <h3 style={{ fontSize: 'clamp(1.25rem, 5vw, 1.6rem)', color: '#10b981', fontWeight: '900', margin: '0 0 8px 0' }}>
@@ -662,7 +663,7 @@ export default function PaginaOferta({
                 $27
             </p>
             <p style={{ fontSize: 'clamp(0.85rem, 3.5vw, 1rem)', color: 'rgba(255,255,255,0.7)', margin: '0 0 8px 0' }}>
-                Menos que una cena para dos
+                USD 0.90 por día (30 días)
             </p>
             <p style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: '#4ade80', fontWeight: '700', margin: '6px 0 0 0' }}>
                 ✅ Pago único, sin mensualidades
@@ -686,7 +687,7 @@ export default function PaginaOferta({
                 {bonosOrdenados.map(b => (
                     b.k === casoKey ? (
                         <div key={b.k} style={{ background: 'rgba(250,204,21,0.1)', border: '1px solid rgba(250,204,21,0.45)', borderRadius: '8px', padding: '8px 10px' }}>
-                            <div style={{ fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.06em', color: '#facc15', marginBottom: '4px' }}>⭐ LO QUE TU CASO NECESITA</div>
+                            <div style={{ fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.06em', color: '#facc15', marginBottom: '4px' }}>⭐ PROTOCOLO DE EMERGENCIA DE TU CASO</div>
                             <div style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', color: 'white', fontWeight: 700 }}>{b.n} <span style={{ color: '#facc15', fontWeight: '700' }}>· De ${b.v} a GRATIS</span></div>
                         </div>
                     ) : (
@@ -724,7 +725,7 @@ export default function PaginaOferta({
         </button>
     </div>
 </div>
-<p style={{ textAlign: 'center', fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)', color: 'rgba(255,255,255,0.85)', fontWeight: 700, margin: '0 0 14px' }}>👥 Más de 9.000 hombres ya siguieron su plan</p>
+<p style={{ textAlign: 'center', fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)', color: 'rgba(255,255,255,0.85)', fontWeight: 700, margin: '0 0 14px' }}>⭐ 4.8/5 · Más de 9.000 hombres ya siguieron su plan</p>
 {/* ✅ CTA PRINCIPAL - POSIÇÃO OTIMIZADA (logo após os planos) */}
 <button
     ref={mainCtaRef}
@@ -766,6 +767,9 @@ export default function PaginaOferta({
         🛡️ Garantía de 90 días · Riesgo cero
     </span>
 </button>
+<p style={{ textAlign: 'center', fontSize: 'clamp(0.95rem, 3.8vw, 1.05rem)', color: '#facc15', fontWeight: 800, margin: '0 0 clamp(16px, 3vw, 24px)' }}>
+    🔥 Vacantes con este precio hoy: {spotsLeft}
+</p>
 
                 {/* ✅ MELHORIA #6: 2 Depoimentos (Mateo + Pablo) */}
                 <div style={{
@@ -1233,8 +1237,8 @@ export default function PaginaOferta({
                                 lineHeight: '1.6'
                             }}>
                                 <strong style={{ color: '#4ade80' }}>Tu Ventana de 72 horas empieza hoy.</strong> 
-                                Muchos hombres ven la primera señal en esos 3 días. Para la mayoría, entre el día 7 y el 21 
-                                ella ya te escribe, te mira distinto o te busca por algo.
+                                Muchos hombres ven la primera señal en esos 3 días, y en 7 días la mayoría ya recibe un mensaje de ella.
+                                Si ella necesita más tiempo, tienes 90 días de garantía.
                             </p>
                         </details>
 
@@ -1543,7 +1547,7 @@ export default function PaginaOferta({
                 }}
             >
                 <button
-                    onClick={goToCompleto}
+                    onClick={goToPlanes}
                     tabIndex={showSticky ? 0 : -1}
                     style={{
                         width: '100%', maxWidth: '520px', margin: '0 auto', display: 'block',
@@ -1553,9 +1557,9 @@ export default function PaginaOferta({
                         fontWeight: 900, fontSize: '1.05rem', lineHeight: 1.25, cursor: 'pointer'
                     }}
                 >
-                    👆 Volver a mi Plan Completo · USD 27
+                    👆 Volver a mi plan · desde USD 14
                     <span style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, opacity: 0.95, marginTop: '2px' }}>
-                        Recomendado para tu caso · Garantía de 90 días
+                        Armado para tu caso · Garantía de 90 días
                     </span>
                 </button>
             </div>
