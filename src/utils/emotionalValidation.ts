@@ -18,11 +18,10 @@ export function getEmotionalValidation(quizData: QuizData): string {
   }
   
   // Validação por quem terminou
-  // valores idênticos aos do Chat.tsx (dataKey: 'whoEnded')
-  if (quizData.whoEnded === 'ELLA TERMINÓ' || quizData.whoEnded === 'ÉL TERMINÓ') {
+  if (quizData.whoEnded === 'ÉL/ELLA TERMINÓ') {
     validation += `Y el hecho de que ${pronoun} haya terminado es en realidad una ventaja, porque significa que ${pronoun} tuvo que tomar una decisión difícil y eso deja una huella emocional.`;
   } else if (quizData.whoEnded === 'YO TERMINÉ') {
-    validation += `Y como fuiste tú quien terminó, ${pronoun} quedó a la defensiva. Y esa defensa se puede bajar.`;
+    validation += `Y el hecho de que tú hayas terminado cambia la dinámica completamente. ${pronoun} puede estar esperando que tú des el primer paso.`;
   }
   
   return validation;

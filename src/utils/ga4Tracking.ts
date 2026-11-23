@@ -50,30 +50,11 @@ class GA4Tracking {
     });
   }
 
-  // location: 'landing_primary' (botão verde) ou 'landing_news_card' (cartão de notícia, desde 17/11/2026)
-  landingCTAClick(location: string = 'landing_primary') {
+  landingCTAClick() {
     this.sendEvent('cta_click', {
       button_name: 'Iniciar Análisis',
-      button_location: location,
+      button_location: 'landing_primary',
       page: 'landing'
-    });
-  }
-
-  // Lab: qual dos dois botões "sí" o lead escolhe no fim do diagnóstico
-  diagnosticoCTAClick(location: string) {
-    this.sendEvent('cta_click', {
-      button_name: 'Ver Video',
-      button_location: location,
-      page: 'diagnostico'
-    });
-  }
-
-  // Bloco 1 (19/11): botão fixo da oferta (depois dos planos) que volta ao card do Plan Completo
-  offerStickyClick() {
-    this.sendEvent('cta_click', {
-      button_name: 'Volver al Plan Completo (fijo)',
-      button_location: 'offer_sticky',
-      page: 'oferta'
     });
   }
 

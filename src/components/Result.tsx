@@ -6,6 +6,7 @@ import { ga4Tracking } from '../utils/ga4Tracking';
 
 import {
     getTitle,
+    getLoadingMessage,
     getCopy,
     getVentana72Copy,
     getVentanaSummary,
@@ -39,8 +40,6 @@ export default function Result({ onNavigate }: ResultProps) {
 
     // ✅ MELHORIA #2: Timer de 10 minutos APENAS para a oferta
     const [offerTimeLeft, setOfferTimeLeft] = useState(10 * 60); // 600 segundos
-    // 19/11: ao zerar, +5 min uma vez (etapa 1); ao zerar de novo, mensagem sem relógio (etapa 2)
-    const [offerTimerStage, setOfferTimerStage] = useState(0);
 
     // ✅ MELHORIA #5: State para seleção de plano (Plan Total $27 pré-selecionado)
     const [selectedPlan, setSelectedPlan] = useState<number | null>(27);
@@ -57,39 +56,12 @@ export default function Result({ onNavigate }: ResultProps) {
     const preOfferVideoSectionRef = useRef<HTMLDivElement>(null);
     const offerSectionRef = useRef<HTMLDivElement>(null);
 
+    const gender = quizData.gender || 'HOMBRE';
 
-    // 19/11: carregamento personalizado — as respostas dele aparecem uma por uma (~5 s)
-    const tiempoTxt: Record<string, string> = {
-        'MENOS DE 1 SEMANA': 'Hace menos de 1 semana', '1-4 SEMANAS': 'Hace 1 a 4 semanas',
-        '1-6 MESES': 'Hace 1 a 6 meses', 'MÁS DE 6 MESES': 'Hace más de 6 meses'
-    };
-    const contactoTxt: Record<string, string> = {
-        'CONTACTO CERO': 'sin contacto', 'ME IGNORA': 'te ignora', 'BLOQUEADO': 'te bloqueó',
-        'SÓLO TEMAS NECESARIOS': 'solo hablan de lo necesario', 'VIVIMOS JUNTOS PERO DISTANTES': 'viven juntos, pero distantes',
-        'HABLAMOS A VECES': 'hablan a veces', 'SOMOS AMIGOS': 'son amigos', 'ENCUENTROS ÍNTIMOS': 'todavía se ven a solas'
-    };
-    const impulsoTxt: Record<string, string> = {
-        'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Le mandaste un mensaje larguísimo', 'LA LLAMÉ VARIAS VECES': 'La llamaste varias veces',
-        'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Le pediste perdón', 'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'La vigilaste en redes',
-        'NO HICE NADA, ME QUEDÉ CALLADO': 'No hiciste nada'
-    };
-    const ellaTxt: Record<string, string> = {
-        'ESTÁ SOLTERA': 'Ella está sola', 'NO ESTOY SEGURO': 'No sabes si está con alguien',
-        'SALIENDO CASUAL': 'Ella está saliendo con alguien', 'RELACIÓN SERIA': 'Ella está con otra persona',
-        'VARIAS PERSONAS': 'Ella está conociendo a varias personas'
-    };
-    const linhaCaso = [tiempoTxt[quizData.timeSeparation], contactoTxt[quizData.currentSituation]].filter(Boolean).join(' · ');
     const loadingSteps = [
-        ...(linhaCaso ? [{ icon: '📍', text: linhaCaso }] : []),
-        ...(impulsoTxt[quizData.impulso || ''] ? [{ icon: '💬', text: impulsoTxt[quizData.impulso || ''] }] : []),
-        ...(ellaTxt[quizData.exSituation] ? [{ icon: '👤', text: ellaTxt[quizData.exSituation] }] : []),
-        { icon: '🧠', text: 'Comparando con más de 9.000 casos como el tuyo…' },
-        { icon: '⭐', text: 'Buscando tu disparador clave…' }
-    ].map((s, i, arr) => ({ ...s, duration: Math.round(i * 4400 / arr.length) }));
-
-    // TESTE 4 (lab): fotos de casais trocando durante o "Analizando tu caso"
-    const loadingImages = ['/img/carga-1.webp', '/img/carga-2.jpg', '/img/carga-3.jpg'];
-    const [loadingImageIndex, setLoadingImageIndex] = useState(0);
+        { icon: '📊', text: 'Respuestas procesadas', duration: 0 },
+        { icon: '🧠', text: 'Generando tu diagnóstico personalizado...', duration: 1000 }
+    ];
 
     const getUTMs = (): Record<string, string> => {
         try {
@@ -122,15 +94,9 @@ export default function Result({ onNavigate }: ResultProps) {
                     clearInterval(progressInterval);
                     return 100;
                 }
-                return prev + 2;
+                return prev + 4;
             });
         }, 100);
-
-        // pré-carrega as fotos e troca a cada 1,4 s
-        loadingImages.forEach(src => { const img = new Image(); img.src = src; });
-        const imageInterval = setInterval(() => {
-            setLoadingImageIndex(prev => (prev < loadingImages.length - 1 ? prev + 1 : prev));
-        }, 1400);
 
         loadingSteps.forEach((step, index) => {
             setTimeout(() => setLoadingStep(index), step.duration);
@@ -140,7 +106,7 @@ export default function Result({ onNavigate }: ResultProps) {
             setCurrentPhase(1);
             playKeySound();
             ga4Tracking.revelationViewed('Por qué te dejó', 1);
-        }, 5200);
+        }, 2500);
 
         const spotsInterval = setInterval(() => {
             setSpotsLeft(prev => {
@@ -166,7 +132,6 @@ export default function Result({ onNavigate }: ResultProps) {
 
         return () => {
             clearInterval(progressInterval);
-            clearInterval(imageInterval);
             clearTimeout(timerPhase1);
             clearInterval(spotsInterval);
             clearInterval(buyingInterval);
@@ -185,12 +150,6 @@ export default function Result({ onNavigate }: ResultProps) {
     }, [currentPhase]);
 
     useEffect(() => {
-        if (currentPhase < 4 || offerTimeLeft > 0) return;
-        if (offerTimerStage === 0) { setOfferTimerStage(1); setOfferTimeLeft(5 * 60); }
-        else if (offerTimerStage === 1) setOfferTimerStage(2);
-    }, [offerTimeLeft, offerTimerStage, currentPhase]);
-
-    useEffect(() => {
         let delayInterval: NodeJS.Timeout;
         if (currentPhase === 2) {
             setVideoButtonDelayLeft(10);
@@ -201,7 +160,7 @@ export default function Result({ onNavigate }: ResultProps) {
                     if (prev <= 1) {
                         clearInterval(delayInterval);
                         setIsVideoButtonEnabled(true);
-                        ga4Tracking.videoButtonUnlocked({ unlock_time_seconds: 10, video_name: 'VSL Plan Personalizado' });
+                        ga4Tracking.videoButtonUnlocked({ unlock_time_seconds: 50, video_name: 'VSL Plan Personalizado' });
                         return 0;
                     }
                     return prev - 1;
@@ -222,12 +181,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-6afde46688beb7a0c8263ce9" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-6af35cad4ba3b5086298a146" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="6afde46688beb7a0c8263ce9"]')) {
+                if (!document.querySelector('script[src*="6af35cad4ba3b5086298a146"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/f27d26dd-e45a-4a64-84c6-8f5c6b4dd0c6/players/6afde46688beb7a0c8263ce9/v4/player.js";
+                    s.src = "https://scripts.converteai.net/f27d26dd-e45a-4a64-84c6-8f5c6b4dd0c6/players/6af35cad4ba3b5086298a146/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
@@ -256,16 +215,8 @@ export default function Result({ onNavigate }: ResultProps) {
         }
 
         if (targetRef && targetRef.current) {
-            // Bloco 1 (19/11): rolagem instantânea descontando a barra fixa de etapas.
-            // O scrollIntoView suave não terminava quando a página encolhia (vídeo cortado no 375×667)
-            // e o título da etapa ficava escondido atrás da barra.
             setTimeout(() => {
-                const el = targetRef!.current;
-                if (!el) return;
-                const bar = document.querySelector('.progress-bar-container') as HTMLElement | null;
-                const offset = (bar ? bar.offsetHeight : 0) + 12;
-                const top = el.getBoundingClientRect().top + window.scrollY - offset;
-                window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+                targetRef!.current!.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
     }, [currentPhase]);
@@ -322,8 +273,7 @@ export default function Result({ onNavigate }: ResultProps) {
             return;
         }
         ga4Tracking.buyClickStep({ phase_from: 4, phase_to: 4, button_name: 'Comprar Ahora' });
-        // Lab 18/11: plano escolhido no button_location (result_buy_main_14 / result_buy_main_27)
-        ga4Tracking.ctaBuyClicked(`result_buy_main_${selectedPlan}`);
+        ga4Tracking.ctaBuyClicked('result_buy_main');
         window.open(getHotmartUrl(selectedPlan), '_blank');
     };
 
@@ -332,7 +282,9 @@ export default function Result({ onNavigate }: ResultProps) {
     return (
         <div className="result-container">
             {/* ✅ MELHORIA #1: Header SEM timer de 47 minutos */}
-            {/* Lab 18/11: título "Tu Plan Personalizado Está Listo" removido (só ocupava espaço); fica a barra de etapas */}
+            <div className="result-header">
+                <h1 className="result-title">Tu Plan Personalizado Está Listo</h1>
+            </div>
 
             {currentPhase > 0 && (
                 <div className="progress-bar-container fade-in">
@@ -351,34 +303,18 @@ export default function Result({ onNavigate }: ResultProps) {
                 {currentPhase === 0 && (
                     <div className="revelation fade-in loading-box-custom">
                         <div className="loading-inner">
-                            <img
-                                key={loadingImageIndex}
-                                src={loadingImages[loadingImageIndex]}
-                                alt=""
-                                className="fade-in"
-                                style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    maxWidth: 'min(230px, 27vh)', // 19/11: menor em tela baixa (iPhone SE) p/ caber as 5 linhas
-                                    aspectRatio: '4 / 5',
-                                    objectFit: 'cover',
-                                    borderRadius: '16px',
-                                    margin: '0 auto 16px',
-                                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
-                                }}
-                            />
+                            <div className="spin-brain">🧠</div>
                             <h2>ANALIZANDO TU CASO</h2>
-                            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
-                                <div className="progress-labels"><span>{Math.round(loadingProgress)}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 20)}s...</span></div>
-                            </div>
+                            <p>{getLoadingMessage(gender)}</p>
                             <div className="loading-steps-list">
                                 {loadingSteps.map((step, i) => (
-                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active fade-in' : ''}`} style={{ visibility: i <= loadingStep ? 'visible' : 'hidden' }}>
+                                    <div key={i} className={`loading-step-item ${i <= loadingStep ? 'active' : ''}`}>
                                         {i < loadingStep ? '✅' : step.icon} {step.text}
                                     </div>
                                 ))}
                             </div>
+                            <div className="progress-outer"><div className="progress-inner" style={{ width: `${loadingProgress}%` }}></div></div>
+                            <div className="progress-labels"><span>{loadingProgress}%</span><span>⏱️ {Math.ceil((100 - loadingProgress) / 10)}s...</span></div>
                         </div>
                     </div>
                 )}
@@ -421,7 +357,6 @@ export default function Result({ onNavigate }: ResultProps) {
                         preOfferRef={preOfferVideoSectionRef}
                         offerRef={offerSectionRef}
                         offerTimeLeft={offerTimeLeft}
-                        offerTimerStage={offerTimerStage}
                         spotsLeft={spotsLeft}
                         peopleBuying={peopleBuying}
                         selectedPlan={selectedPlan}
@@ -454,7 +389,7 @@ export default function Result({ onNavigate }: ResultProps) {
                 .summary-grid div { font-size: clamp(0.85rem, 3.5vw, 1rem); color: white; }
                 .summary-grid span { color: #4ade80; font-weight: bold; }
                 .emotional-validation { background: rgba(74, 222, 128, 0.1); border: 2px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px; margin-top: 20px; color: #4ade80; }
-                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: clamp(20px, 5vw, 40px); text-align: center; }
+                .loading-box-custom { background: rgba(234, 179, 8, 0.1); border: 2px solid #eab308; border-radius: 16px; padding: 40px; text-align: center; }
                 .loading-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
                 .spin-brain { font-size: 4rem; animation: spin 2s linear infinite; }
                 .loading-steps-list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
@@ -503,13 +438,6 @@ export default function Result({ onNavigate }: ResultProps) {
                 .summary-quick-list { display: flex; flex-direction: column; gap: 10px; }
                 .summary-quick-item { font-size: clamp(0.9rem, 3.5vw, 1.05rem); color: rgba(255,255,255,0.9); line-height: 1.5; }
                 .fases-list-dopamine { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
-                .ventana-entucaso-box { background: rgba(250, 204, 21, 0.08); border: 2px solid #facc15; border-radius: 12px; padding: clamp(16px, 4vw, 20px); margin-bottom: 24px; }
-                .entucaso-title { font-size: clamp(1.1rem, 4.5vw, 1.4rem); color: #facc15; margin: 0 0 12px 0; font-weight: 900; }
-                .entucaso-text { font-size: clamp(0.95rem, 3.8vw, 1.1rem); color: rgba(255,255,255,0.92); line-height: 1.6; margin: 0 0 12px 0; }
-                .entucaso-text:last-child { margin-bottom: 0; }
-                .entucaso-clave { font-size: clamp(1rem, 4vw, 1.15rem); color: white; font-weight: 700; margin: 0 0 8px 0; }
-                .fase-card-clave { border: 3px solid #facc15 !important; box-shadow: 0 0 24px rgba(250, 204, 21, 0.25); }
-                .fase-clave-badge { display: inline-block; background: #facc15; color: #111; font-size: clamp(0.75rem, 3vw, 0.9rem); font-weight: 900; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; }
                 .fase-card-dopamine { background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(234, 179, 8, 0.05)); border: 2px solid rgba(249, 115, 22, 0.3); border-radius: 16px; padding: clamp(20px, 5vw, 28px); }
                 .fase-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
                 .fase-number { background: linear-gradient(135deg, #f97316, #ea580c); color: white; font-size: clamp(0.8rem, 3vw, 0.95rem); font-weight: 900; padding: 6px 14px; border-radius: 20px; }

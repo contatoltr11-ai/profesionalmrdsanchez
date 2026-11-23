@@ -23,7 +23,7 @@ interface Question {
   responseByOption?: {
     [option: string]: string;
   };
-  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel' | 'mainCause' | 'impulso' | 'mainPain' | 'mainFear';
+  dataKey: 'gender' | 'timeSeparation' | 'whoEnded' | 'relationshipDuration' | 'currentSituation' | 'exSituation' | 'commitmentLevel';
 }
 
 // ========================================
@@ -37,8 +37,7 @@ const DELAY_BEFORE_FINAL = 300;
 const BASE_PROGRESS = 14;
 
 // Foto da Sophia no avatar do chat (fallback automático para "SS" se não carregar)
-// 20/11: corte fechado no rosto (mesma foto ss-chat), hospedado no próprio site; antes vinha do ssplan.shop
-const SOPHIA_AVATAR_URL = '/img/sophia-avatar.webp';
+const SOPHIA_AVATAR_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/ss-chat.webp';
 
 // ========================================
 // ✅ CHAT 100% MASCULINO
@@ -50,92 +49,63 @@ const SOPHIA_AVATAR_URL = '/img/sophia-avatar.webp';
 const QUESTIONS: Question[] = [
   {
     id: 2,
-    text: '¿Cuánto tiempo ha pasado desde que se separaron?',
+    text: 'Ahora, ¿cuánto tiempo ha pasado desde que se separaron?',
     options: ['MENOS DE 1 SEMANA', '1-4 SEMANAS', '1-6 MESES', 'MÁS DE 6 MESES'],
-    response: 'Entiendo.',
+    response: 'Registrado.',
     responseByOption: {
-      'MENOS DE 1 SEMANA': 'Está muy reciente, y eso juega a tu favor: ella todavía tiene todo a flor de piel. Pero también es cuando más fácil es equivocarse. Vamos con calma.',
-      '1-4 SEMANAS': 'Es justo cuando ella empieza a sentir el vacío, aunque todavía no lo admita. Bien usado, este tiempo te ayuda.',
-      '1-6 MESES': 'Ya pasó un tiempo, y eso no cierra nada. Lo que hagas desde hoy pesa más que todo lo que pasó en estos meses.',
-      'MÁS DE 6 MESES': 'Muchos llegan aquí pensando que ya es tarde. Por lo que veo todos los días, no lo es. El camino es otro, nada más.'
+      'MENOS DE 1 SEMANA': 'Registrado. Una semana es el momento más crítico y, a la vez, el más favorable. Tu ex-pareja todavía tiene la memoria emocional en su punto más alto: la ruptura está fresca y el vínculo sigue activo. Vamos a usar eso antes de que empiece a cerrarse.',
+      '1-4 SEMANAS': 'Registrado. Entre una y cuatro semanas se abre la fase de mayor contradicción interna: ya se siente el vacío, pero todavía no se admite. Es la ventana donde el recuerdo empieza a pesar más que el motivo de la ruptura. Vamos a trabajar exactamente ahí.',
+      '1-6 MESES': 'Registrado. Entre uno y seis meses es la fase de mayor riesgo de que tu ausencia se vuelva costumbre — pero también la de mayor apertura al recuerdo. Si tocamos la memoria emocional correcta ahora, revertimos el proceso antes de que se consolide.',
+      'MÁS DE 6 MESES': 'Registrado. Pasados los seis meses, tu ausencia ya se consolidó como rutina. Eso no significa que esté cerrado: significa que la estrategia cambia de dirección. No vamos a apelar a la nostalgia directa, vamos a reactivar el recuerdo desde otro ángulo. Es el escenario más lento, pero funciona.'
     },
     dataKey: 'timeSeparation',
   },
   {
-    // 19/11 (mecanismo v2, modelo Mariana Vabo): o que ele fez por impulso, no lugar de "¿qué crees que la fue alejando?"
-    // Alimenta a Ancla del Dolor no diagnóstico. GA4 id novo (11) para não misturar com as respostas antigas (id 8).
-    id: 11,
-    text: 'Y dime algo con sinceridad: cuando ella se alejó, ¿qué hiciste sin pensar mucho?',
-    options: ['LE MANDÉ UN MENSAJE LARGUÍSIMO', 'LA LLAMÉ VARIAS VECES', 'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD', 'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)', 'NO HICE NADA, ME QUEDÉ CALLADO'],
-    response: 'Gracias por contármelo.',
+    id: 3,
+    text: 'Bien. ¿Y cómo fue la separación? ¿Quién tomó la iniciativa?',
+    options: ['ELLA TERMINÓ', 'YO TERMINÉ', 'DECISIÓN MUTUA'],
+    response: 'Entendido. Esto cambia el mapa de la estrategia.',
     responseByOption: {
-      'LE MANDÉ UN MENSAJE LARGUÍSIMO': 'Casi todos lo hacen. Lo escribiste con el corazón, pero ella lo leyó con el lado racional. Más adelante te explico qué le grabó en el cerebro.',
-      'LA LLAMÉ VARIAS VECES': 'Es el impulso de casi todos, no eres el único. Pero cada llamada sin respuesta le dejó una marca que hay que borrar. Ya vas a ver cuál.',
-      'LE PEDÍ PERDÓN Y OTRA OPORTUNIDAD': 'Pedir perdón no está mal. El problema es pedirlo así, en este momento. Más adelante te explico por qué la alejó y cómo se corrige.',
-      'LA VIGILÉ EN REDES (O PEDÍ A ALGUIEN QUE LO HICIERA)': 'Gracias por la honestidad. Casi ningún hombre lo admite, y casi todos lo hacen. Eso me dice cuánto te importa. Ahora vamos a usar esa energía bien.',
-      'NO HICE NADA, ME QUEDÉ CALLADO': 'Quedarte quieto no la presionó, y eso es bueno. Pero el silencio solo tampoco la trae de vuelta. Ya te digo qué falta.'
+      'ELLA TERMINÓ': 'Entiendo. Cuando ella toma la decisión de terminar, algo activó un "switch" emocional en su cerebro: ella ya procesó la ruptura antes de decírtelo. La buena noticia: ese switch puede revertirse si tocas la memoria emocional correcta. Vamos a usar eso.',
+      'YO TERMINÉ': 'Interesante. Cuando tú terminaste, ella activó un mecanismo de defensa: siente que fue rechazada, y eso la vuelve resistente a cualquier acercamiento directo. Vamos a revertir esa defensa antes de intentar cualquier contacto.',
+      'DECISIÓN MUTUA': 'Entiendo. La decisión mutua es el escenario más delicado: no hay un "rechazo" que active la memoria emocional, y sin eso no hay anclaje. Vamos a crear ese anclaje estratégicamente.'
     },
-    dataKey: 'impulso',
+    dataKey: 'whoEnded',
   },
   {
-    // TESTE 4: dor no lugar de "cuánto tiempo estuvieron juntos"
-    id: 9,
-    text: 'Ahora quiero entenderte mejor. ¿Qué es lo que más te duele hoy?',
-    options: ['QUE ME DEJE EN VISTO', 'VIVIR CON ELLA COMO DOS DESCONOCIDOS', 'IMAGINARLA CON OTRO', 'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE', 'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR'],
-    response: 'Te entiendo.',
-    responseByOption: {
-      'QUE ME DEJE EN VISTO': 'Ver el mensaje leído y sin respuesta angustia, y es normal revisarlo a cada rato. Pero si le escribes de más, cada mensaje le graba a su cerebro una sola idea: este hombre trae presión. Yo lo llamo el Ancla del Dolor. Desde hoy no la hundes más.',
-      'VIVIR CON ELLA COMO DOS DESCONOCIDOS': 'Estar cerca y sentirse invisible es de lo más duro que hay. Y tiene arreglo: muchas veces empieza por que ella vuelva a verte distinto.',
-      'IMAGINARLA CON OTRO': 'Esa imagen no te deja dormir, lo sé. Lo que imaginas casi siempre es peor que lo que pasa de verdad. Y aunque hubiera alguien, eso no cierra la puerta.',
-      'QUE ME DIGA QUE ME QUIERE, PERO NO LO SUFICIENTE': 'Esa frase es la clave de tu caso. El "te quiero" es real: el cariño sigue encendido en su cerebro. Lo que se apagó son las ganas de estar contigo. Y eso tiene arreglo.',
-      'LLEGAR A CASA Y NO SENTIR EL CALOR DE HOGAR': 'Extrañar tu casa, tu familia, la rutina con ella… es lo que más pesa en relaciones largas. Y justo por esa historia, hay mucho de dónde reconstruir.'
-    },
-    dataKey: 'mainPain',
+    id: 4,
+    text: 'Registrado. ¿Por cuánto tiempo estuvieron juntos?',
+    options: ['MENOS DE 6 MESES', '6 MESES-1 AÑO', '1-3 AÑOS', 'MÁS DE 3 AÑOS'],
+    response: 'Registrado. Cada detalle cuenta. Perfecto. El tiempo de relación define cuántas "anclas emocionales" creaste en su memoria. Cuanto más tiempo juntos, más profundas las conexiones neuronales. Eso trabaja a tu favor si usas el protocolo correcto.',
+    dataKey: 'relationshipDuration',
   },
   {
     id: 5,
-    text: 'Ahora cuéntame: ¿cómo está hoy el contacto entre ustedes?',
-    options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'VIVIMOS JUNTOS PERO DISTANTES', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
-    response: 'Entiendo.',
-    responseByOption: {
-      'CONTACTO CERO': 'El contacto cero se siente correcto, pero le habla al lado racional de su cerebro, el que no se enamora. Mientras tú esperas, ella se acostumbra a vivir sin ti. Más adelante te digo cuándo y cómo romperlo.',
-      'ME IGNORA': 'Cuando te ignora, no es indiferencia. Es su lado racional en guardia. Y esa guardia baja cuando dejas de empujar.',
-      'BLOQUEADO': 'El bloqueo parece el final, pero es lo contrario. Nadie bloquea a quien le es indiferente. Se bloquea a quien todavía le mueve algo por dentro.',
-      'SÓLO TEMAS NECESARIOS': 'Que todavía hablen, aunque sea de lo necesario, es una puerta abierta. Lo importante es cómo te ve en esas conversaciones.',
-      'VIVIMOS JUNTOS PERO DISTANTES': 'Vivir bajo el mismo techo y sentirse lejos duele mucho. Pero verla todos los días es una ventaja enorme si sabes qué hacer y qué no.',
-      'HABLAMOS A VECES': 'Que hablen de vez en cuando es muy buena señal. El canal está abierto, falta cambiar lo que ella siente cuando habla contigo.',
-      'SOMOS AMIGOS': 'La amistad puede ser una trampa o un puente. Depende de lo que hagas en los próximos días.',
-      'ENCUENTROS ÍNTIMOS': 'Si todavía hay intimidad, la atracción sigue viva. Falta que vuelva a verte como su pareja.'
-    },
+    text: '¿Cuál es tu situación actual con tu ex-pareja?',
+    options: ['CONTACTO CERO', 'ME IGNORA', 'BLOQUEADO', 'SÓLO TEMAS NECESARIOS', 'HABLAMOS A VECES', 'SOMOS AMIGOS', 'ENCUENTROS ÍNTIMOS'],
+    response: 'Registrado. Esto es clave. Información clave. El nivel de contacto actual revela exactamente en qué fase emocional está ella. Cada escenario requiere un protocolo diferente. Si hay contacto cero, usamos una estrategia. Si hay comunicación, usamos otra completamente distinta.',
     dataKey: 'currentSituation',
   },
   {
     id: 6,
-    text: '¿Y ella ya está con otra persona?',
+    text: 'Ahora, una información crucial: ¿tu ex-pareja ya está con otra persona?',
     options: ['ESTÁ SOLTERA', 'NO ESTOY SEGURO', 'SALIENDO CASUAL', 'RELACIÓN SERIA', 'VARIAS PERSONAS'],
-    response: 'Entiendo.',
+    response: 'Crucial. Esto define la ruta que vamos a tomar.',
     responseByOption: {
-      'ESTÁ SOLTERA': 'Bien. Si está sola, nadie está ocupando tu lugar. Ese espacio es tuyo, pero no va a esperar para siempre.',
-      'NO ESTOY SEGURO': 'Tranquilo, es lo más común. Tu plan va a servir en los dos casos.',
-      'SALIENDO CASUAL': 'Si es algo casual, no hay nada firme. No compitas con él: lo que funciona es que ella vuelva a comparar, sin que tú la presiones.',
-      'RELACIÓN SERIA': 'Duele, lo sé. Pero muchas veces una relación nueva es una anestesia para no sentir lo que dejó contigo. Él tiene su presente. Tú tienes su historia, y ahí está lo que la hace volver.',
-      'VARIAS PERSONAS': 'Si está con varias personas, está buscando algo que todavía no encuentra. Eso dice mucho de lo que siente.'
+      'ESTÁ SOLTERA': 'Mejor todavía. Si ella está soltera, hay una ventana de oportunidad abierta ahora mismo: el cerebro en soledad busca referencia emocional en el pasado. Vamos a ocupar ese espacio antes de que se cierre.',
+      'NO ESTOY SEGURO': 'No importa. Vamos a blindar tu plan para los dos escenarios: la estrategia que funciona si está con alguien también funciona si está soltera. Nada queda al azar.',
+      'SALIENDO CASUAL': 'Entendido. Si está saliendo casualmente, no hay vínculo consolidado. Vamos a usar la comparación emocional sin presionar, y eso juega a tu favor.',
+      'RELACIÓN SERIA': 'Entendido. Si hay una relación seria, la estrategia no es competir: es activar la memoria emocional de lo que tenía contigo. Eso es más efectivo que cualquier confrontación.',
+      'VARIAS PERSONAS': 'Entendido. Si está con varias personas, hay una búsqueda activa de algo que no encontró. Ahí es donde entras tú — y vamos a posicionarte exactamente en ese hueco.'
     },
     dataKey: 'exSituation',
   },
   {
-    // TESTE 4: medo da perda no lugar da escala de compromiso 1-4
-    id: 10,
-    text: 'Última pregunta, y es la más importante. Si no haces nada, ¿qué es lo que más miedo te da?',
-    options: ['QUE SE ACOSTUMBRE A VIVIR SIN MÍ', 'QUE SE ENAMORE DE OTRO', 'PERDER A MI FAMILIA', 'QUE VOLVAMOS Y PASE LO MISMO'],
-    response: 'Te entiendo.',
-    responseByOption: {
-      'QUE SE ACOSTUMBRE A VIVIR SIN MÍ': 'Ese miedo tiene sentido: el tiempo sin hacer nada sí juega en contra. Por eso tu plan empieza hoy, no cuando te sientas listo.',
-      'QUE SE ENAMORE DE OTRO': 'Es el miedo de casi todos los hombres que me escriben. Por eso no puedes quedarte quieto ni actuar por impulso. Hay un momento para cada paso.',
-      'PERDER A MI FAMILIA': 'Cuando hay hijos y años de historia, hay más en juego. Y también más de dónde reconstruir. No es tarde.',
-      'QUE VOLVAMOS Y PASE LO MISMO': 'Me gusta que lo pienses. Volver no sirve si todo sigue igual. Por eso el plan no es solo para que vuelva, es para que esta vez funcione.'
-    },
-    dataKey: 'mainFear',
+    id: 7,
+    text: 'Última pregunta para finalizar el análisis: en una escala de 1 a 4, ¿cuánto quieres recuperar esta relación?',
+    options: ['1 - NO ESTOY SEGURO', '2 - LO ESTOY CONSIDERANDO', '3 - LO QUIERO MUCHO', '4 - LO QUIERO CON TODA MI ALMA'],
+    response: '¡Análisis completo! Tu nivel de compromiso define la intensidad del protocolo. Cuanto más comprometido estés, más poderosas serán las técnicas que voy a revelarte. Ahora tengo todo lo que necesito para mostrarte el camino exacto para reconquistarla.',
+    dataKey: 'commitmentLevel',
   }
 ];
 
@@ -199,21 +169,20 @@ export default function Chat({ onNavigate }: ChatProps) {
     ga4Tracking.chatPageView();
     ga4Tracking.chatStarted();
 
-    // ✅ ABERTURA v5 (20/11): 1 balão que continua a landing (região do cérebro) e já vai para a P1.
-    // Antes: 2 balões (9.000 hombres + 6 preguntas) → opções em ~6,8 s; agora ~3,9 s. Ver expert-lucas/copies/chat-abertura-v5.md
-    const intro: Message = {
+    // ✅ APRESENTAÇÃO DA SOPHIA (autoridade + promessa)
+    const initialMessage: Message = {
       type: 'bot',
-      text: 'Hola, soy Sophia. Esa región de su cerebro se puede volver a encender. Con 6 respuestas te digo cómo hacerlo en tu caso.',
+      text: 'Hola, soy Sophia Sanchez, especialista en reconquista y psicología conductual. Voy a hacerte 6 preguntas para armar tu plan.',
       isTyping: true,
     };
-    setMessages([intro]);
+    setMessages([initialMessage]);
 
     typewriterTimeoutRef.current = setTimeout(() => {
-      setMessages([{ ...intro, isTyping: false }]);
+      setMessages([{ ...initialMessage, isTyping: false }]);
       optionsTimeoutRef.current = setTimeout(() => {
         askQuestion(0);
       }, DELAY_SHOW_OPTIONS);
-    }, intro.text.length * TYPE_SPEED);
+    }, initialMessage.text.length * TYPE_SPEED);
 
     return () => {
       if (typewriterTimeoutRef.current) clearTimeout(typewriterTimeoutRef.current);
@@ -221,10 +190,9 @@ export default function Chat({ onNavigate }: ChatProps) {
     };
   }, []);
 
-  // Bloco 1 (19/11): rola também quando as opções/botão final aparecem (antes nasciam abaixo da dobra)
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, showOptions]);
+  }, [messages]);
 
   const askQuestion = (questionIndex: number) => {
     const question = QUESTIONS[questionIndex];
@@ -248,7 +216,7 @@ export default function Chat({ onNavigate }: ChatProps) {
   const handleAnswer = (option: string) => {
     playKeySound();
     const question = QUESTIONS[currentQuestion];
-    setMessages(prev => [...prev, { type: 'user', text: fmtOpcao(option) }]);
+    setMessages(prev => [...prev, { type: 'user', text: option }]);
     setShowOptions(false);
     setIsProcessing(true);
 
@@ -299,7 +267,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           optionsTimeoutRef.current = setTimeout(() => {
             const finalMessage: Message = {
               type: 'bot',
-              text: 'Listo. Ya sé qué disparador vuelve a encender sus ganas por ti. Toca abajo y te lo muestro.',
+              text: 'Análisis concluido. Tu plan personalizado está listo para ser revelado. Haz clic abajo para accederlo.',
               isTyping: true,
             };
             setMessages(prev => [...prev, finalMessage]);
@@ -332,7 +300,7 @@ export default function Chat({ onNavigate }: ChatProps) {
   const quizData = storage.getQuizData();
 
   return (
-    <div className="chat-container chat4">
+    <div className="chat-container">
       <div className="chat-header">
         <div className="progress-bar">
           <div className="progress-fill" style={{ width: `${progress}%` }}></div>
@@ -382,7 +350,7 @@ export default function Chat({ onNavigate }: ChatProps) {
           <div className="options-container">
             {getQuestionOptions(QUESTIONS[currentQuestion]).map((option, idx) => (
               <button key={idx} className="option-button" onClick={() => handleAnswer(option)}>
-                {fmtOpcao(option)}
+                {option}
               </button>
             ))}
           </div>
@@ -425,33 +393,14 @@ export default function Chat({ onNavigate }: ChatProps) {
             <button className="option-button cta-final" onClick={handleViewPlan}>
               VER MI PLAN PERSONALIZADO
             </button>
-            <p className="completion-count">Más de 9.000 hombres ya vieron su plan</p>
+            <p className="completion-count">+9.247 planes revelados</p>
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
-
-      {/* Chat v4 (19/11/2026): fonte de leitura, balões claros, opções sem caixa alta (valores salvos continuam iguais) */}
-      <style>{`
-        .chat4, .chat4 * { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-        .chat4 .progress-text { font-size: 0.85rem; letter-spacing: 0.06em; color: #86efac; }
-        .chat4 .processing-text { font-size: 0.8rem; letter-spacing: 0.06em; color: #4ade80; }
-        .chat4 .message { margin-bottom: 1.1rem; }
-        .chat4 .message-bubble { font-size: clamp(1rem, 4.3vw, 1.1rem); line-height: 1.5; max-width: 82%; padding: 0.85rem 1.05rem; border-radius: 16px; }
-        .chat4 .message.bot .message-bubble { background: #1a1d1b; border: 1px solid rgba(74, 222, 128, 0.25); color: #f3f4f3; border-top-left-radius: 4px; }
-        .chat4 .message.user .message-bubble { background: #15803d; border: 1px solid #22c55e; color: #fff; font-weight: 600; border-top-right-radius: 4px; }
-        .chat4 .option-button { text-transform: none; letter-spacing: 0; font-size: clamp(1rem, 4.2vw, 1.08rem); line-height: 1.35; font-weight: 700; padding: 0.95rem 1.15rem; border-radius: 12px; }
-        .chat4 .option-button.cta-final { text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
-      `}</style>
     </div>
   );
-}
-
-// Mostra as opções em frase normal ("Le mandé un mensaje larguísimo"); o valor salvo continua em caixa alta
-function fmtOpcao(t: string): string {
-  const low = t.toLocaleLowerCase('es');
-  return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
 }
 
 function TypewriterText({ text }: { text: string }) {

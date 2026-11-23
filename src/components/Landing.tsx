@@ -1,15 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ga4Tracking } from '../utils/ga4Tracking';
 
-// Cartão de notícia da primeira dobra (17/11/2026) — mesmo jornal "Relaciones Hoy" da imagem da Ventana 72h.
-// Substituiu a conversa estilo WhatsApp ("Andrea", foto 01-wpp-foto.webp).
-// v3 (18/11/2026): Harvard / lado racional x región primitiva (mecanismo v2). Fonte: expert-lucas/criativo-15-ventana-noticia/landing-card-v3.html
-// Anterior: 'https://ssplan.shop/wp-content/uploads/2026/11/landing-noticia-card-v2.webp'
-// const NEWS_CARD_URL = '/img/landing-noticia-card-v3.webp'; // versão no ar nos domínios
-// PRÉVIA 19/11: cérebro com a região acesa (fonte expert-lucas/criativo-15-ventana-noticia/cerebro-card.html)
-// PRÉVIA 19/11: mulher latina com o cérebro transparente (imagem gerada pelo usuário; fonte expert-lucas/criativo-15-ventana-noticia/cerebro-mulher-card.html)
-// Versão no ar nos domínios: '/img/landing-cerebro.webp' (ilustração)
-const BRAIN_CARD_URL = '/img/landing-cerebro-mulher.webp';
+// Foto desfocada do avatar da conversa na primeira dobra
+const EX_PHOTO_URL = 'https://ssplan.shop/wp-content/uploads/2026/11/01-wpp-foto.webp';
 
 interface LandingProps {
     onNavigate: (page: string) => void;
@@ -54,11 +47,14 @@ export default function Landing({ onNavigate }: LandingProps) {
         onNavigate('chat');
     };
 
-    // Cartão de notícia clicável (17/11/2026): leva ao chat como o botão; GA4 marca a origem separada
-    const handleNewsClick = () => {
-        ga4Tracking.landingCTAClick('landing_news_card');
-        onNavigate('chat');
-    };
+    // ========================================
+    // CONVERSA DA PRIMEIRA DOBRA (somente visual)
+    // Foto desfocada + nome "Andrea" em qualquer domínio.
+    // Se a foto não carregar, mostra a inicial "A".
+    // ========================================
+    const exName = 'Andrea';
+    const [exPhotoFailed, setExPhotoFailed] = useState(false);
+    const showExPhoto = !exPhotoFailed;
 
     return (
         <div className="lp-container">
@@ -68,32 +64,49 @@ export default function Landing({ onNavigate }: LandingProps) {
                     <div className="lp-progress-fill"></div>
                 </div>
 
-                {/* PRÉVIA 19/11/2026 (modelo Mariana Vabo): título único + cérebro com a região acesa no lugar do card de notícia.
-                    Versão no ar nos domínios: card "Relaciones Hoy" (Harvard) + "¿Qué disparador vuelve a encender sus ganas por ti?" */}
+                {/* 2. HEADLINE — esperança + curiosidade */}
                 <h1 className="lp-headline">
-                    Científicos de Harvard descubrieron la región del cerebro de tu ex que decide{' '}
-                    <span className="lp-highlight">por quién se obsesiona</span>
+                    ¿Qué la está alejando de ti? Descubre{' '}
+                    <span className="lp-highlight">el próximo paso para que vuelva a escribirte</span>.
                 </h1>
 
-                <button type="button" className="lp-news-btn" onClick={handleNewsClick} aria-label="Empezar: descubre cómo volver a encender esa región">
-                    <span className="lp-brain-wrap">
-                        <img
-                            src={BRAIN_CARD_URL}
-                            alt="Cerebro con la región primitiva encendida: la que decide por quién se obsesiona"
-                            className="lp-news"
-                            width={720}
-                            height={571}
-                            {...{ fetchpriority: 'high' }}
-                            decoding="async"
-                        />
-                        {/* brilho pulsando + pontilhado girando sobre o ponto aceso (centro em 43,21% / 38,98% da imagem) */}
-                        <span className="lp-brain-glow" aria-hidden="true"></span>
-                        <span className="lp-brain-ring" aria-hidden="true"></span>
-                    </span>
-                </button>
+                {/* 3. IMAGEM — conversa no estilo WhatsApp (feita em código, sem imagem externa) */}
+                <div className="lp-chat" role="img" aria-label={`Conversación: ${exName} te escribe preguntando si pueden hablar`}>
+                    <div className="lp-chat-header" aria-hidden="true">
+                        {showExPhoto ? (
+                            <img
+                                src={EX_PHOTO_URL}
+                                alt=""
+                                className="lp-chat-avatar lp-chat-avatar-photo"
+                                width={34}
+                                height={34}
+                                decoding="async"
+                                onError={() => setExPhotoFailed(true)}
+                            />
+                        ) : (
+                            <div className="lp-chat-avatar">{exName.charAt(0)}</div>
+                        )}
+                        <div className="lp-chat-contact">
+                            <span className="lp-chat-name">{exName}</span>
+                            <span className="lp-chat-typing">escribiendo…</span>
+                        </div>
+                    </div>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>Hola… ¿cómo estás?</span>
+                        <span className="lp-bubble-time">21:47</span>
+                    </div>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>Estuve pensando mucho en nosotros</span>
+                        <span className="lp-bubble-time">21:48</span>
+                    </div>
+                    <div className="lp-bubble" aria-hidden="true">
+                        <span>¿Podemos hablar?</span>
+                        <span className="lp-bubble-time">21:48</span>
+                    </div>
+                </div>
 
                 {/* 4. QUEBRA DE OBJEÇÃO */}
-                <p className="lp-objection">Y se puede volver a encender, aunque te haya bloqueado, te deje en visto o ya esté con otro.</p>
+                <p className="lp-objection">Aunque te haya bloqueado, te ignore o ya esté con otro.</p>
 
                 {/* 5. CTA — mesmo handleCTAClick de antes (GA4 + navegação para o chat) */}
                 <button className="lp-cta" onClick={handleCTAClick}>
@@ -105,36 +118,28 @@ export default function Landing({ onNavigate }: LandingProps) {
                         <rect x="4" y="11" width="16" height="10" rx="2"></rect>
                         <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                     </svg>
-                    <span>Test gratuito · 6 preguntas · 2 min · 100% anónimo</span>
+                    <span>6 preguntas · 2 minutos · 100% anónimo</span>
                 </p>
 
                 {/* 6. BENEFÍCIOS */}
                 <ul className="lp-benefits">
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Qué es el Ancla del Dolor y cómo la estás hundiendo</span>
+                        <span>El error que la está alejando sin que te des cuenta</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>Qué parte de su cerebro decide si vuelve</span>
+                        <span>Qué hacer (y qué no) en los próximos días</span>
                     </li>
                     <li>
                         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFB020" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-                        <span>El disparador exacto para tu caso</span>
+                        <span>Un plan según tu situación, no un consejo genérico</span>
                     </li>
                 </ul>
             </main>
 
             {/* Classes com prefixo lp- para não colidir com o CSS global (ex.: .progress-bar do chat) */}
             <style>{`
-                .lp-brain-wrap { position: relative; display: block; }
-                .lp-brain-glow, .lp-brain-ring { position: absolute; left: 43.21%; top: 38.98%; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); }
-                .lp-brain-glow { width: 24%; aspect-ratio: 1; background: radial-gradient(circle, rgba(255,170,40,0.75) 0%, rgba(255,120,0,0.25) 40%, rgba(255,120,0,0) 70%); animation: lp-brain-pulse 1.6s ease-in-out infinite; }
-                .lp-brain-ring { width: 11%; aspect-ratio: 1; border: 3px dashed #ffffff; box-shadow: 0 0 10px rgba(255,140,0,0.9); animation: lp-brain-spin 6s linear infinite; }
-                @keyframes lp-brain-pulse { 0%, 100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; } }
-                @keyframes lp-brain-spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-                @media (prefers-reduced-motion: reduce) { .lp-brain-glow, .lp-brain-ring { animation: none; } }
-
                 .lp-container {
                     min-height: 100vh;
                     background: #000;
@@ -182,37 +187,8 @@ export default function Landing({ onNavigate }: LandingProps) {
                 .lp-highlight {
                     color: #FFB020;
                 }
-                .lp-sub {
-                    margin: -6px 0 0;
-                    font-size: 16px;
-                    line-height: 1.4;
-                    font-weight: 500;
-                    text-align: center;
-                    color: #D4D4D8;
-                }
 
-                /* ===== CARTÃO DE NOTÍCIA ===== */
-                .lp-news-btn {
-                    display: block;
-                    width: 100%;
-                    padding: 0;
-                    margin: 0;
-                    border: 0;
-                    background: none;
-                    cursor: pointer;
-                    -webkit-tap-highlight-color: transparent;
-                    transition: transform 0.12s ease;
-                }
-                .lp-news-btn:active { transform: scale(0.985); }
-                .lp-news {
-                    display: block;
-                    width: 100%;
-                    height: auto;
-                    border-radius: 16px;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-                }
-
-                /* ===== CONVERSA (não usada desde 17/11/2026) ===== */
+                /* ===== CONVERSA ===== */
                 .lp-chat {
                     background: #0B141A;
                     border: 1px solid #1F2C34;
@@ -323,7 +299,6 @@ export default function Landing({ onNavigate }: LandingProps) {
 
                 .lp-micro {
                     margin: 0;
-                    white-space: nowrap;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -364,7 +339,6 @@ export default function Landing({ onNavigate }: LandingProps) {
                     .lp-headline { font-size: 23px; }
                     .lp-bubble { font-size: 14px; }
                     .lp-cta { font-size: 17px; }
-                    .lp-micro { font-size: 12px; }
                 }
             `}</style>
         </div>
