@@ -222,12 +222,12 @@ export default function Result({ onNavigate }: ResultProps) {
             if (vslPlaceholder) {
                 vslPlaceholder.innerHTML = `
                     <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto; aspect-ratio: 9 / 16; background: #000; border-radius: 8px; overflow: hidden;">
-                        <vturb-smartplayer id="vid-6afde46688beb7a0c8263ce9" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
+                        <vturb-smartplayer id="vid-6b04f7d4c7ae969980aae7ad" style="display: block; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></vturb-smartplayer>
                     </div>
                 `;
-                if (!document.querySelector('script[src*="6afde46688beb7a0c8263ce9"]')) {
+                if (!document.querySelector('script[src*="6b04f7d4c7ae969980aae7ad"]')) {
                     const s = document.createElement("script");
-                    s.src = "https://scripts.converteai.net/f27d26dd-e45a-4a64-84c6-8f5c6b4dd0c6/players/6afde46688beb7a0c8263ce9/v4/player.js";
+                    s.src = "https://scripts.converteai.net/f7158ddf-38af-4713-91e8-34a818b9c9f2/players/6b04f7d4c7ae969980aae7ad/v4/player.js";
                     s.async = true;
                     document.head.appendChild(s);
                 }
